@@ -1,13 +1,13 @@
+import React from 'react';
 import './App.css';
-import WalletConnect from './components/WalletConnect/WalletConnect';
 
 function App() {
+  
   return (
     <div className="App">
-      <WalletConnect />
       <header className="App-header">
+        <h1>React TypeScript App</h1>
       </header>
-
     </div>
   );
 }
