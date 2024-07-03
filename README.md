@@ -1,12 +1,19 @@
 This is a [Vite](https://vitejs.dev) project bootstrapped with [`create-wagmi`](https://github.com/wevm/wagmi/tree/main/packages/create-wagmi).
 
+### What is Wagmi?
+React Hooks Library -> `npm create wagmi@latest`
+
+### What is Viem
+TS-interface for:
+- JSON-RPC API abstraction, Smart contract interaction, wallet & signing implementations, coding/parsing utils ...
+- <b>Viem Actions</b> creating own custome Wagmi hook
+
 # Step 1: Core Functionality
 ## Make Wallet Connectors work
 - Connect Wallets to App: [Coinbase](https://docs.cdp.coinbase.com/wallet-sdk/docs/web3-react)
 - [Search](https://www.perplexity.ai/search/what-is-the-alchemy-sdk-RCh57xFGQve8FoIRejvJRg)
 - 3 active ones: WalletConnect, Metamask, Coinbase 
-### Wagmi
-- React Hooks: wallet connect, balance fetching, smart contract interactions
+
 ##### Connectkit: pre-built wallet connector
 - React Integration [CRA+TypeScript](https://github.com/family/connectkit/tree/main/examples/cra)
 

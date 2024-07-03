@@ -19,4 +19,4 @@ declare module 'wagmi' {
   interface Register {
     config: typeof config
   }
-}
+} // Learn more: https://wagmi.sh/react/typescript
