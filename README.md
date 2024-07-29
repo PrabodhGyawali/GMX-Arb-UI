@@ -5,9 +5,10 @@
 - `deploy-collateral-synthetix`
 - `deploy-collateral-hmx`
 
+# TODO: Add a React Router
 
 # TODO: User Welcome
-##### Settings Options:
+##### Settings Options: Settings Router
     MAX_ALLOWABLE_PERCENTAGE_AWAY_FROM_LIQUIDATION_PRICE=10
     TRADE_LEVERAGE=5
     DELTA_BOUND=0.03

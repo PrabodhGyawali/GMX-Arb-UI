@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {Trade, tradeFields} from './TradeMonitorInterface'
+
+// TODO: Add Search Bar
+// TODO: Allow Sorting of Positions
+// TODO: Add Graph componenet to get more financial data related to long and short position
 
 function PositionMonitor() {
     const [trades, setTrades] = useState<Trade[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    // const [isLoading, setIsLoading] = useState(true);
+    // const [error, setError] = useState<string | null>(null);
 
     /** Get Trade Logs from backend and setTrades useState */
     async function getTrades() {
@@ -39,10 +43,11 @@ function PositionMonitor() {
 
     useEffect( () => {
         getTrades();
+        console.log()
         return () => {
-            const monitor = document.querySelector("");
-            if (monitor) {
-                monitor.innerHTML = "";
+            var positionMonitor = document.querySelector("PositionMonitor");
+            if (positionMonitor) {
+                positionMonitor.innerHTML = "";
             }
         }
     }, []);
