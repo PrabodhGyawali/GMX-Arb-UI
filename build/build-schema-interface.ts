@@ -41,7 +41,7 @@ function mapToTypeScriptType(type: string, nullable: boolean): string {
 // Get the trades Schema
 async function fetchSchema() {
   try {
-    const response = await axios.get('api/trades/schema');
+    const response = await axios.get('http://127.0.0.1:5000/trades/schema');  // TODO: Development env
     const schemaString: string = response.data[0][0];
     const schemaFields: SchemaField[] = parseSchema(schemaString);
     console.log(schemaFields);
@@ -100,11 +100,11 @@ async function main() {
   console.log(interfaceDefinition);
   
   try {
-    await fs.writeFile(`./SchemaInterface.ts`, interfaceDefinition);
+    await fs.writeFile(`./TradeMonitorInterface.ts`, interfaceDefinition);
     console.log("Schema Interface written in build/");
   } catch(error) {
     console.error("Error writing interface to file: ");
   }
 }
 
-export default fetchSchema
+main();
