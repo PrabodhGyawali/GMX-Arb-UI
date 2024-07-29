@@ -1,4 +1,5 @@
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
+import React from 'react'
 
 function App() {
   const account = useAccount()

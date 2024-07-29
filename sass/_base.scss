@@ -1,0 +1,33 @@
+// Define colors
+$color-primary: #201E43;
+$color-secondary: #134B70;
+$color-tertiary: #508C9B;
+$color-quaternary: #EEEEEE;
+
+// Mixin setup
+@mixin mp($size) {
+    @media only screen and (min-width: $size) {
+        @content;
+    }
+}
+
+// body, section etc.
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#root {
+    font-size: 16px;
+    font-family: "Montserrat", Arial, Helvetica, sans-serif;
+    color: $color-primary;
+    width: 100%;
+    min-height: 100%;
+    @include mp(768px) {
+        font-size: 22px;
+    }
+
+    
+}
+
