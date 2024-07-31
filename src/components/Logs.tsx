@@ -13,9 +13,8 @@ function Logs() {
             if (!response.ok) {
                 throw new Error(`HTTP error: ${response.status}`)
             }
-            const json: JSON = await response.json();
-            const logs = json.parse("logs");
-            console.log(logs);
+            const json_obj = await response.json();
+            const logs = json_obj["logs"];
             setLogs(logs);
         } catch(err) {
             console.log("Err: ", err);
@@ -23,15 +22,14 @@ function Logs() {
     }
 
     const clearLogs = async (event: React.MouseEvent<HTMLButtonElement>) => {
-        if (event) {
-            event.preventDefault();
-            var logList = document.querySelector("logList");
-            if (logList) {
-                logList.innerHTML = "";
-            }
+        event.preventDefault();
+        var logList = document.querySelector(".logList");
+        if (logList) {
+            logList.innerHTML = "";
         }
+
         try {
-            const response = await fetch("/api/logs/app", {
+            const response = await fetch("/api/logs/clear", {
                 method: 'POST'
             });
             if (!response.ok) {
@@ -53,14 +51,18 @@ function Logs() {
     }, []);
 
     return (
-        <section className='Logs'>
-            <h2>Logs</h2>
-            <button onClick={clearLogs}>Clear</button>
-            <ul className='logList'>
+        <section className="Logs">
+            <div className="LogHeader">
+                <h2>Logs</h2>
+                <button className="LogExpand"></button>
+            </div>
+            {/* <button onClick={clearLogs}>Clear</button> */}
+            <hr />
+            <div className='LogList'>
                 {logs.map( log => 
-                    <li>{log}</li>
+                    <div className='log'>{log}</div>
                 )}
-            </ul>
+            </div>
         </section>
     );
 }

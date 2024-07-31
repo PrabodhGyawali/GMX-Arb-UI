@@ -54,35 +54,41 @@ function PositionMonitor() {
 
     return (
         <div className="PositionMonitor">
-            <table>
-                <thead>
-                    <tr>
-                        { tradeFields.slice(1).map(field => <th>{field}</th>) }
-                    </tr>
-                    
-                </thead>
-                <tbody>
-                    {trades.map( (trade: Trade) => 
-                        <tr key={trade.id}>
-                            <td>{trade.strategy_execution_id}</td>
-                            <td>{trade.exchange}</td>
-                            <td>{trade.symbol}</td>
-                            <td>{trade.side}</td>
-                            <td>{trade.is_hedge}</td>
-                            <td>{trade.size_in_asset}</td>
-                            <td>{trade.liquidation_price}</td>
-                            <td>{trade.open_close}</td>
-                            <td>{trade.open_time ? trade.open_time.toLocaleString() : 'N/A'}</td>
-                            <td>{trade.close_time ? trade.close_time.toLocaleString() : 'N/A'}</td>
-                            <td>{trade.pnl !== null ? trade.pnl : 'N/A'}</td>
-                            <td>{trade.accrued_funding !== null ? trade.accrued_funding : 'N/A'}</td>
-                            <td>{trade.close_reason !== null ? trade.close_reason : 'N/A'}</td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
+            <h1>Trade Positions</h1>
+            {/* <PositionCard 
+                strategy_execution_id
+                /> */}
         </div>
     )
 }
 
 export default PositionMonitor
+
+// Archive:
+{/* <table>
+    <thead>
+        <tr>
+            { tradeFields.slice(1).map(field => <th>{field}</th>) }
+        </tr>
+        
+    </thead>
+    <tbody>
+        {trades.map( (trade: Trade) => 
+            <tr key={trade.id}>
+                <td>{trade.strategy_execution_id}</td>
+                <td>{trade.exchange}</td>
+                <td>{trade.symbol}</td>
+                <td>{trade.side}</td>
+                <td>{trade.is_hedge}</td>
+                <td>{trade.size_in_asset}</td>
+                <td>{trade.liquidation_price}</td>
+                <td>{trade.open_close}</td>
+                <td>{trade.open_time ? trade.open_time.toLocaleString() : 'N/A'}</td>
+                <td>{trade.close_time ? trade.close_time.toLocaleString() : 'N/A'}</td>
+                <td>{trade.pnl !== null ? trade.pnl : 'N/A'}</td>
+                <td>{trade.accrued_funding !== null ? trade.accrued_funding : 'N/A'}</td>
+                <td>{trade.close_reason !== null ? trade.close_reason : 'N/A'}</td>
+            </tr>
+        )}
+    </tbody>
+</table> */}

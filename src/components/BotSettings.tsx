@@ -2,8 +2,8 @@
 function BotSettings() {
     return (
         <section className="botSettings">
-            <button className="open-settings">Settings</button>
-            <div className="pop-up-form"></div>
+            <button className="open-settings"></button>
+            {/* <div className="pop-up-form"></div> */}
         </section>
     )
 }

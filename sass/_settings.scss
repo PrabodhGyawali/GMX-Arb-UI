@@ -1,11 +1,12 @@
 .botSettings {
     .open-settings {
         background-image: url("../public/settings.png");
-        width: 3em;
-        height: 3em;
+        background-size: cover;
+        width: 3.5em;
+        height: 3.5em;
         border-radius: 10px;
+        padding: 5px;
     }
-
     .pop-up-form {
         
     }

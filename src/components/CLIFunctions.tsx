@@ -1,8 +1,3 @@
-
-// const run = () => {
-//     console.log('Run');
-// }
-
 const serverRun = () => {
     fetch('http://127.0.0.1:5000/run', {
         method: 'POST',
@@ -56,15 +51,29 @@ const serverClose = () => {
 }
 
 const CLIFunctions = () => {
+    // enum CliButtons {
+    //     serverRun,
+    //     serverDemo,
+    //     serverOpen,
+    //     serverClose,
+    //     serverDeploy,
+    // } // TODO: apply this enum
+
     return (
         <div className='cliFunctions'>
-            <button onClick={serverRun}>Run</button>
+            <div className="run">
+                <button onClick={serverRun}>Run</button>
+            </div>
             <button onClick={serverDemo}>Demo</button>
             <button onClick={serverOpen}>Open</button>
             <button onClick={serverClose}>Close</button>
             <div className="deploy">
-                <button className="">Deploy HMX</button>
-                <button className="">Deploy Synthetix</button>
+                <h3>Deploy</h3>
+                {/*  */}
+                <button>HMX</button>
+                <input type="text" placeholder="Enter Amount" />
+                {/*  */}
+                <button>Synthetix</button>
                 <input type="text" placeholder="Enter Amount" />
             </div>
         </div>
