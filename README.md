@@ -23,3 +23,5 @@
 - `src/components/PositionMonitor.tsx`
 
 # TODO: Log Monitor -> websockets / tcp-connection
+
+# TODO: On a new session require user to enter their Wallet Address until Wallet Integration

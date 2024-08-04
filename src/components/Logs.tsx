@@ -1,4 +1,5 @@
 import {useState, useEffect, ReactElement} from 'react'
+import CustomSVG from "../../public/svg/createArrowSVG"
 
 interface Logs {
     /* Add fields an create classes with methods etc... */
@@ -7,6 +8,9 @@ interface Logs {
 function Logs() {
     const [logs, setLogs] = useState<String[]>([]);
 
+    /**
+     * Backend Log communication
+     */
     const getLogs = async () => {
         try {
             const response = await fetch("/api/logs/app");
@@ -40,6 +44,16 @@ function Logs() {
 
     // TODO: Maybe allow user to save log on browser using Storage API `localStorage` 
 
+    /**
+     * Button slider-related functions
+     */
+    const collapse_logs = () => {
+
+    }
+    const expand_logs = () => {
+
+    }
+
     useEffect(() => {
         getLogs();
         return () => {
@@ -54,7 +68,15 @@ function Logs() {
         <section className="Logs">
             <div className="LogHeader">
                 <h2>Logs</h2>
-                <button className="LogExpand"></button>
+                <CustomSVG
+                    size={24}
+                    ratio={1}
+                    direction="up"
+                    isExpanded={true}
+                    className="custom-svg"
+                    // style={{ fill: 'blue', stroke: 'red'}}
+                /> 
+                {/* TODO: Add hover effect on svg and event */}
             </div>
             {/* <button onClick={clearLogs}>Clear</button> */}
             <hr />

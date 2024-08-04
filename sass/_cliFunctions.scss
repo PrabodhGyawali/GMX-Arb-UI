@@ -1,5 +1,6 @@
 // Different Buttons
 .cliFunctions {
+    align-items: center;
     button {
         background-color: $color-tertiary;
         border: none;
@@ -21,26 +22,13 @@
     }
     // Run Button
     .run {
-        button {
-            background-color: $color-tertiary;
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
     }
-    // Option to change to demo button
 
     .deploy {
         input {
             
         }
-    } // Deploy Button with collateral input values
+    } // Deploy div: button & input
     .close {
 
     }
