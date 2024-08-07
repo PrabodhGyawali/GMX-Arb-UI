@@ -1,11 +1,11 @@
-import { BotSettings } from "components/BotSettings";
-import NavBarSide from "components/NavBarSide";
+import { Settings } from "./components/Settings";
+import NavBarSide from "./components/NavBarSide";
 
 function PSettings() {
     return (
         <div className="app">
             <NavBarSide />
-            <BotSettings />
+            <Settings />
         </div>
     )
 }

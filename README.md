@@ -5,18 +5,10 @@
 - `deploy-collateral-synthetix`
 - `deploy-collateral-hmx`
 
-# TODO: Add a React Router
-
 # TODO: User Welcome
-##### Settings Options: Settings Router
-    MAX_ALLOWABLE_PERCENTAGE_AWAY_FROM_LIQUIDATION_PRICE=10
-    TRADE_LEVERAGE=5
-    DELTA_BOUND=0.03
-    PERCENTAGE_CAPITAL_PER_TRADE=50
-    DEFAULT_TRADE_DURATION_HOURS=8
-    DEFAULT_TRADE_SIZE_USD=250
 
 # TODO: Position Monitor
+    - TODO: Create a Card to view the trade executions etc. 
 ### Documentation so far:
 - `/build/build-schema-interface.ts` to create TS interface from Position Monitor
 - `src/components/TradeMonitorInterface.ts`

@@ -1,0 +1,31 @@
+import BotSettings from "./PSettings/BotSettings";
+import EnvSettings from "./PSettings/EnvSettings";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+/**
+ * Navbar button button to acess settings page
+ */
+function SettingsButton() {
+    const navigate = useNavigate();
+
+    return (
+        <section className="side-bar-footer">
+            <button className="open-settings"
+                    onClick={() => {navigate("/settings")}}>
+            </button>
+        </section>
+    )
+}
+
+
+function Settings() {
+    return (
+        <section className="MainSettings">
+            <BotSettings />
+            <EnvSettings />
+        </section>
+    )
+}
+
+export {SettingsButton, Settings}
+
