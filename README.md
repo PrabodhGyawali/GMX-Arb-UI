@@ -5,6 +5,11 @@
 - `deploy-collateral-synthetix`
 - `deploy-collateral-hmx`
 
+# Settings:
+- TODO: make sure at least 2 exchange settings are chosen
+- TODO: make sure target exchanges link to deploy buttons
+- TODO: add config fields for each Target Exchange
+
 # TODO: User Welcome
 
 # TODO: Position Monitor

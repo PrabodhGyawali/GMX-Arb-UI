@@ -1,23 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import ExchangeSettings from './ExchangeSettings';
 import { ConfigFile, BotConfig } from './ISettings';
-
+import SettingsComponent from './SettingsComponent';
+import EnvSettings from './EnvSettings';
+import { Button } from '@mui/material';
 
 const BotSettings: React.FC = () => {
   const [config, setConfig] = useState<ConfigFile | null>(null);
   const [loading, setLoading] = useState<boolean>(true); 
   const [error, setError] = useState<string | null>(null);
-
-
+  const [save, setSave] = useState<boolean>(true);
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const response = await fetch("/api/settings");
+        const response = await fetch("/api/settings/get");
         if (!response.ok) {
           throw new Error(`HTTP error ${response.status}`);
         }
         const data: ConfigFile = await response.json();
         setConfig(data);
+        console.log(data);
         setLoading(false);
       } catch (e) {
         console.error("Error: ", e);
@@ -25,30 +27,75 @@ const BotSettings: React.FC = () => {
         setLoading(false);
       }
     }
+
+    fetchSettings();
   }, [])
+
+  if (loading) {
+    return <div className='loading'>Loading settings...</div>
+  }
+
+  if (error) {
+    return <div className='error'>Error: {error}</div>
+  }
+
+  if (!config) {
+    return <div>No settings available</div>
+  }
+
+  const handleSettingsChange = (newSettings: BotConfig) => {
+    if (config) {
+      setConfig({...config, settings: newSettings});
+    }
+  }
+
+  const handleExchangeChange = (exchangeName: string, checked: boolean) => {
+    setConfig(prevConfig => {
+      if (!prevConfig) return null; // If config is null, we can't update it
   
+      return {
+        ...prevConfig,
+        target_exchanges: prevConfig.target_exchanges.map(exchange => 
+          exchange.exchange === exchangeName
+            ? { ...exchange, is_target: checked }
+            : exchange
+        )
+      };
+    });
+  }; // TODO: Ensure at least 2 exchanges are chosen
 
-  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = e.target;
-  //   const newSettings = { ...settings, [name]: Number(value) };
-  //   setSettings(newSettings);
-  //   validateSettings(newSettings);
-  // };
+  const handleTokenChange = (exchangeName: string, checked: boolean) => {
+    setConfig(prevConfig => {
+      if (!prevConfig) return null;
 
-  // const handleSubmit = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   if (validateSettings(settings)) {
-  //     console.log('Settings are valid:', settings);
-  //     // Here you can send the settings to your backend or perform any other action
-  //   } else {
-  //     console.log('Settings are invalid');
-  //   }
-  // };
-
+      return {
+        ...prevConfig,
+        target_exchanges: prevConfig.target_exchanges.map(exchange => 
+          exchange.exchange === exchangeName ? {...exchange, is_target: checked} : exchange
+        )
+      }
+    })
+  } // TODO: Ensure at least 1 token in chosen
+  
+  // Safely configuring the config object
   return (
     <div className='botSettings'>
-      <h2>Trading Bot Settings</h2>
-      
+      <form>
+        <SettingsComponent
+          initialSettings={config.settings}
+          onSettingsChange={handleSettingsChange}
+        />
+        <ExchangeSettings 
+          target_exchanges={config.target_exchanges} 
+          target_tokens={config.target_tokens}
+          onExchangeChange={handleExchangeChange}
+          onTokenChange={handleTokenChange}/>
+        <EnvSettings />
+      </form>
+      <Button variant="contained"
+              size="large" 
+              disabled={save}
+      >Save</Button>
     </div>
   );
 };

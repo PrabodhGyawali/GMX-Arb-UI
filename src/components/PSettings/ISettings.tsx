@@ -1,9 +1,9 @@
 interface BotConfig {
-    MAX_ALLOWABLE_PERCENTAGE_AWAY_FROM_LIQUIDATION_PRICE: number;
-    TRADE_LEVERAGE: number;
-    PERCENTAGE_CAPITAL_PER_TRADE: number;
-    DEFAULT_TRADE_DURATION_HOURS: number;
-    DEFAULT_TRADE_SIZE_USD: number;
+    max_allowable_percentage_away_from_liquidation_price: number;
+    trade_leverage: number;
+    percentage_capital_per_trade: number;
+    default_trade_duration_hours: number;
+    default_trade_size_usd: number;
 }
 
 interface Exchange {

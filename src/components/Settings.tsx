@@ -1,7 +1,5 @@
 import BotSettings from "./PSettings/BotSettings";
-import EnvSettings from "./PSettings/EnvSettings";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 /**
  * Navbar button button to acess settings page
  */
@@ -22,7 +20,6 @@ function Settings() {
     return (
         <section className="MainSettings">
             <BotSettings />
-            <EnvSettings />
         </section>
     )
 }
