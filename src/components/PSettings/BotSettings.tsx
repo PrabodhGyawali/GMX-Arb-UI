@@ -46,14 +46,22 @@ const BotSettings: React.FC = () => {
   const handleSettingsChange = (newSettings: BotConfig) => {
     if (config) {
       setConfig({...config, settings: newSettings});
+      setSave(false);
     }
+  }
+
+  const checkExchangeAndTokenLength = (config: ConfigFile, message: String) => {
+    if (config.target_tokens.length === 0 || config.target_exchanges.length < 2) {
+      // TODO: Add error message of at least 1 token
+      console.log(message);
+      setSave(true);
+    } else { setSave(false)}
   }
 
   const handleExchangeChange = (exchangeName: string, checked: boolean) => {
     setConfig(prevConfig => {
       if (!prevConfig) return null; // If config is null, we can't update it
-  
-      return {
+      const newConfig = {
         ...prevConfig,
         target_exchanges: prevConfig.target_exchanges.map(exchange => 
           exchange.exchange === exchangeName
@@ -61,6 +69,10 @@ const BotSettings: React.FC = () => {
             : exchange
         )
       };
+
+      checkExchangeAndTokenLength(newConfig, "At least 2 exchanges required!");
+
+      return newConfig;
     });
   }; // TODO: Ensure at least 2 exchanges are chosen
 
@@ -68,12 +80,15 @@ const BotSettings: React.FC = () => {
     setConfig(prevConfig => {
       if (!prevConfig) return null;
 
-      return {
+      const newConfig = {
         ...prevConfig,
         target_exchanges: prevConfig.target_exchanges.map(exchange => 
           exchange.exchange === exchangeName ? {...exchange, is_target: checked} : exchange
         )
       }
+      checkExchangeAndTokenLength(newConfig, "At least 1 token required!");
+
+      return newConfig;
     })
   } // TODO: Ensure at least 1 token in chosen
   

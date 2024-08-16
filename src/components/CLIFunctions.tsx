@@ -58,7 +58,7 @@ const serverDeploy = (exchange: String, amount: number) => {
         case 'HMX':
             console.log("HMX");
             break;
-        case 'SNX':
+        case 'OKX':
             console.log("SNX");
             break;
         case 'GMX':
