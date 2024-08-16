@@ -1,5 +1,7 @@
 import {useState, useEffect, ReactElement} from 'react'
-import CustomSVG from "../../public/svg/createArrowSVG"
+import { IconButton } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 interface Logs {
     /* Add fields an create classes with methods etc... */
@@ -7,7 +9,7 @@ interface Logs {
 
 function Logs() {
     const [logs, setLogs] = useState<String[]>([]);
-
+    const [expand, setExpand] = useState<boolean>(false);
     /**
      * Backend Log communication
      */
@@ -51,7 +53,7 @@ function Logs() {
 
     }
     const expand_logs = () => {
-
+        setExpand(!expand)
     }
 
     useEffect(() => {
@@ -68,15 +70,9 @@ function Logs() {
         <section className="Logs">
             <div className="LogHeader">
                 <h2>Logs</h2>
-                <CustomSVG
-                    size={24}
-                    ratio={1}
-                    direction="up"
-                    isExpanded={true}
-                    className="custom-svg"
-                    // style={{ fill: 'blue', stroke: 'red'}}
-                /> 
-                {/* TODO: Add hover effect on svg and event */}
+                <IconButton>
+                    {expand ? <ExpandLessIcon  /> : <ExpandMoreIcon/>}
+                </IconButton>
             </div>
             {/* <button onClick={clearLogs}>Clear</button> */}
             <hr />
