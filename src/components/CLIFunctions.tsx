@@ -1,4 +1,5 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography, TextField, InputAdornment} from "@mui/material";
+import DeploySection from "./CLIFunctions/DeploySection";
 
 const serverRun = () => {
     fetch('http://127.0.0.1:5000/run', {
@@ -65,84 +66,54 @@ const serverDeploy = (exchange: String, amount: number) => {
             break;
         case 'GMX':
             console.log("GMX");
-            break;
-        
+            break;   
     }
 }
 
+// Styles
+const sxButtons = {width: '5em'};
+
+const sxInput = {
+    width: '200px',
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: 'secondary.main',
+      },
+      '&:hover fieldset': {
+        borderColor: 'secondary.light',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: 'secondary.dark',
+      },
+    },
+};
+
 const CLIFunctions = () => {
-    // enum CliButtons {
-    //     serverRun,
-    //     serverDemo,
-    //     serverOpen,
-    //     serverClose,
-    //     serverDeploy,
-    // } // TODO: apply this enum
 
     return (
         <Box className='cliFunctions' sx={{
-            alignItems: 'center'
+            display: 'flex',
+            flexDirection: 'column', 
+            gap: '1em',  
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: '2em',
+            backgroundColor: 'background.paper',
+            borderRadius: '8px',
+            boxShadow: 3,         
         }}>
-            <Button className="run" onClick={serverRun}>Run</Button>
-            <Button className="demo" onClick={serverDemo}>Demo</Button>
-            <div className="open-position">
-                <Button onClick={serverOpen}>Open</Button>
+            <Button sx={sxButtons} color="secondary" variant="contained" className="run" onClick={serverRun}>Run</Button>
+            <Button sx={sxButtons} color="secondary" variant="contained" className="demo" onClick={serverDemo}>Demo</Button>
+            <Box className="open-position">
+                <Button sx={sxButtons} color="secondary" variant="contained" onClick={serverOpen}>Open</Button>
 
-            </div>
-            <div className="close-position">
-                <Button onClick={serverClose}>Close</Button>
-            </div>
-            <div className="deploy">
-                <h3>Deploy</h3>
-                <div className="deploy-HMX">
-                    <Button>HMX</Button>
-                    <input type="text" placeholder="Enter Amount" />
-                </div>
-                <div className="deploy-sythetix">
-                    <Button>Synthetix</Button>
-                    <input type="text" placeholder="Enter Amount" /> 
-                </div>
-            </div>
+            </Box>
+            <Box className="close-position">
+                <Button sx={sxButtons} color="secondary" variant="contained" onClick={serverClose}>Close</Button>
+            </Box>
+            <DeploySection />
         </Box>
     );
 };
 
 export default CLIFunctions;
-
-// .cliFunctions {
-//     align-items: center;
-//     button {
-//         background-color: $color-tertiary;
-//         border: none;
-//         color: white;
-//         padding: 15px 32px;
-//         text-align: center;
-//         text-decoration: none;
-//         display: inline-block;
-//         font-size: 16px;
-//         border-radius: 4px;
-//         cursor: pointer;
-//     }
-//     button:hover {
-//         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-//     }
-//     button:active {
-//         background-color: $color-secondary;
-//         box-shadow: none;
-//     }
-//     // Run Button
-//     .run {
-//     }
-
-//     .deploy {
-//         input {
-            
-//         }
-//     } // Deploy div: button & input
-//     .close {
-
-//     }
-//     .open {
-
-//     }
-// }

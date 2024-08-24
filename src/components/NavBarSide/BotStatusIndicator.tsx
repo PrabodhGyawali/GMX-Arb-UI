@@ -1,0 +1,55 @@
+import React from 'react';
+import { Box, Typography, CircularProgress, Paper } from '@mui/material';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+
+const BotStatusIndicator = ({ isConnected }: { isConnected: boolean }) => {
+  return (
+    <Paper
+      elevation={3}
+      sx={{
+        padding: 2,
+        borderRadius: 2,
+        backgroundColor: (theme) => theme.palette.background.default,
+      }}
+    >
+      <Box display="flex" alignItems="center" gap={2}>
+        <Typography variant="body1" fontWeight="bold" minWidth="80px">
+          Bot Status:
+        </Typography>
+        <Box
+          display="flex"
+          alignItems="center"
+          gap={1}
+          bgcolor={isConnected ? 'success.light' : 'warning.light'}
+          px={2}
+          py={1}
+          borderRadius="16px"
+        >
+          {isConnected ? (
+            <FiberManualRecordIcon
+              sx={{
+                color: 'success.main',
+                fontSize: 16,
+              }}
+            />
+          ) : (
+            <CircularProgress
+              size={16}
+              thickness={6}
+              sx={{ color: 'warning.main' }}
+            />
+          )}
+          <Typography
+            variant="body2"
+            color={isConnected ? 'success.main' : 'warning.main'}
+            fontWeight="medium"
+          >
+            {isConnected ? 'Connected' : 'Connecting...'}
+          </Typography>
+        </Box>
+      </Box>
+    </Paper>
+  );
+};
+
+export default BotStatusIndicator;

@@ -15,7 +15,7 @@ const LogTable: React.FC<LogTableProps> = ({
         { field: 'timestamp', 
             headerName: 'Timestamp', 
             type: 'date',
-            width: 90 },
+            width: 150 },
         {
             field: 'logger',
             headerName: 'Logger',
@@ -26,22 +26,22 @@ const LogTable: React.FC<LogTableProps> = ({
             field: 'level',
             headerName: 'Level',
             type: 'string',
-            width: 150,
+            width: 100,
         },
         {
             field: 'source',
             headerName: 'Source',
             type: 'string',
-            width: 110,
+            width: 200,
         },
         {
             field: 'message',
             headerName: 'Message',
-            width: 160,
+            width: '100%',
         },
     ];
   return (
-    <Box sx={{ height: 400, width: '100%' }}>
+    <Box sx={{ height: 400, width: '100vw' }}>
       <DataGrid
         rows={logs}
         columns={columns}

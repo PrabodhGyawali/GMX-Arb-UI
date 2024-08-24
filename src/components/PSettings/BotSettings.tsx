@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import ExchangeSettings from './ExchangeSettings';
 import { ConfigFile, BotConfig } from './ISettings';
 import SettingsComponent from './SettingsComponent';

@@ -51,11 +51,11 @@ const logArray = [
     "2024-08-20 13:37:25,262 - GlobalUtils.logger - INFO - MasterPositionController:get_available_collateral_for_exchange - collateral = 17.3869 for exchange ByBit"
 ];
 
-function Logs() {
+function Logs({eventLogs}: {eventLogs: string}) {
     const [logs, setLogs] = useState<Log[]>([]);
     const [toggleLogs, setToggleLogs] = useState(false);
     /**
-     * Backend Log communication
+     * Get log history from the server's `app.log` file
      */
     const getLogs = async () => {
         try {
@@ -77,10 +77,7 @@ function Logs() {
 
     const clearLogs = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        var logList = document.querySelector(".logList");
-        if (logList) {
-            logList.innerHTML = "";
-        }
+        setLogs([]);
 
         try {
             const response = await fetch("/api/logs/clear", {
@@ -92,10 +89,12 @@ function Logs() {
         } catch(err) {console.error(err)}
     }
 
-    // TODO: Maybe allow user to save log on browser using Storage API `localStorage` 
-
     useEffect(() => {
         getLogs();
+        if (eventLogs) {
+            const newLog = createLogObjects([eventLogs]);
+            setLogs([...logs, ...newLog]);
+        }
         return () => {
             
         }

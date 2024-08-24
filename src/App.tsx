@@ -1,31 +1,22 @@
-import React, { useEffect} from 'react';
-import io from 'socket.io-client';
+import useSocket from './socket';
 import Logs from './components/Logs';
 import PositionMonitor from './components/PositionMonitor';
 import NavBarSide from './components/NavBarSide';
 import { Box } from '@mui/material';
 
 function App() {
-  useEffect(() => {
-    // Listen for the 'log' event from the server
-    const socket = io("http://localhost:5000");
-    socket.on('log', (data: any) => {
-      console.log("log event received");
-    });
-    
-    return () => {
-      socket.disconnect();
-    }
-  }, []);
+  const {eventLog, isConnected} = useSocket();
 
   return (
       <Box className="app" sx={{display: 'flex', flexDirection: 'row', height:'100vh', width:'100vw'}}>
-        <NavBarSide />
+
+        <NavBarSide isConnected={isConnected} />
         <Box className="app-main" sx={{
           display:'flex', flexDirection:'column', height: '100vh', width: '100vw', justifyContent: 'space-between', padding: '0.75em'
         }}>
           <PositionMonitor />
-          <Logs />
+          <Logs 
+            eventLogs={eventLog} />
         </Box>
       </Box>    
   )
