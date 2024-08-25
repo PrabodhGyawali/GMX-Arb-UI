@@ -1,31 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Typography, Button, TextField, InputAdornment } from '@mui/material';
-
+import DeployCard from './DeployCard';
 function DeploySection() {
+  // Amount of HMX and SYN to deploy
   const [hmxAmount, setHmxAmount] = useState('');
   const [synAmount, setSynAmount] = useState('');
+  // Error state for HMX and SYN amount
   const [hmxError, setHmxError] = useState(false);
   const [synError, setSynError] = useState(false);
-
-  const sxButtons = {
-    width: '120px',
-    fontWeight: 'bold',
-  };
-
-  const sxInput = {
-    width: '200px',
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: 'secondary.main',
-      },
-      '&:hover fieldset': {
-        borderColor: 'secondary.light',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: 'secondary.dark',
-      },
-    },
-  };
+  // Collateral balance for HMX and SYN
+  const [hmxBalance, setHmxBalance] = useState('...');
+  const [synBalance, setSynBalance] = useState('...');
 
   const validateAmount = (value: string, setError: React.Dispatch<React.SetStateAction<boolean>>) => {
     const numValue = parseFloat(value);
@@ -47,7 +32,36 @@ function DeploySection() {
     setSynAmount(value);
     validateAmount(value, setSynError);
   };
+  const handleDeployHMX = () => {
+    // Log data for deploying HMX
+    console.log('Deploying HMX:', hmxAmount);
+  };
 
+  const handleDeploySYN = () => {
+    // Log data for deploying SYN
+    console.log('Deploying SYN:', synAmount);
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch HMX balance
+        const response = await fetch('/api/settings/collateral/Synthetix');
+        if (response.status === 200) {
+          const data = await response.json();
+          setSynBalance(data);
+        } else {
+          setSynBalance('Error');
+        }
+        // Fetch SYN balance
+      } catch (error) {
+        setSynBalance('Error');
+      }
+    };
+  
+    fetchData();
+  }, []);
+  
   return (
     <Box sx={{
       height: '100%', // Take full height of parent
@@ -83,52 +97,24 @@ function DeploySection() {
           boxShadow: 3,
           minHeight: 'min-content',
         }}>
-          <Box className="deploy-HMX" sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1em',
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
-            <Button sx={sxButtons} color="secondary" variant="contained">HMX</Button>
-            <TextField
-              sx={sxInput}
-              type="number"
-              placeholder="Enter Amount"
-              variant="outlined"
-              color="secondary"
-              value={hmxAmount}
-              onChange={handleHmxChange}
-              error={hmxError}
-              helperText={hmxError ? "Amount must be 1 or greater" : ""}
-              InputProps={{
-                startAdornment: <InputAdornment position="start">$</InputAdornment>,
-              }}
-            />
-          </Box>
-          <Box className="deploy-synthetix" sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1em',
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
-            <Button sx={sxButtons} color="secondary" variant="contained">SYN</Button>
-            <TextField
-              sx={sxInput}
-              type="number"
-              placeholder="Enter Amount"
-              variant="outlined"
-              color="secondary"
-              value={synAmount}
-              onChange={handleSynChange}
-              error={synError}
-              helperText={synError ? "Amount must be 1 or greater" : ""}
-              InputProps={{
-                startAdornment: <InputAdornment position="start">$</InputAdornment>,
-              }}
-            />
-          </Box>
+          <DeployCard 
+            args={{amount: synAmount, tokenAddress: ''}} 
+            handleAmountChange={handleSynChange} 
+            handleDeploy={handleDeploySYN}
+            handleError={synError} 
+            exchange="SYN"
+            exchangeLogo='public\svg\synthetix-snx-logo.svg'
+            collateralBalance={synBalance} // TODO: Replace with actual balance
+          />
+          <DeployCard 
+            args={{amount: synAmount, tokenAddress: ''}} 
+            handleAmountChange={handleHmxChange} 
+            handleDeploy={handleDeployHMX}
+            handleError={hmxError} 
+            exchange="HMX" 
+            exchangeLogo='public\svg\bybit-logo.svg'
+            collateralBalance={hmxBalance} // TODO: Replace with actual balance  
+          />
         </Box>
       </Box>
     </Box>

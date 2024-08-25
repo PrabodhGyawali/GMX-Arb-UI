@@ -53,40 +53,8 @@ const serverClose = () => {
     });
 }
 
-/** 
- * Deploy Collateral on chain by sending request to backend 
- */
-const serverDeploy = (exchange: String, amount: number) => {
-    switch (exchange) {
-        case 'HMX':
-            console.log("HMX");
-            break;
-        case 'OKX':
-            console.log("SNX");
-            break;
-        case 'GMX':
-            console.log("GMX");
-            break;   
-    }
-}
-
 // Styles
 const sxButtons = {width: '5em'};
-
-const sxInput = {
-    width: '200px',
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: 'secondary.main',
-      },
-      '&:hover fieldset': {
-        borderColor: 'secondary.light',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: 'secondary.dark',
-      },
-    },
-};
 
 const CLIFunctions = () => {
 
@@ -102,8 +70,8 @@ const CLIFunctions = () => {
             borderRadius: '8px',
             boxShadow: 3,         
         }}>
-            <Button sx={sxButtons} color="secondary" variant="contained" className="run" onClick={serverRun}>Run</Button>
-            <Button sx={sxButtons} color="secondary" variant="contained" className="demo" onClick={serverDemo}>Demo</Button>
+            <Button sx={sxButtons} color="secondary" variant="contained" onClick={serverRun}>Run</Button>
+            <Button sx={sxButtons} color="secondary" variant="contained" onClick={serverDemo}>Demo</Button>
             <Box className="open-position">
                 <Button sx={sxButtons} color="secondary" variant="contained" onClick={serverOpen}>Open</Button>
 

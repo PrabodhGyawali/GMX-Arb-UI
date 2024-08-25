@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import {Trade, tradeFields} from './TradeMonitorInterface'
-
-// TODO: Add Search Bar
+import PositionCard from './PositionMonitor/PositionCard';
+import { Box } from '@mui/material';
 // TODO: Allow Sorting of Positions
 // TODO: Add Graph componenet to get more financial data related to long and short position
 
@@ -41,6 +41,83 @@ function PositionMonitor() {
         }
     }
 
+    const closePosition = (id: number) => {
+        console.log(`Closing Position with ID: ${id}`);
+    }
+
+
+    // Mock Trades for testing
+    const mockTrades = [
+        {
+          id: 1,
+          strategy_execution_id: "26efe6c6-ecfc-4791-968b-016d17cd2399",
+          exchange: "HMX",
+          symbol: "ARB/USD",
+          side: "Long",
+          is_hedge: true,
+          size_in_asset: 1148.32077588181,
+          liquidation_price: 0.491697579954884,
+          open_close: "Open",
+          open_time: new Date("2024-06-26T21:50:37.557Z"),
+        },
+        {
+          id: 2,
+          strategy_execution_id: "26efe6c6-ecfc-4791-968b-016d17cd2399",
+          exchange: "Synthetix",
+          symbol: "ARB/USD",
+          side: "Short",
+          is_hedge: false,
+          size_in_asset: 1148.32,
+          liquidation_price: 1.03763111795472,
+          open_close: "Close",
+          open_time: new Date("2024-06-26T21:50:37.557Z"),
+          close_time: new Date("2024-06-26T21:52:52.708Z"),
+          pnl: -1.18613449627169,
+          accrued_funding: 0.00359847452959475,
+          close_reason: "TEST",
+        },
+        {
+          id: 3,
+          strategy_execution_id: "7a1b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p",
+          exchange: "Binance",
+          symbol: "BTC/USDT",
+          side: "Long",
+          is_hedge: false,
+          size_in_asset: 0.5,
+          liquidation_price: 25000,
+          open_close: "Open",
+          open_time: new Date("2024-06-27T10:15:00.000Z"),
+        },
+        {
+          id: 4,
+          strategy_execution_id: "9q8r7s6t-5u4v-3w2x-1y0z-abcdefghijkl",
+          exchange: "Kraken",
+          symbol: "ETH/USD",
+          side: "Short",
+          is_hedge: true,
+          size_in_asset: 10,
+          liquidation_price: 2200,
+          open_close: "Open",
+          open_time: new Date("2024-06-27T14:30:00.000Z"),
+        },
+        {
+          id: 5,
+          strategy_execution_id: "mnopqrst-uvwx-yz12-3456-789abcdefghi",
+          exchange: "Deribit",
+          symbol: "SOL/USDT",
+          side: "Long",
+          is_hedge: false,
+          size_in_asset: 500,
+          liquidation_price: 15.5,
+          open_close: "Close",
+          open_time: new Date("2024-06-28T09:45:00.000Z"),
+          close_time: new Date("2024-06-28T11:30:00.000Z"),
+          pnl: 250.75,
+          accrued_funding: 0.05,
+          close_reason: "Take Profit",
+        }
+    ];
+
     useEffect( () => {
         getTrades();
         console.log()
@@ -53,42 +130,33 @@ function PositionMonitor() {
     }, []);
 
     return (
-        <div className="PositionMonitor">
-            <h1>Trade Positions</h1>
-            {/* <PositionCard 
-                strategy_execution_id
-                /> */}
-        </div>
+        <Box sx= {{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            padding: '1em'
+        }}>
+            <Box id="open-positions">
+                {mockTrades.map((trade: Trade) => (
+                    <PositionCard 
+                        id={trade.id}
+                        strategy_execution_id={trade.strategy_execution_id}
+                        exchange={trade.exchange}
+                        symbol={trade.symbol}
+                        side={trade.side}
+                        is_hedge={trade.is_hedge}
+                        size_in_asset={trade.size_in_asset}
+                        liquidation_price={trade.liquidation_price}
+                        open_close={trade.open_close}
+                        open_time={trade.open_time}   
+                        closePosition={() => closePosition(trade.id)}
+                    />
+                ))}
+            </Box>
+    
+            
+        </Box>
     )
 }
 
 export default PositionMonitor
-
-// Archive:
-{/* <table>
-    <thead>
-        <tr>
-            { tradeFields.slice(1).map(field => <th>{field}</th>) }
-        </tr>
-        
-    </thead>
-    <tbody>
-        {trades.map( (trade: Trade) => 
-            <tr key={trade.id}>
-                <td>{trade.strategy_execution_id}</td>
-                <td>{trade.exchange}</td>
-                <td>{trade.symbol}</td>
-                <td>{trade.side}</td>
-                <td>{trade.is_hedge}</td>
-                <td>{trade.size_in_asset}</td>
-                <td>{trade.liquidation_price}</td>
-                <td>{trade.open_close}</td>
-                <td>{trade.open_time ? trade.open_time.toLocaleString() : 'N/A'}</td>
-                <td>{trade.close_time ? trade.close_time.toLocaleString() : 'N/A'}</td>
-                <td>{trade.pnl !== null ? trade.pnl : 'N/A'}</td>
-                <td>{trade.accrued_funding !== null ? trade.accrued_funding : 'N/A'}</td>
-                <td>{trade.close_reason !== null ? trade.close_reason : 'N/A'}</td>
-            </tr>
-        )}
-    </tbody>
-</table> */}
