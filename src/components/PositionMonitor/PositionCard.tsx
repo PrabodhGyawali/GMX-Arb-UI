@@ -9,10 +9,13 @@ import {
   Grid, 
   Chip, 
   Box, 
-  Divider 
+  Divider,
+  Tooltip,
+  IconButton
 } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
+import HelpOutlineIcon  from '@mui/icons-material/HelpOutline';
 
 
 interface PositionCardProps {
@@ -33,14 +36,17 @@ interface PositionCardProps {
     close_reason?: string;
 }
 
-const StyledCard = styled(Card)(({ theme }) => ({
-  marginBottom: theme.spacing(2),
-  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-  borderRadius: theme.spacing(1),
-}));
+const StyledCard = styled(Card, {
+    shouldForwardProp: (prop) => prop !== 'isClosed',
+  })<{ isClosed: boolean }>(({ theme, isClosed }) => ({
+    marginBottom: theme.spacing(2),
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+    borderRadius: theme.spacing(1),
+    opacity: isClosed ? 0.6 : 1,
+    backgroundColor: isClosed ? '#f0f0f0' : 'white',
+  }));
 
 const StyledButton = styled(Button)(({ theme }) => ({
-  marginTop: theme.spacing(2),
   fontWeight: 'bold',
 }));
 
@@ -55,8 +61,14 @@ const PositionCard: React.FC<PositionCardProps> = ({
     liquidation_price,
     open_close,
     open_time,
+    close_time,
+    pnl,
+    accrued_funding,
+    close_reason
 }) => {
     const isBuy = side.toLowerCase() === 'buy';
+    const isClosed = open_close === 'Close';
+    const isLong = side.toLowerCase() === 'long';
 
     // Hook to close position context
     const { closePosition } = usePosition();
@@ -68,10 +80,13 @@ const PositionCard: React.FC<PositionCardProps> = ({
         const minutes = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60));
         return `${hours}h ${minutes}m`;
       };
+    const getStyleForSide = (side: string) => {
+    return side === "Short" ? { color: 'red' } : { color: 'green' };
+    };
     
 
     return (
-        <StyledCard>
+        <StyledCard isClosed={isClosed}>
             <CardContent>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
@@ -100,7 +115,11 @@ const PositionCard: React.FC<PositionCardProps> = ({
                         <Chip 
                             label={side.toUpperCase()}
                             size="small"
-                            color={isBuy ? "success" : "error"}
+                            color={isLong ? "success" : "error"}
+                            style={{ 
+                                backgroundColor: isLong ? '#4caf50' : '#f44336',
+                                color: 'white'
+                            }}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
@@ -119,17 +138,48 @@ const PositionCard: React.FC<PositionCardProps> = ({
                             ${liquidation_price.toFixed(2)}
                         </Typography>
                     </Grid>
+                    {isClosed && (
+                        <>
+                            <Grid item xs={12} sm={6}>
+                                <Typography variant="body2" color="textSecondary">
+                                    PNL
+                                </Typography>
+                                <Typography variant="body1" gutterBottom>
+                                    ${pnl?.toFixed(2)}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <Typography variant="body2" color="textSecondary">
+                                    Accrued Funding
+                                </Typography>
+                                <Typography variant="body1" gutterBottom>
+                                    ${accrued_funding?.toFixed(2)}
+                                </Typography>
+                            </Grid>
+                        </>
+                    )}
                 </Grid>
                 <Divider style={{ margin: '16px 0' }} />
-                <Box display="flex" justifyContent="flex-end">
-                    <StyledButton
-                        variant="contained"
-                        color="secondary"
-                        startIcon={<CloseIcon />}
-                        onClick={() => closePosition(id)}
-                    >
-                        Close
-                    </StyledButton>
+                <Box display="flex" justifyContent="space-between" alignItems="center">
+                    <Typography variant="body2" color="textSecondary">
+                        {isClosed ? 'Closed' : 'Duration'}: {calculateDuration(open_time, close_time)}
+                    </Typography>
+                    {isClosed ? (
+                        <Tooltip title={close_reason || 'No reason provided'}>
+                            <IconButton size="small">
+                                <HelpOutlineIcon />
+                            </IconButton>
+                        </Tooltip>
+                    ) : (
+                        <StyledButton
+                            variant="contained"
+                            color="secondary"
+                            startIcon={<CloseIcon />}
+                            onClick={() => closePosition(id)}
+                        >
+                            Close
+                        </StyledButton>
+                    )}
                 </Box>
             </CardContent>
         </StyledCard>

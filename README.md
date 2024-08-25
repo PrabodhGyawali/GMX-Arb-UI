@@ -1,19 +1,17 @@
 # DOING
-- Search Bar and filters for searching trades
-- Button for viewing trade history
-- Load trades and its state
+TODO: Fix Spacing & Scrolling
+TODO: Minimize Deploy Collateral
+TODO: Allow settings configuration from front-end
+TODO: Fetching log data from backend
 
-# React-related
+# Logs
+### TODO: Make log a dialog.
 ### TODO: `LogsTable` two items with the same key
-### TODO: Allow settings configuration from front-end
 ### TODO: Fetching log data from backend
 ### TODO: Getting logs and live log updates on client side
-### TODO: Store data not only on the bot but also on the browser:
-    - another way for users to view their trading positions offline, or close trades in case no backend etc.
-    - provide links to position in HMX or ByBit etc.
+
 
 # UI-related
-- TODO: Unecessary scrolling
 
 - TODO: Disable Open and Close buttons if no positions available
 
@@ -27,12 +25,14 @@
     - May have to migrate solely to tailwind css
     - Look into _tree-shaking_ and purge unused components
 
+# Instructions
+- TODO: Add Instructions in Home page if there are no Positions
 
 
-# Migrate tasks to backend
+# Add to backend or Migrate to backend
 - TODO: Make backend send Log objects to front-end rather than `string[]`
 - TODO: Enum usage for representing exchanges, rather than `strings`
-
+- TODO: Trade information: total profits
 
 # Code reuse:
 - TODO: reuse of socketio code
