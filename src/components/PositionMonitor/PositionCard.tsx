@@ -1,4 +1,6 @@
 import React from 'react';
+import { usePosition } from './PositionContext';
+
 import { 
   Button, 
   Card, 
@@ -11,6 +13,7 @@ import {
 } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
+
 
 interface PositionCardProps {
     id: number;
@@ -28,8 +31,6 @@ interface PositionCardProps {
     pnl?: number;
     accrued_funding?: number;
     close_reason?: string;
-    // Handler functions for closing the position
-    closePosition: (id: number) => void;
 }
 
 const StyledCard = styled(Card)(({ theme }) => ({
@@ -54,9 +55,20 @@ const PositionCard: React.FC<PositionCardProps> = ({
     liquidation_price,
     open_close,
     open_time,
-    closePosition
 }) => {
     const isBuy = side.toLowerCase() === 'buy';
+
+    // Hook to close position context
+    const { closePosition } = usePosition();
+
+    const calculateDuration = (openTime: Date, closeTime?: Date): string => {
+        const end = closeTime || new Date();
+        const durationMs = end.getTime() - openTime.getTime();
+        const hours = Math.floor(durationMs / (1000 * 60 * 60));
+        const minutes = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60));
+        return `${hours}h ${minutes}m`;
+      };
+    
 
     return (
         <StyledCard>
@@ -116,7 +128,7 @@ const PositionCard: React.FC<PositionCardProps> = ({
                         startIcon={<CloseIcon />}
                         onClick={() => closePosition(id)}
                     >
-                        Close Position
+                        Close
                     </StyledButton>
                 </Box>
             </CardContent>

@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
-import {Trade, tradeFields} from './TradeMonitorInterface'
+import {Trade} from './TradeMonitorInterface'
 import PositionCard from './PositionMonitor/PositionCard';
 import { Box } from '@mui/material';
+import { PositionProvider } from './PositionMonitor/PositionContext';
+import PositionList from './PositionMonitor/PositionList';
 // TODO: Allow Sorting of Positions
 // TODO: Add Graph componenet to get more financial data related to long and short position
 
@@ -130,32 +132,11 @@ function PositionMonitor() {
     }, []);
 
     return (
-        <Box sx= {{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            padding: '1em'
-        }}>
-            <Box id="open-positions">
-                {mockTrades.map((trade: Trade) => (
-                    <PositionCard 
-                        id={trade.id}
-                        strategy_execution_id={trade.strategy_execution_id}
-                        exchange={trade.exchange}
-                        symbol={trade.symbol}
-                        side={trade.side}
-                        is_hedge={trade.is_hedge}
-                        size_in_asset={trade.size_in_asset}
-                        liquidation_price={trade.liquidation_price}
-                        open_close={trade.open_close}
-                        open_time={trade.open_time}   
-                        closePosition={() => closePosition(trade.id)}
-                    />
-                ))}
+        <PositionProvider closePosition={closePosition}>
+            <Box sx= {{display: 'flex', flexDirection: 'row', alignItems: 'center', padding: '1em' }}>
+                <PositionList trades={mockTrades} />
             </Box>
-    
-            
-        </Box>
+        </PositionProvider>
     )
 }
 
