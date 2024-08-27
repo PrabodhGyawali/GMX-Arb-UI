@@ -4,14 +4,6 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 const BotStatusIndicator = ({ isConnected }: { isConnected: boolean }) => {
   return (
-    <Paper
-      elevation={3}
-      sx={{
-        padding: 2,
-        borderRadius: 2,
-        backgroundColor: (theme) => theme.palette.background.default,
-      }}
-    >
       <Box display="flex" alignItems="center" gap={2}>
         <Typography variant="body1" fontWeight="bold" minWidth="80px">
           Bot Status:
@@ -48,7 +40,6 @@ const BotStatusIndicator = ({ isConnected }: { isConnected: boolean }) => {
           </Typography>
         </Box>
       </Box>
-    </Paper>
   );
 };
 

@@ -1,15 +1,7 @@
 import React, {useState} from 'react'
-import { Trade } from 'components/TradeMonitorInterface';
+import { Trade } from './Trade';
 import PositionCard from './PositionCard'
-import { Box, TextField, Button, Typography, Container, Grid, Paper, 
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    TableSortLabel
-} from '@mui/material';
+import { Box, TextField, Button, Typography, Container, Grid} from '@mui/material';
 
 interface PositionListProps {
     trades: Trade[];
@@ -32,7 +24,7 @@ const PositionList: React.FC<PositionListProps> = ({ trades }: PositionListProps
                 </Typography>
                 <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
                     <TextField
-                        fullWidth
+                        sx={{width: '20%'}}
                         variant='outlined'
                         label='Search by Symbol'
                         value={searchTerm}
@@ -46,13 +38,22 @@ const PositionList: React.FC<PositionListProps> = ({ trades }: PositionListProps
                     >{showHistory ? 'Hide History' : 'Show History'}</Button>
                 </Box>
                 
-                <Grid container spacing={3}>
-                    {filteredTrades.map((trade) => (
-                        <Grid item xs={12} sm={6} md={4} key={trade.id}>
-                            <PositionCard {...trade} />
-                        </Grid>
-                    ))}
-                </Grid>
+                <Box sx={{
+                    maxHeight: '100vh',
+                    overflow: 'auto',
+                }}>
+                    <Grid container spacing={3} sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'stretch',
+                    }}>
+                        {filteredTrades.map((trade) => (
+                            <Grid item xs={12} sm={6} md={4} key={trade.id}>
+                                <PositionCard {...trade} />
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Box>
             </Box>
         </Container>
     )
@@ -60,21 +61,4 @@ const PositionList: React.FC<PositionListProps> = ({ trades }: PositionListProps
 
 export default PositionList
 
-{/* <Box id="open-positions">
-                {mockTrades.map((trade: Trade) => (
-                    <PositionCard 
-                        id={trade.id}
-                        strategy_execution_id={trade.strategy_execution_id}
-                        exchange={trade.exchange}
-                        symbol={trade.symbol}
-                        side={trade.side}
-                        is_hedge={trade.is_hedge}
-                        size_in_asset={trade.size_in_asset}
-                        liquidation_price={trade.liquidation_price}
-                        open_close={trade.open_close}
-                        open_time={trade.open_time}   
-                        closePosition={() => closePosition(trade.id)}
-                    />
-                ))}
-</Box> */}
     

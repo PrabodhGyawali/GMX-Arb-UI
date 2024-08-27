@@ -11,10 +11,10 @@ function PSettings() {
 
     return (
         <Box className="app" sx={{
-            display: "flex", 
-            flexDirection: "row",
-            height: "100vh",
-            width: "100vw"
+            display: 'flex', height:'100vh', width: '100vw',
+          justifyContent: 'flex-start', alignItems: 'stretch',
+          overflowX: 'hidden',
+          overflowY: 'hidden',
         }}>
             <NavBarSide isConnected={isConnected} />
             <Settings />

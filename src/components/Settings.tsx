@@ -9,11 +9,9 @@ function SettingsButton() {
     const navigate = useNavigate();
 
     return (
-        <Box className="side-bar-footer" sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-            <IconButton onClick={() => {navigate("/settings")}}>
-                <SettingsIcon/>
-            </IconButton>
-        </Box>
+        <IconButton onClick={() => {navigate("/settings")}}>
+            <SettingsIcon sx={{ fontSize: 40 }} /> 
+        </IconButton>
     )
 }
 

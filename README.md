@@ -1,8 +1,7 @@
 # DOING
-TODO: Fix Spacing & Scrolling
-TODO: Minimize Deploy Collateral
-TODO: Allow settings configuration from front-end
 TODO: Fetching log data from backend
+TODO: Allow settings configuration from front-end
+
 
 # Logs
 ### TODO: Make log a dialog.
@@ -12,7 +11,6 @@ TODO: Fetching log data from backend
 
 
 # UI-related
-
 - TODO: Disable Open and Close buttons if no positions available
 
 - TODO: Remove space and fixed sizing for navbar
@@ -21,18 +19,22 @@ TODO: Fetching log data from backend
 - TODO: Exchange images etc.
 - TODO: Add timer for interactivity
 
-- TODO: Improve page loading speed: [Improve-Speed](https://mui.com/material-ui/guides/minimizing-bundle-size/)
+- TODO: Improve page loading speed: [Improve-Speed](https://mui.com/material-ui/guides/
+minimizing-bundle-size/)
     - May have to migrate solely to tailwind css
     - Look into _tree-shaking_ and purge unused components
+
+TODO: Fix Deploy Collateral
+- Add details rather than allowing deployment
 
 # Instructions
 - TODO: Add Instructions in Home page if there are no Positions
 
 
 # Add to backend or Migrate to backend
-- TODO: Make backend send Log objects to front-end rather than `string[]`
+- TODO: Make backend send Log objects to front-end rather than `string[]` - look into the Log class and write changes to the code
 - TODO: Enum usage for representing exchanges, rather than `strings`
-- TODO: Trade information: total profits
+- TODO: Trade information: total profits, total positions, 
 
 # Code reuse:
 - TODO: reuse of socketio code

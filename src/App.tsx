@@ -1,22 +1,33 @@
-import useSocket from './socket';
-import Logs from './components/Logs';
 import PositionMonitor from './components/PositionMonitor';
 import NavBarSide from './components/NavBarSide';
 import { Box } from '@mui/material';
+import { useContext } from 'react';
+import { useSocket } from './Context/SocketContext';
+
 
 function App() {
-  const {eventLog, isConnected} = useSocket();
 
+  const { socket } = useSocket();
+  var isConnected: boolean = false;
+  if (socket) {
+    isConnected = socket.connected;
+  }
+   
   return (
-      <Box className="app" sx={{display: 'flex', flexDirection: 'row', height:'100vh', width:'100vw'}}>
+      <Box className="app" sx={{
+          display: 'flex', height:'100vh', width: '100vw',
+          justifyContent: 'flex-start', alignItems: 'stretch',
+          overflowX: 'hidden',
+          overflowY: 'hidden',
+        }}>
 
         <NavBarSide isConnected={isConnected} />
         <Box className="app-main" sx={{
-          display:'flex', flexDirection:'column', height: '100vh', width: '100vw', justifyContent: 'space-between', padding: '0.75em'
+          display:'flex', flexDirection:'column', justifyContent: 'space-between',
+          height: '100vh', width: '100vw', padding: '0', margin: '0em',
         }}>
           <PositionMonitor />
-          <Logs 
-            eventLogs={eventLog} />
+          
         </Box>
       </Box>    
   )

@@ -1,31 +1,29 @@
-import CLIFunctions from '../components/CLIFunctions'
+import {DeployCollateral, Run} from '../components/CLIFunctions'
 import {SettingsButton} from './Settings'
 import { useNavigate } from 'react-router-dom'
 import { Box, IconButton } from '@mui/material'
-import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
 import BotStatusIndicator from './NavBarSide/BotStatusIndicator';
 
 function NavBarSide({isConnected}: {isConnected: boolean}) {
     const navigateHome = useNavigate();
     return (
-      <Box className="side-bar" sx={{
-        display: 'flex', flexDirection:'column', justifyContent: 'space-between', padding: '0.5em', height:'100vh'
+      <Box className="nav" sx={{
+        display: 'flex', flexDirection:'column', justifyContent: 'space-between', 
+        alignItems: 'center',
+        height:'100vh',
+        width: '20vw',
       }}>
-        <Box className="side-bar-top" sx={{
-          display: 'flex', justifyContent: 'space-around'
+        <Box className="nav-top" sx={{
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', padding: '1em',
         }}>
-          <IconButton onClick={() => {navigateHome("/")}}>
+          <IconButton sx={{paddingLeft: "1em"}} onClick={() => {navigateHome("/")}}>
             <img src="../public/svg/gmx-logo.svg" alt="" style={{width:'3em', height:'3em'}}/>
           </IconButton>
-          <IconButton>
-            <KeyboardTabIcon/>
-          </IconButton>
+          <SettingsButton/>
         </Box>
-
+        <Run />
         <BotStatusIndicator isConnected={isConnected}/>
-        
-        <CLIFunctions />  
-        <SettingsButton/> 
+        <DeployCollateral />   
       </Box>
     )
 }

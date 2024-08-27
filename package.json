@@ -1,12 +1,11 @@
 {
-  "name": "synthclienui",
+  "name": "gmx_client_ui",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "build-schema": "node build/build-schema-interface.js && tsc",
     "lint": "biome check .",
     "preview": "vite preview"
   },

@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react'
-import {Trade} from './TradeMonitorInterface'
-import PositionCard from './PositionMonitor/PositionCard';
+import { Trade } from './PositionMonitor/Trade';
 import { Box } from '@mui/material';
 import { PositionProvider } from './PositionMonitor/PositionContext';
 import PositionList from './PositionMonitor/PositionList';
-// TODO: Allow Sorting of Positions
-// TODO: Add Graph componenet to get more financial data related to long and short position
 
 function PositionMonitor() {
     const [trades, setTrades] = useState<Trade[]>([]);
@@ -199,18 +196,15 @@ function PositionMonitor() {
 
     useEffect( () => {
         getTrades();
-        console.log()
         return () => {
-            var positionMonitor = document.querySelector("PositionMonitor");
-            if (positionMonitor) {
-                positionMonitor.innerHTML = "";
-            }
+            // Cleanup
+            setTrades([]);
         }
     }, []);
 
     return (
         <PositionProvider closePosition={closePosition}>
-            <Box sx= {{display: 'flex', flexDirection: 'row', alignItems: 'center', padding: '1em' }}>
+            <Box sx= {{display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                 <PositionList trades={mockTrades} />
             </Box>
         </PositionProvider>

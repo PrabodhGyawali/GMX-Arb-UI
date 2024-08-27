@@ -64,7 +64,7 @@ function DeploySection() {
   
   return (
     <Box sx={{
-      height: '100%', // Take full height of parent
+      height: '50vh', 
       display: 'flex',
       flexDirection: 'column',
     }}>
@@ -94,8 +94,8 @@ function DeploySection() {
           padding: '2em',
           backgroundColor: 'background.paper',
           borderRadius: '8px',
-          boxShadow: 3,
           minHeight: 'min-content',
+          overflow: 'hidden',
         }}>
           <DeployCard 
             args={{amount: synAmount, tokenAddress: ''}} 
@@ -104,7 +104,7 @@ function DeploySection() {
             handleError={synError} 
             exchange="SYN"
             exchangeLogo='public\svg\synthetix-snx-logo.svg'
-            collateralBalance={synBalance} // TODO: Replace with actual balance
+            collateralBalance={synBalance} 
           />
           <DeployCard 
             args={{amount: synAmount, tokenAddress: ''}} 
@@ -113,7 +113,7 @@ function DeploySection() {
             handleError={hmxError} 
             exchange="HMX" 
             exchangeLogo='public\svg\bybit-logo.svg'
-            collateralBalance={hmxBalance} // TODO: Replace with actual balance  
+            collateralBalance={hmxBalance}
           />
         </Box>
       </Box>
