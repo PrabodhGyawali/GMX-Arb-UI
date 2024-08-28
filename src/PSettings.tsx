@@ -1,24 +1,19 @@
 import { Settings } from "./components/Settings";
 import NavBarSide from "./components/NavBarSide";
 import { Box } from "@mui/material";
-import { useEffect } from "react";
-import useSocket from "./socket";
-
+import { useSocket } from "./Context/SocketContext";
 function PSettings() {
-    const {eventLog, isConnected} = useSocket();
-
-    // Perhaps use eventLog for settings error messages? 
-
+    const { connected } = useSocket();
     return (
         <Box className="app" sx={{
             display: 'flex', height:'100vh', width: '100vw',
-          justifyContent: 'flex-start', alignItems: 'stretch',
-          overflowX: 'hidden',
-          overflowY: 'hidden',
+            justifyContent: 'flex-start', alignItems: 'stretch',
+            overflowX: 'hidden',
+            overflowY: 'hidden',
         }}>
-            <NavBarSide isConnected={isConnected} />
+            <NavBarSide isConnected={connected} />
             <Settings />
-        </Box>
+        </Box>        
     )
 }
 

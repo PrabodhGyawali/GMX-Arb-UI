@@ -4,7 +4,7 @@ import App from './App.tsx'
 import PSettings from './PSettings.tsx'
 import ErrorPage from './ErrorPage.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { createContext } from 'react'
+import { SocketContextProvider } from './Context/SocketContext.tsx'
 /**
  * React Router Setup
  */ 
@@ -21,13 +21,14 @@ const router = createBrowserRouter(
     }
   ]
 )
-const socketContext = createContext(null)
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
+    <SocketContextProvider>
     <RouterProvider 
-      router={router}
-    />
+        router={router}
+      />
+    </SocketContextProvider>
   </React.StrictMode>
 )

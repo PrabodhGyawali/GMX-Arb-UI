@@ -41,7 +41,7 @@ function PositionMonitor() {
     }
 
     const closePosition = (id: number) => {
-        console.log(`Closing Position with ID: ${id}`);
+      console.log(`Closing Position with ID: ${id}`);
     }
 
 

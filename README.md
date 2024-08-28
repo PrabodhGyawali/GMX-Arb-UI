@@ -11,14 +11,8 @@ TODO: Allow settings configuration from front-end
 
 
 # UI-related
-- TODO: Disable Open and Close buttons if no positions available
-
-- TODO: Remove space and fixed sizing for navbar
-    - TODO: Add Mobile version for mobile size
-
 - TODO: Exchange images etc.
 - TODO: Add timer for interactivity
-
 - TODO: Improve page loading speed: [Improve-Speed](https://mui.com/material-ui/guides/
 minimizing-bundle-size/)
     - May have to migrate solely to tailwind css
@@ -42,5 +36,6 @@ TODO: Fix Deploy Collateral
 
 
 # Future related work
+- TODO: Add Mobile version for mobile size
 - TODO: add a Telegram version of the bot
 - TODO: add an iOS and Android version of the bot using `React Native`

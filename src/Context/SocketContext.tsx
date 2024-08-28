@@ -12,6 +12,7 @@ enum EventsDirectory {
 type SocketContextType = {
     socket: Socket | null;
     events: Record<EventsDirectory, any[]>;
+    connected: boolean;
 };
 
 const SocketContext = createContext<SocketContextType | undefined>(undefined);
@@ -24,11 +25,13 @@ export const useSocket = (): SocketContextType => {
     return context;
 };
 
+
 interface SocketContextProviderProps {
     children: React.ReactNode;
 }
 export const SocketContextProvider: React.FC<SocketContextProviderProps> = ({ children }) => {
     const [socket, setSocket] = useState<Socket | null>(null);
+    const [connected, setConnected] = useState(false);
     const [events, setEvents] = useState<Record<EventsDirectory, any[]>>({
         [EventsDirectory.CLOSE_ALL_POSITIONS]: [],
         [EventsDirectory.CLOSE_POSITION_PAIR]: [],
@@ -41,6 +44,10 @@ export const SocketContextProvider: React.FC<SocketContextProviderProps> = ({ ch
     useEffect(() => {
         const newSocket = io('http://localhost:5000'); // TODO: Make sure to update for production
         setSocket(newSocket);
+
+        newSocket.on('connect', () => {setConnected(true)});
+        newSocket.on('disconnect', () => {setConnected(false)});
+
         Object.values(EventsDirectory).forEach((event) => {
             newSocket.on(event, (data) => {
                 setEvents((prevEvents) => ({
@@ -49,10 +56,13 @@ export const SocketContextProvider: React.FC<SocketContextProviderProps> = ({ ch
                 }));
             });
         });
+        return () => {
+            newSocket.disconnect();
+        };
     }, []);
 
     return (
-        <SocketContext.Provider value={useSocket()}>
+        <SocketContext.Provider value={{ socket, events, connected}}>
             {children}
         </SocketContext.Provider>
     )
