@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { usePosition } from './PositionContext';
-
 import { 
   Button, 
   Card, 
@@ -66,9 +65,9 @@ const PositionCard: React.FC<PositionCardProps> = ({
     accrued_funding,
     close_reason
 }) => {
-    const isBuy = side.toLowerCase() === 'buy';
     const isClosed = open_close === 'Close';
     const isLong = side.toLowerCase() === 'long';
+
 
     // Hook to close position context
     const { closePosition } = usePosition();
@@ -80,10 +79,12 @@ const PositionCard: React.FC<PositionCardProps> = ({
         const minutes = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60));
         return `${hours}h ${minutes}m`;
       };
-    const getStyleForSide = (side: string) => {
-    return side === "Short" ? { color: 'red' } : { color: 'green' };
-    };
+
     
+    
+    useEffect(() => {
+
+    }, []);
 
     return (
         <StyledCard isClosed={isClosed}>

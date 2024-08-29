@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Button, TextField, InputAdornment } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import DeployCard from './DeployCard';
+import { useSocket } from '../../Context/SocketContext';
+
 function DeploySection() {
-  // Amount of HMX and SYN to deploy
-  const [hmxAmount, setHmxAmount] = useState('');
+  const {socket} = useSocket();
+
+  // Amount of Bybit and SYN to deploy
+  const [byBitAmount, setByBitAmount] = useState('');
   const [synAmount, setSynAmount] = useState('');
-  // Error state for HMX and SYN amount
-  const [hmxError, setHmxError] = useState(false);
+  // Error state for Bybit and SYN amount
+  const [byBitError, setByBitError] = useState(false);
   const [synError, setSynError] = useState(false);
   // Collateral balance for HMX and SYN
-  const [hmxBalance, setHmxBalance] = useState('...');
+  const [byBitBalance, setByBitBalance] = useState('...');
   const [synBalance, setSynBalance] = useState('...');
 
   const validateAmount = (value: string, setError: React.Dispatch<React.SetStateAction<boolean>>) => {
@@ -21,10 +25,10 @@ function DeploySection() {
     }
   };
 
-  const handleHmxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleByBitChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    setHmxAmount(value);
-    validateAmount(value, setHmxError);
+    setByBitAmount(value);
+    validateAmount(value, setByBitError);
   };
 
   const handleSynChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,9 +36,9 @@ function DeploySection() {
     setSynAmount(value);
     validateAmount(value, setSynError);
   };
-  const handleDeployHMX = () => {
+  const handleDeployByBit = () => {
     // Log data for deploying HMX
-    console.log('Deploying HMX:', hmxAmount);
+    console.log('Deploying ByBit:', byBitAmount);
   };
 
   const handleDeploySYN = () => {
@@ -42,29 +46,45 @@ function DeploySection() {
     console.log('Deploying SYN:', synAmount);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch HMX balance
-        const response = await fetch('/api/settings/collateral/Synthetix');
-        if (response.status === 200) {
-          const data = await response.json();
-          setSynBalance(data);
-        } else {
-          setSynBalance('Error');
-        }
-        // Fetch SYN balance
-      } catch (error) {
+  const fetchData = async () => {
+    try {
+      // Fetch Synthetix balance
+      const response = await fetch('/api/settings/collateral/Synthetix');
+      if (response.status === 200) {
+        const data = await response.json();
+        setSynBalance(data);
+      } else {
         setSynBalance('Error');
       }
-    };
-  
+    } catch (error) {
+      setSynBalance('Error');
+    }
+    try {
+      // Fetch ByBit balance
+      const response = await fetch('/api/settings/collateral/ByBit');
+      if (response.status === 200) {
+        const data = await response.json();
+        setByBitBalance(data);
+      } else {
+        setByBitBalance('Error');
+      }
+    } catch (error) {
+      setSynBalance('Error');
+    }
+  };
+
+  socket?.on('connect', () => {
     fetchData();
-  }, []);
-  
+  });
+
+  // useEffect(() => {
+  //   // Fetch ByBit and SYN balance
+  //   fetchData();
+  // }, []);
+
   return (
     <Box sx={{
-      height: '50vh', 
+      height: '50vh',
       display: 'flex',
       flexDirection: 'column',
     }}>
@@ -97,23 +117,23 @@ function DeploySection() {
           minHeight: 'min-content',
           overflow: 'hidden',
         }}>
-          <DeployCard 
-            args={{amount: synAmount, tokenAddress: ''}} 
-            handleAmountChange={handleSynChange} 
+          <DeployCard
+            args={{ amount: synAmount, tokenAddress: '' }}
+            handleAmountChange={handleSynChange}
             handleDeploy={handleDeploySYN}
-            handleError={synError} 
+            handleError={synError}
             exchange="SYN"
             exchangeLogo='public\svg\synthetix-snx-logo.svg'
-            collateralBalance={synBalance} 
+            collateralBalance={synBalance}
           />
-          <DeployCard 
-            args={{amount: synAmount, tokenAddress: ''}} 
-            handleAmountChange={handleHmxChange} 
-            handleDeploy={handleDeployHMX}
-            handleError={hmxError} 
-            exchange="HMX" 
+          <DeployCard
+            args={{ amount: synAmount, tokenAddress: '' }}
+            handleAmountChange={handleByBitChange}
+            handleDeploy={handleDeployByBit}
+            handleError={byBitError}
+            exchange="Bybit"
             exchangeLogo='public\svg\bybit-logo.svg'
-            collateralBalance={hmxBalance}
+            collateralBalance={byBitBalance}
           />
         </Box>
       </Box>

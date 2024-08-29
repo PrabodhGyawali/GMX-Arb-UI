@@ -21,7 +21,6 @@ function App() {
           height: '100vh', width: '100vw', padding: '0', margin: '0em',
         }}>
           <PositionMonitor />
-          
         </Box>
       </Box>    
   )

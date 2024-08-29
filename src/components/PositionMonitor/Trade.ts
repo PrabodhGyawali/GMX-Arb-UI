@@ -13,4 +13,4 @@ export interface Trade {
     pnl?: number;
     accrued_funding?: number;
     close_reason?: string;
-  }
+}

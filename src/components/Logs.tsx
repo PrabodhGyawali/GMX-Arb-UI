@@ -1,9 +1,7 @@
 import {useState, useEffect} from 'react'
-import { IconButton, Box, Typography} from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import { Box} from '@mui/material';
 import LogTable from './LogsTable/LogTable';
-
+import { useSocket } from '../Context/SocketContext';
 
 enum Level {
     NOTSET = "NOTSET",
@@ -13,6 +11,8 @@ enum Level {
     ERROR = "ERROR",
     CRITICAL = "CRITICAL"
 }
+
+
 
 export interface Log {
     id: string,
@@ -44,16 +44,16 @@ function createLogObjects(logEntries: string[]) : Log[] {
     return logs;
 }
 
-const logArray = [
-    "2024-08-20 13:37:09,586 - GlobalUtils.logger - INFO - TradeLogger - Database accessed successfully.",
-    "2024-08-20 13:37:18,769 - GlobalUtils.logger - INFO - SynthetixPositionController - Collateral balance called successfully: 19.0",
-    "2024-08-20 13:37:18,769 - GlobalUtils.logger - INFO - MasterPositionController:get_available_collateral_for_exchange - collateral = 19.0 for exchange Synthetix",
-    "2024-08-20 13:37:25,262 - GlobalUtils.logger - INFO - MasterPositionController:get_available_collateral_for_exchange - collateral = 17.3869 for exchange ByBit"
-];
-
 function Logs({eventLogs}: {eventLogs: string}) {
     const [logs, setLogs] = useState<Log[]>([]);
-    const [toggleLogs, setToggleLogs] = useState(false);
+    const {socket} = useSocket();
+
+    socket?.on('log', (data) => {
+        const newLog = createLogObjects([data]);
+        console.log(newLog);
+        setLogs([...logs, ...newLog]);
+    });
+    
     /**
      * Get log history from the server's `app.log` file
      */
@@ -69,25 +69,23 @@ function Logs({eventLogs}: {eventLogs: string}) {
             setLogs(logObjects);
         } catch(err) {
             console.log(`Err: ${err}`);
-            const mockLogObjects = createLogObjects(logArray);
-            setLogs(mockLogObjects);
-            console.log(mockLogObjects);
         }
     }
 
-    const clearLogs = async (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-        setLogs([]);
+    // TODO: Implement when DB is implemented
+    // const clearLogs = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    //     event.preventDefault();
+    //     setLogs([]);
 
-        try {
-            const response = await fetch("/api/logs/clear", {
-                method: 'POST'
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP Error: ${response.status}`);
-            }
-        } catch(err) {console.error(err)}
-    }
+    //     try {
+    //         const response = await fetch("/api/logs/clear", {
+    //             method: 'POST'
+    //         });
+    //         if (!response.ok) {
+    //             throw new Error(`HTTP Error: ${response.status}`);
+    //         }
+    //     } catch(err) {console.error(err)}
+    // }
 
     useEffect(() => {
         getLogs();
@@ -101,21 +99,7 @@ function Logs({eventLogs}: {eventLogs: string}) {
     }, []);
 
     return (
-        <Box className="Logs">
-            <Box className="LogHeader" 
-                sx={{
-                    display: 'flex', 
-                    justifyContent: 'space-between', 
-                    width: 'inherit',
-                }}>
-                <Typography>
-                    Logs
-                </Typography>
-                <IconButton>
-                    {toggleLogs ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                </IconButton>
-            </Box>
-            
+        <Box className="Logs" sx={{width: 'inherit'}}>
             <Box className='LogList'>
                 <LogTable logs={logs} />
             </Box>

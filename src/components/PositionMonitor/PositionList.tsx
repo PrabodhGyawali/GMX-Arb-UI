@@ -12,6 +12,7 @@ const PositionList: React.FC<PositionListProps> = ({ trades }: PositionListProps
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [showHistory, setShowHistory] = useState<boolean>(false);
     
+
     const filteredTrades = trades.filter((trade) => 
         trade.symbol.toLowerCase()
                     .includes(searchTerm.toLowerCase()) && (showHistory || trade.open_close === 'Open'));
@@ -42,17 +43,23 @@ const PositionList: React.FC<PositionListProps> = ({ trades }: PositionListProps
                     maxHeight: '100vh',
                     overflow: 'auto',
                 }}>
-                    <Grid container spacing={3} sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'stretch',
-                    }}>
-                        {filteredTrades.map((trade) => (
-                            <Grid item xs={12} sm={6} md={4} key={trade.id}>
-                                <PositionCard {...trade} />
-                            </Grid>
-                        ))}
-                    </Grid>
+                    {filteredTrades.length === 0 ? (
+                        <Typography variant="h6" component="p" align="center">
+                            No open positions found.
+                        </Typography>
+                    ) : (
+                        <Grid container spacing={3} sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'stretch',
+                        }}>
+                            {filteredTrades.map((trade) => (
+                                <Grid item xs={12} sm={6} md={4} key={trade.id}>
+                                    <PositionCard {...trade} />
+                                </Grid>
+                            ))}
+                        </Grid>
+                    )}
                 </Box>
             </Box>
         </Container>

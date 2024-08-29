@@ -1,7 +1,7 @@
 import BotSettings from "./PSettings/BotSettings";
 import { useNavigate } from "react-router-dom";
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Box, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 /**
  * Navbar button button to acess settings page
  */

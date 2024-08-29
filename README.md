@@ -1,14 +1,24 @@
 # DOING
-TODO: Fetching log data from backend
+TODO: Allow to turn on and off the bot without stopping the server
 TODO: Allow settings configuration from front-end
 
 
-# Logs
-### TODO: Make log a dialog.
-### TODO: `LogsTable` two items with the same key
-### TODO: Fetching log data from backend
-### TODO: Getting logs and live log updates on client side
+# Onboarding Experience
+TODO: Migrate old settings settings into a dialog box
 
+# Demo Button
+TODO: Add dialog to open demo opportunities
+TODO: Make demo opportunities clear after 1 day or settings change
+TODO: Allow user to open a demo opportunity
+
+# Concurrency Handling
+TODO: Make sure bot is not running when setting is changed
+TODO: Make sure Running and Demo is not running at the same time
+
+
+# Logs
+- TODO: make new logs go to start of the table
+- TODO: use DB to retrieve logs from backend
 
 # UI-related
 - TODO: Exchange images etc.
@@ -18,8 +28,7 @@ minimizing-bundle-size/)
     - May have to migrate solely to tailwind css
     - Look into _tree-shaking_ and purge unused components
 
-TODO: Fix Deploy Collateral
-- Add details rather than allowing deployment
+TODO: Add settings for different sizes
 
 # Instructions
 - TODO: Add Instructions in Home page if there are no Positions
@@ -34,8 +43,8 @@ TODO: Fix Deploy Collateral
 - TODO: reuse of socketio code
 
 
-
 # Future related work
+- TODO: Allow user to use testnet: from changing settings
 - TODO: Add Mobile version for mobile size
 - TODO: add a Telegram version of the bot
 - TODO: add an iOS and Android version of the bot using `React Native`
