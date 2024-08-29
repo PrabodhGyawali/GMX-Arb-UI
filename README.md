@@ -1,7 +1,7 @@
 # DOING
+TODO: Migrate old settings to dialog boxes
 TODO: Allow to turn on and off the bot without stopping the server
-TODO: Allow settings configuration from front-end
-
+TODO: Fix: https://www.perplexity.ai/search/why-am-i-getting-so-many-backe-1GY2S65sTz6tq6UZR8Oa8g
 
 # Onboarding Experience
 TODO: Migrate old settings settings into a dialog box
@@ -19,6 +19,7 @@ TODO: Make sure Running and Demo is not running at the same time
 # Logs
 - TODO: make new logs go to start of the table
 - TODO: use DB to retrieve logs from backend
+- TODO: Log File counter: error different types of error etc...
 
 # UI-related
 - TODO: Exchange images etc.

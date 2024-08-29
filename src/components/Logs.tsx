@@ -50,7 +50,6 @@ function Logs({eventLogs}: {eventLogs: string}) {
 
     socket?.on('log', (data) => {
         const newLog = createLogObjects([data]);
-        console.log(newLog);
         setLogs([...logs, ...newLog]);
     });
     

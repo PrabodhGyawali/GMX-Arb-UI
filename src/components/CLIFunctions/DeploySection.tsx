@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import DeployCard from './DeployCard';
 import { useSocket } from '../../Context/SocketContext';
@@ -74,13 +74,10 @@ function DeploySection() {
   };
 
   socket?.on('connect', () => {
+    console.log('Connect event is fetching data');
     fetchData();
   });
 
-  // useEffect(() => {
-  //   // Fetch ByBit and SYN balance
-  //   fetchData();
-  // }, []);
 
   return (
     <Box sx={{

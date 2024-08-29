@@ -1,7 +1,9 @@
-import { Box, Button} from "@mui/material";
+import { Box, Button } from "@mui/material";
 import DeploySection from "./CLIFunctions/DeploySection";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSocket } from "../Context/SocketContext";
+import { keyframes } from "@emotion/react";
+import styled from "@emotion/styled";
 
 const serverDemo = () => {
     fetch('http://127.0.0.1:5000/demo', {
@@ -25,12 +27,56 @@ export const DeployCollateral = () => {
 // Styles
 const sxButtons = {width: '5em', fontSize: '1.5em'};
 
+const textAnimation = keyframes`
+  0% { content: "Running"; }
+  33% { content: "Running."; }
+  66% { content: "Running.."; }
+  100% { content: "Running..."; }
+`;
+
+const AnimatedButton = styled(Button)`
+  &.running {
+    background-color: #4caf50;
+    &::after {
+      content: "Running";
+      animation: ${textAnimation} 1.5s infinite;
+    }
+  }
+`;
+
 export const Run = () => {
     const { connected } = useSocket();
     const [isRunning, setIsRunning] = useState(false);
+    const [buttonText, setButtonText] = useState("Run");
+
+    useEffect(() => {
+        // Check whether bot is running or not
+        if (isRunning) {
+            setButtonText("");
+        } else {
+            setButtonText("Run");
+        }
+    }, [isRunning]);
+
+    const serverStop = () => {
+        fetch('http://127.0.0.1:5000/stop', {
+          method: 'POST',
+        }).then(response => {
+          if (response.ok) {
+            setIsRunning(false);
+          }
+        })
+        .catch(error => {
+          console.error('serverStop Error: ', error);
+        });
+        setIsRunning((prev) => !prev);; // TODO: remove
+    };
 
     const serverRun = () => {
-        if (!isRunning) {
+        if (isRunning) {
+            serverStop();
+        }
+        else {
             fetch('http://127.0.0.1:5000/run', {
                 method: 'POST',
             }).then(response => {
@@ -39,30 +85,33 @@ export const Run = () => {
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
+                console.error('serverRun Error: ', error);
             });
-        } else {
-            fetch('http://127.0.0.1:5000/stop-run', {
-                method: 'POST',
-            }).then(response => {
-                if (response.ok) {
-                    setIsRunning(true);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        } 
+            setIsRunning((prev) => !prev); // TODO: remove 
+        }  
     };
 
     return (
         <Box sx={{display: 'flex', gap: '1em', justifyContent: 'space-around', width: '100%'}}>
-            <Button sx={sxButtons} color="primary" variant="contained" onClick={serverRun}
-                    disabled={!connected}
-            >{isRunning}</Button>
-            <Button sx={sxButtons} color="secondary" variant="contained" onClick={serverDemo}
-                    disabled={!connected}
-            >Demo</Button>
+            <AnimatedButton 
+                sx={sxButtons} 
+                color="primary" 
+                variant="contained" 
+                onClick={serverRun}
+                // disabled={!connected}    TODO: uncomment
+                className={isRunning ? 'running' : ''}
+            >
+                {buttonText}
+            </AnimatedButton>
+            <Button 
+                sx={sxButtons} 
+                color="secondary" 
+                variant="contained" 
+                onClick={serverDemo}
+                disabled={!connected}
+            >
+                Demo
+            </Button>
         </Box>
     );
 }
