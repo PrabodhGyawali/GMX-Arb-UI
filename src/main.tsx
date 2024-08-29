@@ -5,6 +5,7 @@ import PSettings from './PSettings.tsx'
 import ErrorPage from './ErrorPage.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { SocketContextProvider } from './Context/SocketContext.tsx'
+import { DevDialog } from './DevComponent.tsx'
 /**
  * React Router Setup
  */ 
@@ -29,6 +30,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <RouterProvider 
         router={router}
       />
+    <DevDialog />
     </SocketContextProvider>
+    
   </React.StrictMode>
 )

@@ -102,7 +102,12 @@ function Logs({eventLogs}: {eventLogs: string}) {
 
     return (
         <Box className="Logs">
-            <Box className="LogHeader" sx={{display: 'flex', justifyContent: 'space-between', width: '100vw'}}>
+            <Box className="LogHeader" 
+                sx={{
+                    display: 'flex', 
+                    justifyContent: 'space-between', 
+                    width: 'inherit',
+                }}>
                 <Typography>
                     Logs
                 </Typography>
