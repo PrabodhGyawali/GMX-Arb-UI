@@ -7,7 +7,7 @@ export const RequiresOnboarding = (
 ) => {
     const { finishedOnboardingAt } = useAssertUserState();
     const {push} = useRouter();
-    const { socket, connected, events } = useSocket();
+    const { socket, connected } = useSocket();
 
   return (
     <div>RequiresOnboarding</div>
