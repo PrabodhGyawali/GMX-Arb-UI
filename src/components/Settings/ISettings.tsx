@@ -1,4 +1,4 @@
-interface BotConfig {
+interface BotSettingsConfig {
     max_allowable_percentage_away_from_liquidation_price: number;
     trade_leverage: number;
     percentage_capital_per_trade: number;
@@ -6,17 +6,14 @@ interface BotConfig {
     default_trade_size_usd: number;
 }
 
-interface Exchange {
-    exchange: string;
-    is_target: boolean;
-  }
+
   
 interface Token {
     token: string;
     is_target: boolean;
 }
 
-interface ChainSettings {
+interface ExchangeSettings {
     base_provider_rpc: string;
     arbitrum_provider_rpc: string;
     chain_id_base: number;
@@ -40,4 +37,4 @@ interface EnvConfig {
 }
 
 
-export type {Exchange, Token, ConfigFile, ChainSettings, BotConfig, EnvConfig}
+export type {Exchange, Token, ConfigFile, ChainSettings, BotSettingsConfig, EnvConfig}

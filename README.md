@@ -1,27 +1,49 @@
 # DOING
-TODO: Migrate old settings to dialog boxes
 TODO: Allow to turn on and off the bot without stopping the server
 TODO: Fix: https://www.perplexity.ai/search/why-am-i-getting-so-many-backe-1GY2S65sTz6tq6UZR8Oa8g
+TODO: Migrate old settings to dialog boxes
 
 # Onboarding Experience
-TODO: Migrate old settings settings into a dialog box
+TODO: Check if files are there on computer
+    - eg: `project-run-ui.exe`
+    - How to run the bot: open a terminal (PS or MAc)
+    - run command
+
+TODO: Add Verification and Error Logging
+    - Can't move on 
+TODO: Info on Account Security
+TODO: Tooltips:
+    - Default to estimated
+    - alchemy redirect
 
 # Demo Button
 TODO: Add dialog to open demo opportunities
-TODO: Make demo opportunities clear after 1 day or settings change
+TODO: Make demo opportunities clear after 1 day / notification of datetime or settings change
 TODO: Allow user to open a demo opportunity
+
+# Close Position Pair Button
+TODO: Group Positions into 1
+TODO: Add dialog for close_reason
 
 # Concurrency Handling
 TODO: Make sure bot is not running when setting is changed
 TODO: Make sure Running and Demo is not running at the same time
 
+# Instructions
+- TODO: Add Instructions in Home page if there are no Positions
 
-# Logs
-- TODO: make new logs go to start of the table
+
+# Future related work
+- TODO: Allow user to use testnet: from changing settings
+- TODO: Add Mobile version for mobile size
+- TODO: add a Telegram version of the bot
+- TODO: add an iOS and Android version of the bot using `React Native`
+
+### Logs
 - TODO: use DB to retrieve logs from backend
 - TODO: Log File counter: error different types of error etc...
 
-# UI-related
+### # UI-related
 - TODO: Exchange images etc.
 - TODO: Add timer for interactivity
 - TODO: Improve page loading speed: [Improve-Speed](https://mui.com/material-ui/guides/
@@ -31,21 +53,17 @@ minimizing-bundle-size/)
 
 TODO: Add settings for different sizes
 
-# Instructions
-- TODO: Add Instructions in Home page if there are no Positions
-
-
-# Add to backend or Migrate to backend
+### Add to backend or Migrate to backend
 - TODO: Make backend send Log objects to front-end rather than `string[]` - look into the Log class and write changes to the code
 - TODO: Enum usage for representing exchanges, rather than `strings`
 - TODO: Trade information: total profits, total positions, 
 
-# Code reuse:
-- TODO: reuse of socketio code
 
+# Hosting on server
+- CODE: git clone
+- `npm run dev` - deployable instead
+    - localhost:port
 
-# Future related work
-- TODO: Allow user to use testnet: from changing settings
-- TODO: Add Mobile version for mobile size
-- TODO: add a Telegram version of the bot
-- TODO: add an iOS and Android version of the bot using `React Native`
+# Running the bot
+- `pip install -e . && project-run-ui && npm run dev`
+
