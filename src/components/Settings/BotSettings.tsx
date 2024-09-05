@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import ExchangeSettings from './ExchangeSettings';
-import { ConfigFile, BotConfig } from './ISettings';
+import { UserData, BotConfig } from '../../onboarding/types';
 import SettingsComponent from './SettingsComponent';
 import EnvSettings from './EnvSettings';
 import { Button } from '@mui/material';
+import { useSocket } from '../../Context/SocketContext';
 
 const BotSettings: React.FC = () => {
-  const [config, setConfig] = useState<ConfigFile | null>(null);
+  const [config, setConfig] = useState<UserData | null>(null);
   const [loading, setLoading] = useState<boolean>(true); 
   const [error, setError] = useState<string | null>(null);
   const [save, setSave] = useState<boolean>(true);
+  const {socket, backendUrl} = useSocket();
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const response = await fetch("/api/settings/get");
+        const response = await fetch(`${backendUrl}/settings/get`);
         if (!response.ok) {
           throw new Error(`HTTP error ${response.status}`);
         }
-        const data: ConfigFile = await response.json();
+        const data: UserData = await response.json();
         setConfig(data);
         console.log(data);
         setLoading(false);
@@ -50,7 +52,7 @@ const BotSettings: React.FC = () => {
     }
   }
 
-  const checkExchangeAndTokenLength = (config: ConfigFile, message: String) => {
+  const checkExchangeAndTokenLength = (config: UserData, message: String) => {
     if (config.target_tokens.length === 0 || config.target_exchanges.length < 2) {
       // TODO: Add error message of at least 1 token
       console.log(message);
@@ -97,11 +99,11 @@ const BotSettings: React.FC = () => {
     <div className='botSettings'>
       <form>
         <SettingsComponent
-          initialSettings={config.settings}
+          initialSettings={config.botSettings}
           onSettingsChange={handleSettingsChange}
         />
         <ExchangeSettings 
-          target_exchanges={config.target_exchanges} 
+          target_exchanges={config.exchangeSettings} 
           target_tokens={config.target_tokens}
           onExchangeChange={handleExchangeChange}
           onTokenChange={handleTokenChange}/>

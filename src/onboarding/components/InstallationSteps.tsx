@@ -4,7 +4,7 @@ import BotStatusIndicator from '../../components/NavBarSide/BotStatusIndicator'
 import { useSocket } from '../../Context/SocketContext'
 
 const InstallationSteps = () => {
-    const {connected} = useSocket();
+    const {connected, setBackendUrl} = useSocket();
     const [url, setUrl] = useState('')
     const [snackbarOpen, setSnackbarOpen] = useState(false)
 
@@ -16,6 +16,7 @@ const InstallationSteps = () => {
     )
 
     const handleUrlSubmit = () => {
+        setBackendUrl(url)
         setSnackbarOpen(true)
     }
 
@@ -67,7 +68,7 @@ const InstallationSteps = () => {
             <TerminalBox>pip install -e .</TerminalBox>
 
             <Typography variant='h6' mt={3}>9. Run the Project UI</Typography>
-            <TerminalBox>python project-run-ui</TerminalBox>
+            <TerminalBox>project-run-ui</TerminalBox>
 
             <Typography variant='h6' mt={3}>10. Find the </Typography>
             <Typography>

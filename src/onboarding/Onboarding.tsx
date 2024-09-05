@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { Box, Button, Typography } from '@mui/material';
 import InstallationSteps from './components/InstallationSteps';
@@ -7,6 +7,7 @@ import ExchangeSettingsStep from './components/ExchangeSettingsStep';
 import BotSettingsStep from './components/BotSettingsStep';
 import {WelcomeStep} from './components/WelcomeStep';
 import { useSocket } from '../Context/SocketContext';
+import { UserData, WalletSettings, ExchangeSettings, BotConfig, NetworkType } from 'onboarding/types.tsx'
 
 interface OnboardingProps {
   onComplete: () => void;
@@ -14,12 +15,25 @@ interface OnboardingProps {
 
 function Onboarding({ onComplete }: OnboardingProps) {
   const [step, setStep] = useState(0);
-  const [userData, setUserData] = useState({
-    walletSettings: {},
-    exchangeSettings: {},
-    botSettings: {},
+  const [userData, setUserData] = useState<UserData>({
+    walletSettings: {
+      address: '',
+      network: null,
+      arbitrum_rpc: '',
+    },
+    exchangeSettings: {
+      bybit: { apiKey: '', apiSecret: '', enabled: false },
+      binance: { apiKey: '', apiSecret: '', enabled: false },
+    },
+    botSettings: {
+      max_allowable_percentage_away_from_liquidation_price: 15,
+      trade_leverage: 5,
+      percentage_capital_per_trade: 10,
+      default_trade_duration_hours: 12,
+      default_trade_size_usd: 1000,
+    },
   });
-  const {connected} = useSocket();
+  const {connected, backendUrl} = useSocket();
     const [isWelcomeStepValid, setIsWelcomeStepValid] = useState(false);
     const [isWalletSettingsValid, setIsWalletSettingsValid] = useState(false);
     const [isExchangeSettingsValid, setIsExchangeSettingsValid] = useState(false);
@@ -60,11 +74,12 @@ function Onboarding({ onComplete }: OnboardingProps) {
 
   const finishOnboarding = async () => {
     try {
-      await axios.post('/api/settings/complete-onboarding', userData);
+      await axios.post(`${backendUrl}/settings/complete-onboarding`, userData);
+      console.log(userData); // TODO: Remove
       onComplete();
     } catch (error) {
       console.error('Error completing onboarding:', error);
-    }
+    } // TODO: Inform the user of the error
   };
 
   return (

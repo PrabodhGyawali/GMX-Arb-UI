@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, TextField, Box, Checkbox, FormControlLabel, Button } from '@mui/material';
-import { UserData, ExchangeSettings } from './types';
+import { Typography, TextField, Box, Checkbox, FormControlLabel, Paper, Grid, Divider, Tooltip, IconButton } from '@mui/material';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { UserData, ExchangeSettings } from '../types';
 
 interface ExchangeSettingsStepProps {
   setUserData: React.Dispatch<React.SetStateAction<UserData>>;
@@ -52,12 +53,20 @@ const ExchangeSettingsStep: React.FC<ExchangeSettingsStepProps> = ({ setUserData
           [field]: validateField(exchange, field, value as string),
         },
       }));
+    } else if (field === 'enabled' && !value) {
+      // Clear errors when disabling an exchange
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        [exchange]: { apiKey: '', apiSecret: '' },
+      }));
     }
   };
 
   useEffect(() => {
     const isValid =
       (exchangeSettings.bybit.enabled || exchangeSettings.binance.enabled) &&
+      (!exchangeSettings.bybit.enabled || (exchangeSettings.bybit.apiKey && exchangeSettings.bybit.apiSecret)) &&
+      (!exchangeSettings.binance.enabled || (exchangeSettings.binance.apiKey && exchangeSettings.binance.apiSecret)) &&
       Object.values(errors.bybit).every(error => !error) &&
       Object.values(errors.binance).every(error => !error);
 
@@ -69,90 +78,68 @@ const ExchangeSettingsStep: React.FC<ExchangeSettingsStepProps> = ({ setUserData
     }));
   }, [exchangeSettings, errors, setUserData, onValidationChange]);
 
-  return (
-    <Box>
-      <Typography variant='h6' gutterBottom>Exchange Settings</Typography>
-      
-      {/* ByBit Client */}
-      <Box mb={3}>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={exchangeSettings.bybit.enabled}
-              onChange={handleChange('bybit', 'enabled')}
-            />
-          }
-          label="Enable ByBit Client"
-        />
-        {exchangeSettings.bybit.enabled && (
-          <>
+  const renderExchangeFields = (exchange: 'bybit' | 'binance') => (
+    <Box mb={3}>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={exchangeSettings[exchange].enabled}
+            onChange={handleChange(exchange, 'enabled')}
+          />
+        }
+        label={`Enable ${exchange.charAt(0).toUpperCase() + exchange.slice(1)} Client`}
+      />
+      {exchangeSettings[exchange].enabled && (
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
             <TextField
               fullWidth
               margin="normal"
-              name="apiKeyByBit"
-              label="ByBit API Key"
-              value={exchangeSettings.bybit.apiKey}
-              onChange={handleChange('bybit', 'apiKey')}
-              error={!!errors.bybit.apiKey}
-              helperText={errors.bybit.apiKey}
+              name={`apiKey${exchange}`}
+              label={`${exchange.charAt(0).toUpperCase() + exchange.slice(1)} API Key`}
+              value={exchangeSettings[exchange].apiKey}
+              onChange={handleChange(exchange, 'apiKey')}
+              error={!!errors[exchange].apiKey}
+              helperText={errors[exchange].apiKey}
             />
+          </Grid>
+          <Grid item xs={12}>
             <TextField
               fullWidth
               margin="normal"
-              name="apiSecretByBit"
-              label="ByBit API Secret"
+              name={`apiSecret${exchange}`}
+              label={`${exchange.charAt(0).toUpperCase() + exchange.slice(1)} API Secret`}
               type="password"
-              value={exchangeSettings.bybit.apiSecret}
-              onChange={handleChange('bybit', 'apiSecret')}
-              error={!!errors.bybit.apiSecret}
-              helperText={errors.bybit.apiSecret}
+              value={exchangeSettings[exchange].apiSecret}
+              onChange={handleChange(exchange, 'apiSecret')}
+              error={!!errors[exchange].apiSecret}
+              helperText={errors[exchange].apiSecret}
             />
-          </>
-        )}
-      </Box>
-
-      {/* Binance Client */}
-      <Box mb={3}>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={exchangeSettings.binance.enabled}
-              onChange={handleChange('binance', 'enabled')}
-            />
-          }
-          label="Enable Binance Client"
-        />
-        {exchangeSettings.binance.enabled && (
-          <>
-            <TextField
-              fullWidth
-              margin="normal"
-              name="apiKeyBinance"
-              label="Binance API Key"
-              value={exchangeSettings.binance.apiKey}
-              onChange={handleChange('binance', 'apiKey')}
-              error={!!errors.binance.apiKey}
-              helperText={errors.binance.apiKey}
-            />
-            <TextField
-              fullWidth
-              margin="normal"
-              name="apiSecretBinance"
-              label="Binance API Secret"
-              type="password"
-              value={exchangeSettings.binance.apiSecret}
-              onChange={handleChange('binance', 'apiSecret')}
-              error={!!errors.binance.apiSecret}
-              helperText={errors.binance.apiSecret}
-            />
-          </>
-        )}
-      </Box>
-
-      {!exchangeSettings.bybit.enabled && !exchangeSettings.binance.enabled && (
-        <Typography color="error">Please enable at least one exchange client.</Typography>
+          </Grid>
+        </Grid>
       )}
     </Box>
+  );
+
+  return (
+    <Paper elevation={3} sx={{ p: 3, my: 3 }}>
+      <Typography variant='h6' gutterBottom>
+        Exchange Settings
+        <Tooltip title="Enable and configure API keys for the exchanges you want to use.">
+          <IconButton size="small" sx={{ ml: 1 }}>
+            <InfoOutlinedIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      </Typography>
+      <Divider sx={{ my: 2 }} />
+      
+      {renderExchangeFields('bybit')}
+      {renderExchangeFields('binance')}
+
+      {!exchangeSettings.bybit.enabled && !exchangeSettings.binance.enabled && (
+        <Typography color="error" sx={{ mt: 2 }}>Please enable at least one exchange client.</Typography>
+      )}
+    </Paper>
   );
 };
 

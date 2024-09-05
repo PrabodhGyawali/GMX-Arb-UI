@@ -5,7 +5,7 @@ import { useSocket } from './Context/SocketContext';
 
 
 function App() {
-  const { connected} = useSocket();
+  const { connected } = useSocket();
   
   return (
       <Box className="app" sx={{

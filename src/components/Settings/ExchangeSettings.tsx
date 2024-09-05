@@ -73,7 +73,6 @@ function ExchangeSettings({
             <Typography variant="h6">
               API Settings
             </Typography>
-            <
           </Paper>
         </Grid>
       </Grid>

@@ -1,11 +1,3 @@
-// types.ts
-export interface WalletSettings {
-    address: string;
-    private_key: string;
-    arbitrum_rpc: string;
-    chain_id_base: number;
-}
-  
 export interface ExchangeSettings {
     bybit: {
         apiKey: string;
@@ -19,15 +11,6 @@ export interface ExchangeSettings {
     };
 }
 
-interface Exchange {
-    exchange: string;
-    is_target: boolean;
-}
-
-interface Token {
-    token: string;
-    is_target: boolean;
-}
 
 export interface BotConfig {
     max_allowable_percentage_away_from_liquidation_price: number;
@@ -37,8 +20,30 @@ export interface BotConfig {
     default_trade_size_usd: number;
 }
 
+
+export enum NetworkType {
+    Mainnet = 42161,
+    Sepolia = 421614,
+  }
+
+export interface WalletSettings {
+    address: string;
+    arbitrum_rpc: string;
+    network: NetworkType | null;
+}
+
 export interface UserData {
     walletSettings: WalletSettings;
     exchangeSettings: ExchangeSettings;
     botSettings: BotConfig;
+}
+
+interface Exchange {
+    exchange: string;
+    is_target: boolean;
+}
+
+interface Token {
+    token: string;
+    is_target: boolean;
 }

@@ -5,6 +5,8 @@ type SocketContextType = {
     socket: Socket | null;
     connected: boolean;
     botStatus: BotStatus;
+    backendUrl: string;
+    setBackendUrl: (url: string) => void;
 };
 
 enum BotStatus {
@@ -25,6 +27,7 @@ export const useSocket = (): SocketContextType => {
 };
 
 
+
 interface SocketContextProviderProps {
     children: React.ReactNode;
 }
@@ -32,16 +35,24 @@ export const SocketContextProvider: React.FC<SocketContextProviderProps> = ({ ch
     const [socket, setSocket] = useState<Socket | null>(null);
     const [connected, setConnected] = useState(false);
     const [botStatus, setBotStatus] = useState<BotStatus>(BotStatus.OFF);
+    const [backendUrl, setBackendUrl] = useState<string>(() => 
+        localStorage.getItem('backendURL') || 'http://localhost:6969'
+    );
+
 
     useEffect(() => {
-        const newSocket = io('http://localhost:5000'); // TODO: Make sure to update for production
+        if (socket) {
+            socket.disconnect();
+        }
+
+        const newSocket = io(backendUrl);
         setSocket(newSocket);
 
-        newSocket.on('connect', () => {setConnected(true)});
-        newSocket.on('disconnect', () => {setConnected(false)});
+        newSocket.on('connect', () => setConnected(true));
+        newSocket.on('disconnect', () => setConnected(false));
 
         // Get Bot Status
-        fetch('/api/bot-status')
+        fetch(`${backendUrl}/bot-status`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -55,16 +66,14 @@ export const SocketContextProvider: React.FC<SocketContextProviderProps> = ({ ch
                 console.error('Error fetching bot status:', error);
             });
 
-        
         return () => {
             newSocket.disconnect();
         };
-    }, []);
+    }, [backendUrl]);
 
     return (
-        <SocketContext.Provider value={{ socket, connected, botStatus}}>
+        <SocketContext.Provider value={{ socket, connected, botStatus, backendUrl, setBackendUrl}}>
             {children}
         </SocketContext.Provider>
     )
 };
-

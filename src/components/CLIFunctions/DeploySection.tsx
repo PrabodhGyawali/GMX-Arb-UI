@@ -4,7 +4,7 @@ import DeployCard from './DeployCard';
 import { useSocket } from '../../Context/SocketContext';
 
 function DeploySection() {
-  const {socket} = useSocket();
+  const {socket, backendUrl} = useSocket();
 
   // Amount of Bybit and SYN to deploy
   const [byBitAmount, setByBitAmount] = useState('');
@@ -49,7 +49,7 @@ function DeploySection() {
   const fetchData = async () => {
     try {
       // Fetch Synthetix balance
-      const response = await fetch('/api/settings/collateral/Synthetix');
+      const response = await fetch(`${backendUrl}/settings/collateral/Synthetix`);
       if (response.status === 200) {
         const data = await response.json();
         setSynBalance(data);
@@ -61,7 +61,7 @@ function DeploySection() {
     }
     try {
       // Fetch ByBit balance
-      const response = await fetch('/api/settings/collateral/ByBit');
+      const response = await fetch(`${backendUrl}/settings/collateral/ByBit`);
       if (response.status === 200) {
         const data = await response.json();
         setByBitBalance(data);
