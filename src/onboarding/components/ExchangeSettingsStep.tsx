@@ -63,12 +63,12 @@ const ExchangeSettingsStep: React.FC<ExchangeSettingsStepProps> = ({ setUserData
   };
 
   useEffect(() => {
-    const isValid =
-      (exchangeSettings.bybit.enabled || exchangeSettings.binance.enabled) &&
-      (!exchangeSettings.bybit.enabled || (exchangeSettings.bybit.apiKey && exchangeSettings.bybit.apiSecret)) &&
-      (!exchangeSettings.binance.enabled || (exchangeSettings.binance.apiKey && exchangeSettings.binance.apiSecret)) &&
-      Object.values(errors.bybit).every(error => !error) &&
-      Object.values(errors.binance).every(error => !error);
+    const isValid: boolean =
+    (exchangeSettings.bybit.enabled || exchangeSettings.binance.enabled) &&
+    (!exchangeSettings.bybit.enabled || (exchangeSettings.bybit.apiKey === '' && exchangeSettings.bybit.apiSecret === '')) &&
+    (!exchangeSettings.binance.enabled || (exchangeSettings.binance.apiKey === '' && exchangeSettings.binance.apiSecret === '')) &&
+    Object.values(errors.bybit).every(error => error === '') &&
+    Object.values(errors.binance).every(error => error === '');
 
     onValidationChange(isValid);
 

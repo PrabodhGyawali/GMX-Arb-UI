@@ -7,7 +7,7 @@ import ExchangeSettingsStep from './components/ExchangeSettingsStep';
 import BotSettingsStep from './components/BotSettingsStep';
 import {WelcomeStep} from './components/WelcomeStep';
 import { useSocket } from '../Context/SocketContext';
-import { UserData, WalletSettings, ExchangeSettings, BotConfig, NetworkType } from 'onboarding/types.tsx'
+import { UserData } from 'onboarding/types.tsx'
 
 interface OnboardingProps {
   onComplete: () => void;
@@ -75,7 +75,6 @@ function Onboarding({ onComplete }: OnboardingProps) {
   const finishOnboarding = async () => {
     try {
       await axios.post(`${backendUrl}/settings/complete-onboarding`, userData);
-      console.log(userData); // TODO: Remove
       onComplete();
     } catch (error) {
       console.error('Error completing onboarding:', error);

@@ -37,13 +37,3 @@ export interface UserData {
     exchangeSettings: ExchangeSettings;
     botSettings: BotConfig;
 }
-
-interface Exchange {
-    exchange: string;
-    is_target: boolean;
-}
-
-interface Token {
-    token: string;
-    is_target: boolean;
-}

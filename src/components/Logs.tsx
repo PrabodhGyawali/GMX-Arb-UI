@@ -44,7 +44,7 @@ function createLogObjects(logEntries: string[]) : Log[] {
     return logs;
 }
 
-function Logs({eventLogs}: {eventLogs: string}) {
+function Logs() {
     const [logs, setLogs] = useState<Log[]>([]);
     const {socket, backendUrl} = useSocket();
 
@@ -71,29 +71,9 @@ function Logs({eventLogs}: {eventLogs: string}) {
         }
     }
 
-    // const clearLogs = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    //     event.preventDefault();
-    //     setLogs([]);
-
-    //     try {
-    //         const response = await fetch(`${backendUrl}/logs/clear`, {
-    //             method: 'POST'
-    //         });
-    //         if (!response.ok) {
-    //             throw new Error(`HTTP Error: ${response.status}`);
-    //         }
-    //     } catch(err) {console.error(err)}
-    // }
 
     useEffect(() => {
         getLogs();
-        if (eventLogs) {
-            const newLog = createLogObjects([eventLogs]);
-            setLogs([...logs, ...newLog]);
-        }
-        return () => {
-            
-        }
     }, []);
 
     return (

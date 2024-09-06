@@ -27,7 +27,6 @@ const BotSettingsStep: React.FC<BotSettingsStepProps> = ({ setUserData }) => {
   const [botConfig, setBotConfig] = useState<BotConfig>(initialSettings);
 
   const handleSettingChange = (setting: keyof BotConfig) => (
-    event: Event,
     newValue: number | number[]
   ) => {
     const updatedSettings = {
@@ -109,7 +108,7 @@ const BotSettingsStep: React.FC<BotSettingsStepProps> = ({ setUserData }) => {
             <Box sx={{ px: 2 }}>
               <Slider
                 value={botConfig[config.key]}
-                onChange={handleSettingChange(config.key)}
+                onChange={() => {handleSettingChange(config.key)}}
                 aria-labelledby={`${config.key}-slider`}
                 valueLabelDisplay="auto"
                 min={config.min}

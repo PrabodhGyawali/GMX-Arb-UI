@@ -69,7 +69,6 @@ export const Run = () => {
         .catch(error => {
           console.error('serverStop Error: ', error);
         });
-        setIsRunning((prev) => !prev);; // TODO: remove
     };
 
     const serverRun = () => {
@@ -87,7 +86,6 @@ export const Run = () => {
             .catch(error => {
                 console.error('serverRun Error: ', error);
             });
-            setIsRunning((prev) => !prev); // TODO: remove 
         }  
     };
 
@@ -98,7 +96,7 @@ export const Run = () => {
                 color="primary" 
                 variant="contained" 
                 onClick={serverRun}
-                // disabled={!connected}    TODO: uncomment
+                disabled={!connected}   
                 className={isRunning ? 'running' : ''}
             >
                 {buttonText}

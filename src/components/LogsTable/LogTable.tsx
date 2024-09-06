@@ -29,8 +29,9 @@ const LogTable: React.FC<LogTableProps> = ({
             timestamp: formatDate(log.timestamp),
     }))
     .sort((a, b) => parseInt(b.id) - parseInt(a.id));;
-    const columns: GridColDef<(typeof logs)[number]>[] = [
-        { field: 'timestamp', 
+    const columns: GridColDef<(typeof formattedLogs)[number]>[] = [
+        { 
+          field: 'timestamp', 
             headerName: 'Timestamp', 
             type: 'string',
             width: 150 },

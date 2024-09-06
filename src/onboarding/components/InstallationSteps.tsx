@@ -9,7 +9,7 @@ const InstallationSteps = () => {
     const [snackbarOpen, setSnackbarOpen] = useState(false)
 
 
-    const TerminalBox = ({ children }) => (
+    const TerminalBox: React.FC<{children: React.ReactNode}> = ({ children }) => (
         <Paper elevation={3} sx={{ bgcolor: '#000', color: '#0f0', p: 2, my: 2, fontFamily: 'monospace' }}>
             <Typography variant="body2">{children}</Typography>
         </Paper>

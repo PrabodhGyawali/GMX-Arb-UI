@@ -45,7 +45,7 @@ const StyledCard = styled(Card, {
     backgroundColor: isClosed ? '#f0f0f0' : 'white',
   }));
 
-const StyledButton = styled(Button)(({ theme }) => ({
+const StyledButton = styled(Button)(() => ({
   fontWeight: 'bold',
 }));
 
@@ -55,7 +55,6 @@ const PositionCard: React.FC<PositionCardProps> = ({
     exchange,
     symbol,
     side,
-    is_hedge,
     size_in_asset,
     liquidation_price,
     open_close,

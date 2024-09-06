@@ -29,6 +29,9 @@ TODO: Make sure Running and Demo is not running at the same time
 # Instructions
 - TODO: Add Instructions in Home page if there are no Positions
 
+# Logs Clear
+- Clear Log by sending backend request
+
 
 # Future related work
 - TODO: Allow user to use testnet: from changing settings

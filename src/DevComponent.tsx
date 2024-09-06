@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { Box, Button, Typography, Modal, AppBar, Toolbar } from '@mui/material';
+import { Box, Button, Typography, Modal } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Logs from './components/Logs';
-const StyledDevButton = styled(Button)(({ theme }) => ({
+
+
+const StyledDevButton = styled(Button)(() => ({
   position: 'fixed',
   bottom: '20px',
   right: '20px',
   zIndex: 1000,
 }));
 
-const StyledModal = styled(Modal)(({ theme }) => ({
+const StyledModal = styled(Modal)(() => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -47,7 +49,7 @@ const DevDialog: React.FC = () => {
             <Typography id="dev-dialog-title" variant="h6" component="h2" gutterBottom>
                 Dev Options
             </Typography>
-            <Logs />
+            <Logs  />
             <Button 
                 variant="contained" 
                 onClick={handleClose}
