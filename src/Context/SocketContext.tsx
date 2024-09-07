@@ -50,21 +50,9 @@ export const SocketContextProvider: React.FC<SocketContextProviderProps> = ({ ch
 
         newSocket.on('connect', () => setConnected(true));
         newSocket.on('disconnect', () => setConnected(false));
-
-        // Get Bot Status
-        fetch(`${backendUrl}/bot-status`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                setBotStatus(data.status as BotStatus);
-            })
-            .catch(error => {
-                console.error('Error fetching bot status:', error);
-            });
+        newSocket.on('bot_stopped', () => setBotStatus(BotStatus.OFF));
+        newSocket.on('bot_paused', () => setBotStatus(BotStatus.PAUSED));
+        newSocket.on('bot_running', () => setBotStatus(BotStatus.ON));
 
         return () => {
             newSocket.disconnect();

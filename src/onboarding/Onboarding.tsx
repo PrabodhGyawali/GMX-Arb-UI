@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { Box, Button, Typography } from '@mui/material';
 import InstallationSteps from './components/InstallationSteps';
 import WalletSettingsStep from './components/WalletSettingsStep';
@@ -74,12 +73,26 @@ function Onboarding({ onComplete }: OnboardingProps) {
 
   const finishOnboarding = async () => {
     try {
-      await axios.post(`${backendUrl}/settings/complete-onboarding`, userData);
+      const response = await fetch(`${backendUrl}/settings/complete-onboarding`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      await response.json();
+      localStorage.setItem('onboarding', 'completed');
       onComplete();
     } catch (error) {
       console.error('Error completing onboarding:', error);
-    } // TODO: Inform the user of the error
-  };
+      alert('There was an error completing your onboarding. Please try again.');
+    }
+  }
 
   return (
     <Box className="onboarding" sx={{ maxWidth: 600, margin: 'auto', p: 3 }}>
