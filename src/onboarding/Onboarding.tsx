@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography, Dialog } from '@mui/material';
 import InstallationSteps from './components/InstallationSteps';
 import WalletSettingsStep from './components/WalletSettingsStep';
 import ExchangeSettingsStep from './components/ExchangeSettingsStep';
@@ -7,10 +7,37 @@ import BotSettingsStep from './components/BotSettingsStep';
 import {WelcomeStep} from './components/WelcomeStep';
 import { useSocket } from '../Context/SocketContext';
 import { UserData } from 'onboarding/types.tsx'
+import { TerminalBox } from './components/InstallationSteps';
 
 interface OnboardingProps {
   onComplete: () => void;
 }
+
+function RestartBotDialog({toggle, close}: {toggle: boolean, close: () => void}) {
+  return (
+    <Dialog open={toggle}>
+      <Box>
+        <Typography variant="h5" gutterBottom>Bot Settings Updated Successfully</Typography>
+        <Typography variant="body1" gutterBottom>
+          Please restart the bot to apply the new settings.
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          Return to the terminal where your bot ran.
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          On Windows: Press Ctrl + C to stop the bot.
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          On Mac: Press Command + C (⌘ + C) to stop the bot.
+        </Typography>
+        <TerminalBox>
+          project-run-ui
+        </TerminalBox>
+        <Button variant="contained" onClick={() => close()}>Close</Button>
+      </Box>
+    </Dialog>
+  );
+};
 
 function Onboarding({ onComplete }: OnboardingProps) {
   const [step, setStep] = useState(0);
@@ -87,7 +114,8 @@ function Onboarding({ onComplete }: OnboardingProps) {
 
       await response.json();
       localStorage.setItem('onboarding', 'completed');
-      onComplete();
+      // Open dialog box to inform user to restart the bot
+      RestartBotDialog({toggle: true, close: onComplete});
     } catch (error) {
       console.error('Error completing onboarding:', error);
       alert('There was an error completing your onboarding. Please try again.');

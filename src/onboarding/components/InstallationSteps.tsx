@@ -3,17 +3,19 @@ import { Box, Typography, Paper, Button, TextField, Snackbar } from '@mui/materi
 import BotStatusIndicator from '../../components/NavBarSide/BotStatusIndicator'
 import { useSocket } from '../../Context/SocketContext'
 
+export const TerminalBox: React.FC<{children: React.ReactNode}> = ({ children }) => (
+    <Paper elevation={3} sx={{ bgcolor: '#000', color: '#0f0', p: 2, my: 2, fontFamily: 'monospace' }}>
+        <Typography variant="body2">{children}</Typography>
+    </Paper>
+)
+
 const InstallationSteps = () => {
     const {connected, setBackendUrl} = useSocket();
     const [url, setUrl] = useState('')
     const [snackbarOpen, setSnackbarOpen] = useState(false)
 
 
-    const TerminalBox: React.FC<{children: React.ReactNode}> = ({ children }) => (
-        <Paper elevation={3} sx={{ bgcolor: '#000', color: '#0f0', p: 2, my: 2, fontFamily: 'monospace' }}>
-            <Typography variant="body2">{children}</Typography>
-        </Paper>
-    )
+    
 
     const handleUrlSubmit = () => {
         setBackendUrl(url)

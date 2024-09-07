@@ -15,16 +15,19 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-      path: "onboarding",
-      element: <Onboarding onComplete={() => redirect("/")} />,
+    path: "onboarding",
+    element: <Onboarding onComplete={() => {
+      redirect("/")
+      alert("Onboarding complete! Local storage is now set to know that the onboarding is complete, so use this browser next time to skip the onboarding.")
+    }} />,
   },
   {
-      path: "privacy",
-      element: <PrivacyPolicy />,
+    path: "privacy",
+    element: <PrivacyPolicy />,
   },
   {
-      path: "about",
-      element: <About />,
+    path: "about",
+    element: <About />,
   }]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
