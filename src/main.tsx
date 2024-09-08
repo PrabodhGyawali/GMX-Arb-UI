@@ -7,6 +7,7 @@ import About from './About.tsx'
 import PrivacyPolicy from './Privacy.tsx'
 import Onboarding from './onboarding/Onboarding.tsx'
 import App from './App.tsx'
+import Faq from './Faq.tsx'
 
 const router = createBrowserRouter([
   {
@@ -25,7 +26,12 @@ const router = createBrowserRouter([
   {
     path: "about",
     element: <About />,
-  }]);
+  },
+  {
+    path: "faq",
+    element: <Faq />,
+  }
+  ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
