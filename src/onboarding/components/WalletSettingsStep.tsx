@@ -353,7 +353,7 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
         </DialogTitle>
         <DialogContent>
           <img 
-            src="../../public/Alchemy1.png" 
+            src="/public/Alchemy1.png" 
             alt="Alchemy API Key Guide" 
             style={{ width: '100%', height: 'auto' }} 
           />

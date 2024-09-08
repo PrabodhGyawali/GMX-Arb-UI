@@ -10,7 +10,7 @@ const TermsAndServices = () => (
   <Paper sx={{padding: '1em', overflow: "hidden"}}>
     <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0.25em'}}>
       <Typography variant="h4">
-        Terms and Services
+        Legal Disclaimer Please Read
       </Typography>
       <Typography>Last Modified: <strong>September 4, 2024</strong></Typography>
     </Box>
@@ -66,7 +66,7 @@ export const WelcomeStep: React.FC<TermsAndServicesProps> = ({onValidationChange
       <Box sx={{width: '100%', display:'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
         <Checkbox checked={isAccepted} 
                   onChange={handleCheckboxChange} />
-        <Typography sx={{paddingLeft:'0.5em'}}> I have read terms and conditions</Typography>
+        <Typography sx={{paddingLeft:'0.5em'}}> I have read and understood terms and conditions</Typography>
       </Box>
     </Box>
   );

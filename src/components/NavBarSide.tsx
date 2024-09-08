@@ -17,7 +17,7 @@ function NavBarSide({isConnected}: {isConnected: boolean}) {
           display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', padding: '1em',
         }}>
           <IconButton sx={{paddingLeft: "1em"}} onClick={() => {navigateHome("/")}}>
-            <img src="../public/svg/gmx-logo.svg" alt="" style={{width:'3em', height:'3em'}}/>
+            <img src="/svg/gmx-logo.svg" alt="" style={{width:'3em', height:'3em'}}/>
           </IconButton>
           <SettingsButton/>
         </Box>

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, Button, Typography, Dialog } from '@mui/material';
 import InstallationSteps from './components/InstallationSteps';
 import WalletSettingsStep from './components/WalletSettingsStep';
@@ -9,37 +10,47 @@ import { useSocket } from '../Context/SocketContext';
 import { UserData } from 'onboarding/types.tsx'
 import { TerminalBox } from './components/InstallationSteps';
 
-interface OnboardingProps {
-  onComplete: () => void;
-}
 
-function RestartBotDialog({toggle, close}: {toggle: boolean, close: () => void}) {
+
+function RestartBotDialog({open, onClose, onGoHome}: {open: boolean, onClose: () => void, onGoHome: () => void}) {
   return (
-    <Dialog open={toggle}>
-      <Box>
+    <Dialog open={open} onClose={onClose}>
+      <Box sx={{ p: 3, maxWidth: 400 }}>
         <Typography variant="h5" gutterBottom>Bot Settings Updated Successfully</Typography>
         <Typography variant="body1" gutterBottom>
-          Please restart the bot to apply the new settings.
+          You have completed the onboarding process. To apply the new settings and register the environment variables, you need to restart the bot.
         </Typography>
         <Typography variant="body1" gutterBottom>
-          Return to the terminal where your bot ran.
+          Please follow these steps:
         </Typography>
-        <Typography variant="body1" gutterBottom>
-          On Windows: Press Ctrl + C to stop the bot.
-        </Typography>
-        <Typography variant="body1" gutterBottom>
-          On Mac: Press Command + C (⌘ + C) to stop the bot.
-        </Typography>
+        <ol>
+          <li>Return to the terminal where your bot is running.</li>
+          <li>Stop the bot:
+            <ul>
+              <li>On Windows: Press Ctrl + C</li>
+              <li>On Mac: Press Command + C (⌘ + C)</li>
+            </ul>
+          </li>
+          <li>Restart the bot by running the following command:</li>
+        </ol>
         <TerminalBox>
           project-run-ui
         </TerminalBox>
-        <Button variant="contained" onClick={() => close()}>Close</Button>
+        <Typography variant="body1" sx={{ mt: 2, mb: 2 }}>
+          After restarting, your new settings will be applied.
+        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
+          <Button variant="outlined" onClick={onClose}>Close</Button>
+          <Button variant="contained" onClick={onGoHome}>Go to Home Page</Button>
+        </Box>
       </Box>
     </Dialog>
   );
 };
 
-function Onboarding({ onComplete }: OnboardingProps) {
+
+
+function Onboarding() {
   const [step, setStep] = useState(0);
   const [userData, setUserData] = useState<UserData>({
     walletSettings: {
@@ -60,9 +71,13 @@ function Onboarding({ onComplete }: OnboardingProps) {
     },
   });
   const {connected, backendUrl} = useSocket();
-    const [isWelcomeStepValid, setIsWelcomeStepValid] = useState(false);
-    const [isWalletSettingsValid, setIsWalletSettingsValid] = useState(false);
-    const [isExchangeSettingsValid, setIsExchangeSettingsValid] = useState(false);
+  // Step validation states
+  const [isWelcomeStepValid, setIsWelcomeStepValid] = useState(false);
+  const [isWalletSettingsValid, setIsWalletSettingsValid] = useState(false);
+  const [isExchangeSettingsValid, setIsExchangeSettingsValid] = useState(false);
+  const [showRestartDialog, setShowRestartDialog] = useState(false);
+
+  const navigate = useNavigate();
 
   const steps = [
     { title: 'Welcome to GMX Funding Rate Arbitrage', 
@@ -114,28 +129,58 @@ function Onboarding({ onComplete }: OnboardingProps) {
 
       await response.json();
       localStorage.setItem('onboarding', 'completed');
-      // Open dialog box to inform user to restart the bot
-      RestartBotDialog({toggle: true, close: onComplete});
+      localStorage.setItem('backendURL', backendUrl);
     } catch (error) {
       console.error('Error completing onboarding:', error);
       alert('There was an error completing your onboarding. Please try again.');
     }
   }
 
+  const checkOnboardingStatus = () => {
+    const onboardingStatus = localStorage.getItem('onboarding');
+    if (onboardingStatus === 'completed') {
+      setShowRestartDialog(true);
+    }
+  };
+
+  const handleGoHome = () => {
+    navigate('/'); 
+  };
+
+  useEffect(() => {
+    checkOnboardingStatus();
+  }, []);
   return (
-    <Box className="onboarding" sx={{ maxWidth: 600, margin: 'auto', p: 3 }}>
-      <Typography variant="h4" gutterBottom>{steps[step].title}</Typography>
-      {steps[step].component}
-      <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between' }}>
-        <Button onClick={handleBack} disabled={step === 0}>
-          Back
-        </Button>
-        <Button onClick={handleNext} variant="contained" disabled={!steps[step].valid}>
-          {step === steps.length - 1 ? 'Finish' : 'Next'}
-        </Button>
+      <Box className="onboarding" sx={{ maxWidth: 600, margin: 'auto', p: 3 }}>
+        {showRestartDialog ? (
+          <RestartBotDialog 
+            open={showRestartDialog} 
+            onClose={() => setShowRestartDialog(false)} 
+            onGoHome={handleGoHome}
+          />
+        ) : localStorage.getItem('onboarding') === 'completed' ? (
+          <Button onClick={() => {
+            localStorage.removeItem('onboarding');
+            setStep(0);
+          }}>
+            Repeat Onboarding
+          </Button>
+        ) : (
+          <>
+            <Typography variant="h4" gutterBottom>{steps[step].title}</Typography>
+            {steps[step].component}
+            <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between' }}>
+              <Button onClick={handleBack} disabled={step === 0}>
+                Back
+              </Button>
+              <Button onClick={handleNext} variant="contained" disabled={!steps[step].valid}>
+                {step === steps.length - 1 ? 'Finish' : 'Next'}
+              </Button>
+            </Box>
+          </>
+        )}
       </Box>
-    </Box>
-  );
+    );
 }
 
 export default Onboarding;

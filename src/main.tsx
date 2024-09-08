@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import ErrorPage from './ErrorPage.tsx'
-import { createBrowserRouter, RouterProvider, redirect } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { SocketContextProvider } from './Context/SocketContext.tsx'
 import About from './About.tsx'
 import PrivacyPolicy from './Privacy.tsx'
@@ -16,10 +16,7 @@ const router = createBrowserRouter([
   },
   {
     path: "onboarding",
-    element: <Onboarding onComplete={() => {
-      redirect("/")
-      alert("Onboarding complete! Local storage is now set to know that the onboarding is complete, so use this browser next time to skip the onboarding.")
-    }} />,
+    element: <Onboarding />,
   },
   {
     path: "privacy",
