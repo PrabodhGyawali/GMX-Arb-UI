@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Typography, Dialog } from '@mui/material';
+import { Box, Button, Typography, Dialog, List, ListItem, ListItemText } from '@mui/material';
 import InstallationSteps from './components/InstallationSteps';
 import WalletSettingsStep from './components/WalletSettingsStep';
 import ExchangeSettingsStep from './components/ExchangeSettingsStep';
@@ -23,16 +23,33 @@ function RestartBotDialog({open, onClose, onGoHome}: {open: boolean, onClose: ()
         <Typography variant="body1" gutterBottom>
           Please follow these steps:
         </Typography>
-        <ol>
-          <li>Return to the terminal where your bot is running.</li>
-          <li>Stop the bot:
-            <ul>
-              <li>On Windows: Press Ctrl + C</li>
-              <li>On Mac: Press Command + C (⌘ + C)</li>
-            </ul>
-          </li>
-          <li>Restart the bot by running the following command:</li>
-        </ol>
+        <List component="ol">
+      <ListItem>
+        <ListItemText primary="Return to the terminal where your bot is running." />
+      </ListItem>
+      <ListItem>
+        <ListItemText
+          primary="Stop the bot:"
+          secondary={
+            <List component="ul" sx={{ pl: 2, pt: 1 }}>
+              <ListItem>
+                <ListItemText primary="On Windows: Press Ctrl + C" />
+              </ListItem>
+              <ListItem>
+                <ListItemText primary={
+                  <Typography variant="body2">
+                    On Mac: Press Command + C (⌘ + C)
+                  </Typography>
+                } />
+              </ListItem>
+            </List>
+          }
+        />
+      </ListItem>
+      <ListItem>
+        <ListItemText primary="Restart the bot by running the following command:" />
+      </ListItem>
+    </List>
         <TerminalBox>
           project-run-ui
         </TerminalBox>
@@ -130,6 +147,7 @@ function Onboarding() {
       await response.json();
       localStorage.setItem('onboarding', 'completed');
       localStorage.setItem('backendURL', backendUrl);
+      navigate('/onboarding');
     } catch (error) {
       console.error('Error completing onboarding:', error);
       alert('There was an error completing your onboarding. Please try again.');
@@ -159,9 +177,10 @@ function Onboarding() {
             onGoHome={handleGoHome}
           />
         ) : localStorage.getItem('onboarding') === 'completed' ? (
-          <Button onClick={() => {
+          <Button variant='contained' onClick={() => {
             localStorage.removeItem('onboarding');
             setStep(0);
+            navigate('/onboarding');
           }}>
             Repeat Onboarding
           </Button>

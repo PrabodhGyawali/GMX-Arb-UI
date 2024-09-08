@@ -2,13 +2,11 @@
 TODO: Completing onboarding means load the position monitor
     - Add option to change url to connect to bot below `BotStatusIndicator`
 TODO: Allow to turn on and off the bot without stopping the server
-TODO: Fix: https://www.perplexity.ai/search/why-am-i-getting-so-many-backe-1GY2S65sTz6tq6UZR8Oa8g
 TODO: Migrate old settings to dialog boxes
 
 # Onboarding Experience
-    - If local storage allows bot connect then skip onboarding process
-    - Have routes to check if certain files are valid: 
-        - eg: `config.yaml` if not send notification warning for bot
+- Have routes to check if certain files are valid: 
+    - eg: `config.yaml` if not send notification warning for bot
 
 # TODO: Fix Settings
 - Migrate old settings to new one
