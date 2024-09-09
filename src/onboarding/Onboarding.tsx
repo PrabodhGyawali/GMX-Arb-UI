@@ -12,11 +12,10 @@ import BotStatusIndicator from 'components/NavBarSide/BotStatusIndicator';
 
 
 const RestartBotDialog:React.FC<{open: boolean, onClose: () => void, onGoHome: () => void}> = ({open, onClose, onGoHome}) => {
-  
   const {connected} = useSocket();
-  const backendUrl = localStorage.getItem('backendURL');
 
   const restartBot = async () => {
+    const backendUrl = localStorage.getItem('backendURL');
     await fetch(`${backendUrl}/settings/restart-bot`, {
       method: 'POST',
       headers: {
@@ -36,6 +35,12 @@ const RestartBotDialog:React.FC<{open: boolean, onClose: () => void, onGoHome: (
           Restart Bot
         </Button>
         <BotStatusIndicator isConnected={connected} />
+        <Typography variant="body2" gutterBottom>
+          Make sure that you do not turn off the bot on your laptop while it is running. Set your computer to not go to sleep or hibernate.
+        </Typography>
+        <Typography variant="body2" gutterBottom>
+          Note that in order to access the front-end and monitor your bot you have to use the browser and settings where you did the onboarding, for example you will have to do an onboarding again if you tried to access the website on incognito mode.
+        </Typography>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
           <Button variant="outlined" onClick={onClose}>Close</Button>
           <Button variant="contained" onClick={onGoHome}>Go to Home Page</Button>
@@ -155,16 +160,19 @@ function Onboarding() {
         ) : localStorage.getItem('onboarding') === 'completed' ? (
           <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between' }}>
             <Typography variant='h1' gutterBottom>Onboarding Complete</Typography>
-            <Button variant='contained' onClick={() => {
-              localStorage.removeItem('onboarding');
-              setStep(0);
-              navigate('/onboarding');
-            }}>
-              Repeat Onboarding
-            </Button>
-            <Button variant='contained' onClick={() => navigate('/faq')}>
-              FAQ
-            </Button>
+            <BotStatusIndicator isConnected={connected} />
+            <Box sx={{mt: 3, display: 'flex', justifyContent: 'space-between'}}>
+              <Button variant='contained' onClick={() => {
+                localStorage.removeItem('onboarding');
+                setStep(0);
+                navigate('/onboarding');
+              }}>
+                Repeat Onboarding
+              </Button>
+              <Button variant='contained' onClick={() => navigate('/faq')}>
+                FAQ
+              </Button>
+            </Box>
           </Box>
           
         ) : (
