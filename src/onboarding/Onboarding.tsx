@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, Typography, Dialog, List, ListItem, ListItemText } from '@mui/material';
 import InstallationSteps from './components/InstallationSteps';
@@ -9,10 +9,23 @@ import {WelcomeStep} from './components/WelcomeStep';
 import { useSocket } from '../Context/SocketContext';
 import { UserData } from 'onboarding/types.tsx'
 import { TerminalBox } from './components/InstallationSteps';
+import BotStatusIndicator from 'components/NavBarSide/BotStatusIndicator';
 
 
+const RestartBotDialog:React.FC<{open: boolean, onClose: () => void, onGoHome: () => void}> = ({open, onClose, onGoHome}) => {
+  
+  const {connected} = useSocket();
+  const backendUrl = localStorage.getItem('backendURL');
 
-function RestartBotDialog({open, onClose, onGoHome}: {open: boolean, onClose: () => void, onGoHome: () => void}) {
+  const restartBot = async () => {
+    await fetch(`${backendUrl}/settings/restart-bot`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).catch(() => {});
+  } 
+
   return (
     <Dialog open={open} onClose={onClose}>
       <Box sx={{ p: 3, maxWidth: 400 }}>
@@ -20,42 +33,10 @@ function RestartBotDialog({open, onClose, onGoHome}: {open: boolean, onClose: ()
         <Typography variant="body1" gutterBottom>
           You have completed the onboarding process. To apply the new settings and register the environment variables, you need to restart the bot.
         </Typography>
-        <Typography variant="body1" gutterBottom>
-          Please follow these steps:
-        </Typography>
-        <List component="ol">
-      <ListItem>
-        <ListItemText primary="Return to the terminal where your bot is running." />
-      </ListItem>
-      <ListItem>
-        <ListItemText
-          primary="Stop the bot:"
-          secondary={
-            <List component="ul" sx={{ pl: 2, pt: 1 }}>
-              <ListItem>
-                <ListItemText primary="On Windows: Press Ctrl + C" />
-              </ListItem>
-              <ListItem>
-                <ListItemText primary={
-                  <Typography variant="body2">
-                    On Mac: Press Command + C (⌘ + C)
-                  </Typography>
-                } />
-              </ListItem>
-            </List>
-          }
-        />
-      </ListItem>
-      <ListItem>
-        <ListItemText primary="Restart the bot by running the following command:" />
-      </ListItem>
-    </List>
-        <TerminalBox>
-          project-run-ui
-        </TerminalBox>
-        <Typography variant="body1" sx={{ mt: 2, mb: 2 }}>
-          After restarting, your new settings will be applied.
-        </Typography>
+        <Button onClick={restartBot}>
+          Restart Bot
+        </Button>
+        <BotStatusIndicator isConnected={connected} />
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
           <Button variant="outlined" onClick={onClose}>Close</Button>
           <Button variant="contained" onClick={onGoHome}>Go to Home Page</Button>
@@ -63,9 +44,7 @@ function RestartBotDialog({open, onClose, onGoHome}: {open: boolean, onClose: ()
       </Box>
     </Dialog>
   );
-};
-
-
+}
 
 function Onboarding() {
   const [step, setStep] = useState(0);
@@ -147,7 +126,7 @@ function Onboarding() {
       await response.json();
       localStorage.setItem('onboarding', 'completed');
       localStorage.setItem('backendURL', backendUrl);
-      navigate('/onboarding');
+      checkOnboardingStatus();
     } catch (error) {
       console.error('Error completing onboarding:', error);
       alert('There was an error completing your onboarding. Please try again.');
@@ -165,9 +144,7 @@ function Onboarding() {
     navigate('/'); 
   };
 
-  useEffect(() => {
-    checkOnboardingStatus();
-  }, []);
+
   return (
       <Box className="onboarding" sx={{ maxWidth: 600, margin: 'auto', p: 3 }}>
         {showRestartDialog ? (
@@ -177,13 +154,20 @@ function Onboarding() {
             onGoHome={handleGoHome}
           />
         ) : localStorage.getItem('onboarding') === 'completed' ? (
-          <Button variant='contained' onClick={() => {
-            localStorage.removeItem('onboarding');
-            setStep(0);
-            navigate('/onboarding');
-          }}>
-            Repeat Onboarding
-          </Button>
+          <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between' }}>
+            <Typography variant='h1' gutterBottom>Onboarding Complete</Typography>
+            <Button variant='contained' onClick={() => {
+              localStorage.removeItem('onboarding');
+              setStep(0);
+              navigate('/onboarding');
+            }}>
+              Repeat Onboarding
+            </Button>
+            <Button variant='contained' onClick={() => navigate('/faq')}>
+              FAQ
+            </Button>
+          </Box>
+          
         ) : (
           <>
             <Typography variant="h4" gutterBottom>{steps[step].title}</Typography>
