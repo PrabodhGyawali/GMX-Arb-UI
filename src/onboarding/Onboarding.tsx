@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Typography, Dialog, List, ListItem, ListItemText } from '@mui/material';
+import { Box, Button, Typography, Dialog} from '@mui/material';
 import InstallationSteps from './components/InstallationSteps';
 import WalletSettingsStep from './components/WalletSettingsStep';
 import ExchangeSettingsStep from './components/ExchangeSettingsStep';
@@ -8,7 +8,6 @@ import BotSettingsStep from './components/BotSettingsStep';
 import {WelcomeStep} from './components/WelcomeStep';
 import { useSocket } from '../Context/SocketContext';
 import { UserData } from 'onboarding/types.tsx'
-import { TerminalBox } from './components/InstallationSteps';
 import BotStatusIndicator from 'components/NavBarSide/BotStatusIndicator';
 
 
