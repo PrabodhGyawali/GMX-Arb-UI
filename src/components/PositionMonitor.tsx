@@ -7,10 +7,7 @@ import { useSocket } from '../Context/SocketContext';
 
 function PositionMonitor() {
     const [trades, setTrades] = useState<Trade[]>([]);
-    // const [isLoading, setIsLoading] = useState(true);
-    // const [error, setError] = useState<string | null>(null);
-
-    const {socket} = useSocket();
+    const {socket, backendUrl} = useSocket();
 
     socket?.on('trade_logged', () => {
       console.log('Trade fetch on trade_logged');
@@ -25,7 +22,7 @@ function PositionMonitor() {
     /** Get Trade Logs from backend and setTrades useState */
     async function getTrades() {
         try {
-            const response = await fetch('api/trades/all');
+            const response = await fetch(`${backendUrl}/trades/all`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }

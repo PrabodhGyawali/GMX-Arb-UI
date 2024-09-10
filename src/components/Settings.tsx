@@ -11,8 +11,7 @@ import {
   Tab,
   Box
 } from "@mui/material";
-
-
+import BotSettings from './Settings/BotSettings';
 
 /**
  * Navbar button to access settings dialog
@@ -61,7 +60,7 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({ open, onClose }) => {
                 </Tabs>
                 <Box sx={{ mt: 2 }}>
                     {tabValue === 0 && 'Exchange Settings go here'} {/* <ExchangeSettings /> */}
-                    {tabValue === 1 && 'Bot settings go here' } {/* <BotSettings /> */}
+                    {tabValue === 1 && <BotSettings /> } {/* <BotSettings /> */}
                     {tabValue === 2 && 'Env Settings go here'} {/* <EnvSettings /> */}
                 </Box>
             </DialogContent>
@@ -79,5 +78,6 @@ const Settings: React.FC = () => {
         </section>
     );
 }
+
 
 export { SettingsButton, Settings };

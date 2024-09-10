@@ -36,7 +36,7 @@ export const SocketContextProvider: React.FC<SocketContextProviderProps> = ({ ch
     const [connected, setConnected] = useState(false);
     const [botStatus, setBotStatus] = useState<BotStatus>(BotStatus.OFF);
     const [backendUrl, setBackendUrl] = useState<string>(() => 
-        localStorage.getItem('backendURL') || 'http://localhost:6969'
+        localStorage.getItem('backendURL') || 'http://localhost:5001'
     );
 
 

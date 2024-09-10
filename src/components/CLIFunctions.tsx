@@ -59,7 +59,8 @@ export const Run = () => {
     }, [isRunning]);
 
     const serverStop = () => {
-        fetch('http://127.0.0.1:5000/stop', {
+        const backendUrl = localStorage.getItem('backendURL');
+        fetch(`${backendUrl}/stop`, {
           method: 'POST',
         }).then(response => {
           if (response.ok) {
@@ -76,7 +77,8 @@ export const Run = () => {
             serverStop();
         }
         else {
-            fetch('http://127.0.0.1:5000/run', {
+            const backendUrl = localStorage.getItem('backendURL');
+            fetch(`${backendUrl}/run`, {
                 method: 'POST',
             }).then(response => {
                 if (response.ok) {

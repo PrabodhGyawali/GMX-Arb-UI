@@ -7,6 +7,10 @@ TODO: Migrate old settings to dialog boxes
 # Onboarding Experience
 - Have routes to check if certain files are valid: 
     - eg: `config.yaml` if not send notification warning for bot
+- Add `.env` pair for private key with a lot of explanation
+- Add powershell code to run the bot:
+    - set path to `C:\funding-rate-arbitrage`
+    - set path to `~/funding-rate-arbitrage`
 
 # TODO: Fix Settings
 - Migrate old settings to new one
