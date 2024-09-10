@@ -7,8 +7,8 @@ import ExchangeSettingsStep from './components/ExchangeSettingsStep';
 import BotSettingsStep from './components/BotSettingsStep';
 import {WelcomeStep} from './components/WelcomeStep';
 import { useSocket } from '../Context/SocketContext';
-import { UserData } from 'onboarding/types.tsx'
-import BotStatusIndicator from 'components/NavBarSide/BotStatusIndicator';
+import { UserData } from '../onboarding/types'
+import BotStatusIndicator from '../components/NavBarSide/BotStatusIndicator';
 
 
 const RestartBotDialog:React.FC<{open: boolean, onClose: () => void, onGoHome: () => void}> = ({open, onClose, onGoHome}) => {

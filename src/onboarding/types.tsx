@@ -26,14 +26,14 @@ export enum NetworkType {
     Sepolia = 421614,
   }
 
-export interface WalletSettings {
+export interface WalletConfig {
     address: string;
     arbitrum_rpc: string;
     network: NetworkType | null;
 }
 
 export interface UserData {
-    walletSettings: WalletSettings;
+    walletSettings: WalletConfig;
     exchangeSettings: ExchangeSettings;
     botSettings: BotConfig;
 }

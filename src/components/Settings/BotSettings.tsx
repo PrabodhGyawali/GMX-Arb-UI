@@ -65,7 +65,7 @@ const BotSettings: React.FC = () => {
   const handleSave = async () => {
     try {
         const backendUrl = localStorage.getItem('backendUrl');
-        const response = await fetch(`${backendUrl}/bot-settings`, {
+        const response = await fetch(`${backendUrl}/bot-settings/set`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -162,7 +162,11 @@ const BotSettings: React.FC = () => {
         ))}
       </Grid>
       <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
-        <Button variant="contained" color="primary" onClick={() => setOpenDialog(true)}>
+        <Button variant="contained" 
+                color="primary" 
+                onClick={() => setOpenDialog(true)}
+                disabled={!connected}
+        >
           Save Settings
         </Button>
       </Box>

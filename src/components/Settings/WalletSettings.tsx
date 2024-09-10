@@ -4,17 +4,13 @@ import { Typography, TextField, Box, Paper,
           Stepper, Step, StepLabel, StepContent, Button,
           Dialog, DialogTitle, DialogContent, DialogActions, IconButton,
           Tooltip, FormControlLabel, Checkbox } from '@mui/material';
-import { UserData, WalletConfig, NetworkType } from '../types';
+import { WalletConfig, NetworkType } from '../../onboarding/types';
 import WarningIcon from '@mui/icons-material/Warning';
 import InfoIcon from '@mui/icons-material/Info';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import CloseIcon from '@mui/icons-material/Close';
-
-interface WalletSettingsStepProps {
-  setUserData: React.Dispatch<React.SetStateAction<UserData>>;
-  onValidationChange: (isValid: boolean) => void;
-}
+import { useSocket } from '../../Context/SocketContext';
 
 interface NetworkInfo {
   name: string;
@@ -46,9 +42,7 @@ const AlchemySetupSteps = [
   },
 ];
 
-
-
-const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, onValidationChange }) => {
+const WalletSettings: React.FC = () => {
   const [walletConfig, setWalletConfig] = useState<WalletConfig>({
     address: '',
     arbitrum_rpc: '',
@@ -57,6 +51,28 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
 
   const [errors, setErrors] = useState<Partial<Record<keyof WalletConfig, string>>>({});
   const [privateKeyConfirmed, setPrivateKeyConfirmed] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
+  const [rpcDialog, setRpcDialog] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState(false);
+  const { connected } = useSocket();
+
+  useEffect(() => {
+    fetchWalletSettings();
+  }, []);
+
+  const fetchWalletSettings = async () => {
+    try {
+        const backendUrl = localStorage.getItem('backendUrl');
+        const response = await fetch(`${backendUrl}/wallet-settings/get`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setWalletConfig(data);
+    } catch (error) {
+        console.error('Error fetching wallet settings:', error);
+    }
+  };
 
   const handlePrivateKeyConfirmation = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPrivateKeyConfirmed(event.target.checked);
@@ -88,7 +104,7 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
     }
     
     return '';
-};
+  };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -111,11 +127,6 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
     setErrors(prev => ({ ...prev, network: '' }));
   };
 
-  // Alchemy Setup
-  const [activeStep, setActiveStep] = useState(0);
-  // Helper Images
-  const [rpcDialog, setRpcDialog] = useState(false);
-
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -128,21 +139,27 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
     setActiveStep(0);
   };
 
-  useEffect(() => {
-    const isValid = Object.values(errors).every(error => !error) &&
-                    walletConfig.address !== '' &&
-                    walletConfig.arbitrum_rpc !== '' &&
-                    walletConfig.network !== null;
-    onValidationChange(isValid);
-
-    setUserData(prevData => ({
-      ...prevData,
-      walletConfig,
-    }));
-  }, [walletConfig, errors, setUserData, onValidationChange]);
+  const handleSave = async () => {
+    try {
+        const backendUrl = localStorage.getItem('backendUrl');
+        const response = await fetch(`${backendUrl}/wallet-settings/save`, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(walletConfig),
+      });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        setConfirmDialog(false);
+    } catch (error) {
+        alert('Failed to save wallet settings');
+    }
+  };
 
   return (
-    <Box>      
+    <Box>
       <Paper elevation={3} sx={{ p: 3, my: 3, bgcolor: '#fff3e0' }}>
         <Typography variant="h6" gutterBottom><strong>IMPORTANT: Security Considerations</strong></Typography>
         <List>
@@ -157,7 +174,6 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
               secondary="Make sure your private keys will be stored safely in python code. Ask trusted Developer or cyber security expert to review codebase."
             />
           </ListItem>
-          
           <ListItem>
             <ListItemIcon><WarningIcon color="warning" /></ListItemIcon>
             <ListItemText 
@@ -166,36 +182,10 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
             />
           </ListItem>
         </List>
-        <Typography variant="body2" sx={{ mt: 2 }}>
-          The developers believe the private key field in <code>.env</code> is completely isolated and can only be changed by the user (last reviewed: <span style={{ color: 'red' }}>05/09/2024</span>).
-        </Typography>
-        <Typography variant="body2" sx={{ mt: 2 }}>
-          After reviewing the open-source backend code, open your filesystem: 
-          <Box component="span" sx={{ 
-            fontFamily: 'monospace', 
-            bgcolor: '#e0e0e0', 
-            p: 0.5, 
-            borderRadius: 1,
-            mx: 1
-          }}>
-            C:\your-bot-folder\.env
-          </Box> 
-          and paste your private key in the <span style={{ color: 'blue' }}>PRIVATE_KEY</span> field.
-        </Typography>
       </Paper>
 
       <Tooltip
-        title={
-          <React.Fragment>
-            <Typography color="inherit">Security Recommendation</Typography>
-            <Typography variant="body2">
-              We recommend using a new wallet address specifically for this bot. 
-              This practice isolates your trading activities and limits potential 
-              risks. In case of any security compromise, your main assets in other 
-              wallets remain unaffected.
-            </Typography>
-          </React.Fragment>
-        }
+        title="We recommend using a new wallet address specifically for this bot. This practice isolates your trading activities and limits potential risks."
         arrow
         placement="top-start"
       >
@@ -217,12 +207,7 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
           }}
         />
       </Tooltip>
-      <Box sx={{ mt: 2, mb: 2, display: 'flex', alignItems: 'center' }}>
-        <WarningIcon color="warning" sx={{ mr: 1 }} />
-        <Typography variant="body2" color="warning.main">
-          Important: Add your private key to the file <code>C:\your-bot-folder\.env</code> in the <code>PRIVATE_KEY</code> field.
-        </Typography>
-      </Box>
+
       <FormControlLabel
         control={
           <Checkbox
@@ -238,6 +223,7 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
           </Typography>
         }
       />
+
       <Paper elevation={3} sx={{ p: 3, my: 3, bgcolor: '#f0f8ff' }}>
         <Typography variant="h6" gutterBottom><strong>Select Network</strong></Typography>
         <Box sx={{ display: 'flex', justifyContent: 'space-around', my: 2 }}>
@@ -249,13 +235,13 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
                   width: '100%',
                   py: 2,
                   bgcolor: walletConfig.network === network.chainId 
-                    ? '#1a1a1a'  // Darker color when selected
+                    ? '#1a1a1a'
                     : network.color,
                   color: '#ffffff',
                   '&:hover': {
                     bgcolor: walletConfig.network === network.chainId 
-                      ? '#000000'  // Even darker on hover when selected
-                      : '#4a4a4a',  // Darker shade on hover when not selected
+                      ? '#000000'
+                      : '#4a4a4a',
                   },
                   transition: 'background-color 0.3s',
                 }}
@@ -277,8 +263,7 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
         )}
       </Paper>
 
-
-    <Paper elevation={3} sx={{ p: 3, my: 3, bgcolor: '#e3f2fd' }}>
+      <Paper elevation={3} sx={{ p: 3, my: 3, bgcolor: '#e3f2fd' }}>
         <Typography variant="h6" gutterBottom><strong>Setting up <a href="https://alchemy.com">Alchemy</a> API Key</strong></Typography>
         <Stepper activeStep={activeStep} orientation="vertical">
           {AlchemySetupSteps.map((step, index) => (
@@ -336,6 +321,16 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
         )}
       </Paper>
 
+      <Button 
+        variant="contained" 
+        color="primary" 
+        onClick={() => setConfirmDialog(true)}
+        disabled={!connected}
+        sx={{ mt: 2 }}
+      >
+        Save Settings
+      </Button>
+
       <Dialog open={rpcDialog} onClose={() => {setRpcDialog(prev => !prev)}} maxWidth="md" fullWidth>
         <DialogTitle>
           How to Find Your Alchemy API Key
@@ -366,21 +361,18 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
         </DialogActions>
       </Dialog>
 
-      <TextField
-        fullWidth
-        margin="normal"
-        name="arbitrum_rpc"
-        label="Arbitrum RPC URL"
-        value={walletConfig.arbitrum_rpc}
-        onChange={handleChange}
-        error={!!errors.arbitrum_rpc}
-        helperText={errors.arbitrum_rpc}
-      />
+      <Dialog open={confirmDialog} onClose={() => setConfirmDialog(false)}>
+        <DialogTitle>Confirm Save</DialogTitle>
+        <DialogContent>
+          <Typography>Are you sure you want to save these wallet settings?</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setConfirmDialog(false)}>Cancel</Button>
+          <Button onClick={handleSave} color="primary">Save</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
 
-export default WalletSettingsStep;
-
-
-
+export default WalletSettings;

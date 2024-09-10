@@ -1,4 +1,6 @@
 # DOING
+- Migrate old settings to new one
+- Make sure settings can only be accessed on bot stopped
 TODO: Completing onboarding means load the position monitor
     - Add option to change url to connect to bot below `BotStatusIndicator`
 TODO: Allow to turn on and off the bot without stopping the server
@@ -12,8 +14,6 @@ TODO: Migrate old settings to dialog boxes
     - set path to `C:\funding-rate-arbitrage`
     - set path to `~/funding-rate-arbitrage`
 
-# TODO: Fix Settings
-- Migrate old settings to new one
 
 # Demo Button
 TODO: Add dialog to open demo opportunities

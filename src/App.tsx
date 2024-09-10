@@ -1,5 +1,6 @@
 import PositionMonitor from './components/PositionMonitor';
 import NavBarSide from './components/NavBarSide';
+import {DevDialog} from './DevComponent';
 import { Box } from '@mui/material';
 import { useSocket } from './Context/SocketContext';
 import { useEffect } from 'react';
@@ -28,6 +29,7 @@ function App() {
           height: '100vh', width: '100vw', padding: '0', margin: '0em',
         }}>
           <PositionMonitor />
+          <DevDialog />
         </Box>
       </Box>    
   )
