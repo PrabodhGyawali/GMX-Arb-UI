@@ -10,7 +10,7 @@ const PrivateKeyInstructions: React.FC = () => {
       caption: 'Step 1: Open the .env file from file-explorer in C:\\funding-rate-arbitrage\\.env'
     },
     {
-      image: '/private-key-instruction-2.pg',
+      image: '/private-key-instruction-2.jpg',
       caption: 'Step 2: Enter your private key in the PRIVATE_KEY field highlighted in the image'
     }
   ];

@@ -348,7 +348,7 @@ const WalletSettings: React.FC = () => {
         </DialogTitle>
         <DialogContent>
           <img 
-            src="/public/Alchemy1.png" 
+            src="/Alchemy1.png" 
             alt="Alchemy API Key Guide" 
             style={{ width: '100%', height: 'auto' }} 
           />
