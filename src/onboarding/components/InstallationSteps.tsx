@@ -9,10 +9,33 @@ export const ConnectToBot: React.FC = () => {
     const {connected} = useSocket();
     const [url, setUrl] = useState('')
     const [snackbarOpen, setSnackbarOpen] = useState(false)
+    const [snackbarMessage, setSnackbarMessage] = useState('')
+    const [error, setError] = useState('')
+
+    const validateUrl = (input: string) => {
+        const urlRegex = /^(localhost|((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6})(:\d{1,5})?$/;
+        return urlRegex.test(input);
+    }
+
+    const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newUrl = e.target.value;
+        setUrl(newUrl);
+        if (newUrl && !validateUrl(newUrl)) {
+            setError('Invalid URL format. Please enter a valid IP address, localhost, or DNS name with an optional port (1-65535).');
+        } else {
+            setError('');
+        }
+    }
 
     const handleUrlSubmit = () => {
-        localStorage.setItem('backendURL', url)
-        setSnackbarOpen(true)
+        if (validateUrl(url)) {
+            localStorage.setItem('backendURL', url)
+            setSnackbarMessage('URL submitted successfully!')
+            setSnackbarOpen(true)
+        } else {
+            setSnackbarMessage('Invalid URL format. Please check and try again.')
+            setSnackbarOpen(true)
+        }
     }
 
     return (
@@ -22,11 +45,13 @@ export const ConnectToBot: React.FC = () => {
                     label="Paste URL here"
                     variant="outlined"
                     value={url}
-                    onChange={(e) => setUrl(e.target.value)}
+                    onChange={handleUrlChange}
                     fullWidth
                     sx={{ mr: 2 }}
+                    error={!!error}
+                    helperText={error}
                 />
-                <Button variant="contained" onClick={handleUrlSubmit}>
+                <Button variant="contained" onClick={handleUrlSubmit} disabled={!!error || !url}>
                     Connect
                 </Button>
             </Box>
@@ -42,7 +67,7 @@ export const ConnectToBot: React.FC = () => {
                 open={snackbarOpen}
                 autoHideDuration={6000}
                 onClose={() => setSnackbarOpen(false)}
-                message="URL submitted successfully!"
+                message={snackbarMessage}
             />
         </>
     )
