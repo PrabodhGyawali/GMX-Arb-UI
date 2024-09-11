@@ -133,11 +133,12 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
                     walletConfig.address !== '' &&
                     walletConfig.arbitrum_rpc !== '' &&
                     walletConfig.network !== null;
-    onValidationChange(isValid);
 
+    onValidationChange(isValid);
+    
     setUserData(prevData => ({
       ...prevData,
-      walletConfig,
+      walletSettings: walletConfig,
     }));
   }, [walletConfig, errors, setUserData, onValidationChange]);
 

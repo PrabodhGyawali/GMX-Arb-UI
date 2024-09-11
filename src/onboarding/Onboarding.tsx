@@ -31,7 +31,7 @@ const RestartBotDialog:React.FC<{open: boolean, onClose: () => void, onGoHome: (
         <Typography variant="body1" gutterBottom>
           You have completed the onboarding process. To apply the new settings and register the environment variables, you need to restart the bot.
         </Typography>
-        <Button onClick={restartBot}>
+        <Button variant='contained' onClick={restartBot}>
           Restart Bot
         </Button>
         <BotStatusIndicator isConnected={connected} />
@@ -158,7 +158,7 @@ function Onboarding() {
             onGoHome={handleGoHome}
           />
         ) : localStorage.getItem('onboarding') === 'completed' ? (
-          <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between' }}>
+          <Box sx={{ mt: 3, display: 'flex', flexDirection:'column', justifyContent: 'space-between' }}>
             <Typography variant='h1' gutterBottom>Onboarding Complete</Typography>
             <BotStatusIndicator isConnected={connected} />
             <Box sx={{mt: 3, display: 'flex', justifyContent: 'space-between'}}>
