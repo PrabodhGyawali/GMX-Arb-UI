@@ -20,7 +20,23 @@ const PrivateKeyInstructions: React.FC = () => {
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
         <WarningIcon color="warning" sx={{ mr: 1 }} />
         <Typography variant="body2" color="warning.main">
-          Important: Add your private key to the file <code>C:\funding-rate-arbitrage\.env</code> in the <code>PRIVATE_KEY</code> field.
+          Important: Add your private key to the file <Box component="span" sx={{ 
+            fontFamily: 'monospace', 
+            bgcolor: '#e0e0e0', 
+            p: 0.5, 
+            borderRadius: 1,
+            mx: 1
+          }}>
+            C:\funding-rate-arbitrage\.env
+          </Box> in the <Box component="span" sx={{ 
+            fontFamily: 'monospace', 
+            bgcolor: '#e0e0e0', 
+            p: 0.5, 
+            borderRadius: 1,
+            mx: 1
+          }}>
+            PRIVATE_KEY
+          </Box> field.
         </Typography>
       </Box>
       <Carousel items={carouselItems} />

@@ -227,7 +227,6 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
         <Typography variant="body2" color="warning.main">
           Important: Add your private key to the file <code>C:\funding-rate-arbitrage\.env</code> in the <code>PRIVATE_KEY</code> field.
         </Typography>
-        {/* 2 image carousel to show how to do this */}
       </Box>
       <FormControlLabel
         control={
