@@ -34,8 +34,6 @@ TODO: Make sure Running and Demo is not running at the same time
 # Logs Clear
 - Clear Log by sending backend request
 
-# Vulnerabilities Fix:
-    - user input not checked for format: `http://localhost:a` where a is in between 1 and 65535
 
 # Future related work
 - TODO: Allow user to use testnet: from changing settings

@@ -6,7 +6,7 @@ import { useSocket } from '../../Context/SocketContext'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 export const ConnectToBot: React.FC = () => {
-    const {connected} = useSocket();
+    const {connected, setBackendUrl} = useSocket();
     const [url, setUrl] = useState('')
     const [snackbarOpen, setSnackbarOpen] = useState(false)
     const [snackbarMessage, setSnackbarMessage] = useState('')
@@ -30,6 +30,7 @@ export const ConnectToBot: React.FC = () => {
     const handleUrlSubmit = () => {
         if (validateUrl(url)) {
             localStorage.setItem('backendURL', url)
+            setBackendUrl(url)
             setSnackbarMessage('URL submitted successfully!')
             setSnackbarOpen(true)
         } else {

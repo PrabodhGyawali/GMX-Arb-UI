@@ -10,6 +10,9 @@ import InfoIcon from '@mui/icons-material/Info';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import CloseIcon from '@mui/icons-material/Close';
+import PrivateKeyInstructions from './PrivateKeyInstructions';
+
+
 
 interface WalletSettingsStepProps {
   setUserData: React.Dispatch<React.SetStateAction<UserData>>;
@@ -179,8 +182,9 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
             borderRadius: 1,
             mx: 1
           }}>
-            C:\your-bot-folder\.env
+            C:\funding-rate-arbitrage\.env
           </Box> 
+          <PrivateKeyInstructions />
           and paste your private key in the <span style={{ color: 'blue' }}>PRIVATE_KEY</span> field.
         </Typography>
       </Paper>
@@ -221,8 +225,9 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
       <Box sx={{ mt: 2, mb: 2, display: 'flex', alignItems: 'center' }}>
         <WarningIcon color="warning" sx={{ mr: 1 }} />
         <Typography variant="body2" color="warning.main">
-          Important: Add your private key to the file <code>C:\your-bot-folder\.env</code> in the <code>PRIVATE_KEY</code> field.
+          Important: Add your private key to the file <code>C:\funding-rate-arbitrage\.env</code> in the <code>PRIVATE_KEY</code> field.
         </Typography>
+        {/* 2 image carousel to show how to do this */}
       </Box>
       <FormControlLabel
         control={
