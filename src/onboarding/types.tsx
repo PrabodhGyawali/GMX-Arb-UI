@@ -1,4 +1,4 @@
-export interface ExchangeSettings {
+export interface ExchangeConfig {
     bybit: {
         apiKey: string;
         apiSecret: string;
@@ -34,6 +34,6 @@ export interface WalletConfig {
 
 export interface UserData {
     walletSettings: WalletConfig;
-    exchangeSettings: ExchangeSettings;
+    exchangeSettings: ExchangeConfig;
     botSettings: BotConfig;
 }

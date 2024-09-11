@@ -12,7 +12,7 @@ import {
   Box
 } from "@mui/material";
 import BotSettings from './Settings/BotSettings';
-
+import WalletSettings from './Settings/WalletSettings';
 /**
  * Navbar button to access settings dialog
  */
@@ -61,7 +61,7 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({ open, onClose }) => {
                 <Box sx={{ mt: 2 }}>
                     {tabValue === 0 && 'Exchange Settings go here'} {/* <ExchangeSettings /> */}
                     {tabValue === 1 && <BotSettings /> } {/* <BotSettings /> */}
-                    {tabValue === 2 && 'Env Settings go here'} {/* <EnvSettings /> */}
+                    {tabValue === 2 && <WalletSettings />} {/* <EnvSettings /> */}
                 </Box>
             </DialogContent>
             <DialogActions>

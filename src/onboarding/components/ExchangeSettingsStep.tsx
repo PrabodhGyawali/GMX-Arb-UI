@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, TextField, Box, Checkbox, FormControlLabel, Paper, Grid, Divider, Tooltip, IconButton } from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { UserData, ExchangeSettings } from '../types';
+import { UserData, ExchangeConfig } from '../types';
 
 interface ExchangeSettingsStepProps {
   setUserData: React.Dispatch<React.SetStateAction<UserData>>;
@@ -9,7 +9,7 @@ interface ExchangeSettingsStepProps {
 }
 
 const ExchangeSettingsStep: React.FC<ExchangeSettingsStepProps> = ({ setUserData, onValidationChange }) => {
-  const [exchangeSettings, setExchangeSettings] = useState<ExchangeSettings>({
+  const [exchangeConfig, setExchangeConfig] = useState<ExchangeConfig>({
     bybit: { apiKey: '', apiSecret: '', enabled: false },
     binance: { apiKey: '', apiSecret: '', enabled: false },
   });
@@ -24,7 +24,7 @@ const ExchangeSettingsStep: React.FC<ExchangeSettingsStepProps> = ({ setUserData
 
   const validateField = (exchange: 'bybit' | 'binance', field: 'apiKey' | 'apiSecret', value: string) => {
     const regex = field === 'apiKey' ? apiKeyRegex : apiSecretRegex;
-    if (!value && exchangeSettings[exchange].enabled) {
+    if (!value && exchangeConfig[exchange].enabled) {
       return `${field === 'apiKey' ? 'API Key' : 'API Secret'} is required`;
     }
     if (value && !regex.test(value)) {
@@ -37,7 +37,7 @@ const ExchangeSettingsStep: React.FC<ExchangeSettingsStepProps> = ({ setUserData
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = field === 'enabled' ? event.target.checked : event.target.value;
-    setExchangeSettings(prevSettings => ({
+    setExchangeConfig(prevSettings => ({
       ...prevSettings,
       [exchange]: {
         ...prevSettings[exchange],
@@ -64,9 +64,9 @@ const ExchangeSettingsStep: React.FC<ExchangeSettingsStepProps> = ({ setUserData
 
   useEffect(() => {
     const isValid: boolean =
-    (exchangeSettings.bybit.enabled || exchangeSettings.binance.enabled) &&
-    (exchangeSettings.bybit.enabled && (exchangeSettings.bybit.apiKey.length > 7 && exchangeSettings.bybit.apiSecret.length > 10 )) ||
-    (exchangeSettings.binance.enabled && (exchangeSettings.binance.apiKey.length > 7 && exchangeSettings.binance.apiSecret.length > 10)) &&
+    (exchangeConfig.bybit.enabled || exchangeConfig.binance.enabled) &&
+    (exchangeConfig.bybit.enabled && (exchangeConfig.bybit.apiKey.length > 7 && exchangeConfig.bybit.apiSecret.length > 10 )) ||
+    (exchangeConfig.binance.enabled && (exchangeConfig.binance.apiKey.length > 7 && exchangeConfig.binance.apiSecret.length > 10)) &&
     Object.values(errors.bybit).every(error => error === '') &&
     Object.values(errors.binance).every(error => error === '');
 
@@ -74,22 +74,22 @@ const ExchangeSettingsStep: React.FC<ExchangeSettingsStepProps> = ({ setUserData
 
     setUserData(prevData => ({
       ...prevData,
-      exchangeSettings,
+      exchangeSettings: exchangeConfig,
     }));
-  }, [exchangeSettings, errors, setUserData, onValidationChange]);
+  }, [exchangeConfig, errors, setUserData, onValidationChange]);
 
   const renderExchangeFields = (exchange: 'bybit' | 'binance') => (
     <Box mb={3}>
       <FormControlLabel
         control={
           <Checkbox
-            checked={exchangeSettings[exchange].enabled}
+            checked={exchangeConfig[exchange].enabled}
             onChange={handleChange(exchange, 'enabled')}
           />
         }
         label={`Enable ${exchange.charAt(0).toUpperCase() + exchange.slice(1)} Client`}
       />
-      {exchangeSettings[exchange].enabled && (
+      {exchangeConfig[exchange].enabled && (
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
@@ -97,7 +97,7 @@ const ExchangeSettingsStep: React.FC<ExchangeSettingsStepProps> = ({ setUserData
               margin="normal"
               name={`apiKey${exchange}`}
               label={`${exchange.charAt(0).toUpperCase() + exchange.slice(1)} API Key`}
-              value={exchangeSettings[exchange].apiKey}
+              value={exchangeConfig[exchange].apiKey}
               onChange={handleChange(exchange, 'apiKey')}
               error={!!errors[exchange].apiKey}
               helperText={errors[exchange].apiKey}
@@ -110,7 +110,7 @@ const ExchangeSettingsStep: React.FC<ExchangeSettingsStepProps> = ({ setUserData
               name={`apiSecret${exchange}`}
               label={`${exchange.charAt(0).toUpperCase() + exchange.slice(1)} API Secret`}
               type="password"
-              value={exchangeSettings[exchange].apiSecret}
+              value={exchangeConfig[exchange].apiSecret}
               onChange={handleChange(exchange, 'apiSecret')}
               error={!!errors[exchange].apiSecret}
               helperText={errors[exchange].apiSecret}
@@ -136,7 +136,7 @@ const ExchangeSettingsStep: React.FC<ExchangeSettingsStepProps> = ({ setUserData
       {renderExchangeFields('bybit')}
       {renderExchangeFields('binance')}
 
-      {!exchangeSettings.bybit.enabled && !exchangeSettings.binance.enabled && (
+      {!exchangeConfig.bybit.enabled && !exchangeConfig.binance.enabled && (
         <Typography color="error" sx={{ mt: 2 }}>Please enable at least one exchange client.</Typography>
       )}
     </Paper>
