@@ -134,7 +134,7 @@ const ExchangeSettingsStep: React.FC<ExchangeSettingsStepProps> = ({ setUserData
       <Divider sx={{ my: 2 }} />
       
       {renderExchangeFields('bybit')}
-      {renderExchangeFields('binance')}
+      {/* {renderExchangeFields('binance')} */}
 
       {!exchangeConfig.bybit.enabled && !exchangeConfig.binance.enabled && (
         <Typography color="error" sx={{ mt: 2 }}>Please enable at least one exchange client.</Typography>

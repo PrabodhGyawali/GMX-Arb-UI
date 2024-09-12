@@ -29,6 +29,7 @@ export enum NetworkType {
 export interface WalletConfig {
     address: string;
     arbitrum_rpc: string;
+    base_rpc: string;
     network: NetworkType | null;
 }
 

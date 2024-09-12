@@ -55,6 +55,7 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
   const [walletConfig, setWalletConfig] = useState<WalletConfig>({
     address: '',
     arbitrum_rpc: '',
+    base_rpc: '',
     network: null,
   });
 
@@ -74,6 +75,10 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
         regex: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/, 
         errorMessage: 'Invalid URL format' 
     },
+    base_rpc: {
+        regex: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/, 
+        errorMessage: 'Invalid URL format'
+    }
   };
 
   const validateField = (name: keyof WalletConfig, value: string | NetworkType | null): string => {
@@ -282,8 +287,7 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
         )}
       </Paper>
 
-
-    <Paper elevation={3} sx={{ p: 3, my: 3, bgcolor: '#e3f2fd' }}>
+      <Paper elevation={3} sx={{ p: 3, my: 3, bgcolor: '#e3f2fd' }}>
         <Typography variant="h6" gutterBottom><strong>Setting up <a href="https://alchemy.com">Alchemy</a> API Key</strong></Typography>
         <Stepper activeStep={activeStep} orientation="vertical">
           {AlchemySetupSteps.map((step, index) => (
@@ -292,21 +296,38 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
               <StepContent>
                 <Typography>{step.description}</Typography>
                 {index === AlchemySetupSteps.length - 1 && (
-                  <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
-                    <TextField
-                      fullWidth
-                      margin="normal"
-                      name="arbitrum_rpc"
-                      label="Arbitrum RPC URL"
-                      value={walletConfig.arbitrum_rpc}
-                      onChange={handleChange}
-                      error={!!errors.arbitrum_rpc}
-                      helperText={errors.arbitrum_rpc}
-                    />
-                    <IconButton onClick={() => {setRpcDialog(prev => !prev)}} sx={{ ml: 1 }}>
-                      <HelpOutlineIcon />
-                    </IconButton>
-                  </Box>
+                  <>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+                      <TextField
+                        fullWidth
+                        margin="normal"
+                        name="arbitrum_rpc"
+                        label="Arbitrum RPC URL"
+                        value={walletConfig.arbitrum_rpc}
+                        onChange={handleChange}
+                        error={!!errors.arbitrum_rpc}
+                        helperText={errors.arbitrum_rpc}
+                      />
+                      <IconButton onClick={() => {setRpcDialog(prev => !prev)}} sx={{ ml: 1 }}>
+                        <HelpOutlineIcon />
+                      </IconButton>
+                    </Box>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+                      <TextField
+                        fullWidth
+                        margin="normal"
+                        name="arbitrum_rpc"
+                        label="Arbitrum RPC URL"
+                        value={walletConfig.arbitrum_rpc}
+                        onChange={handleChange}
+                        error={!!errors.arbitrum_rpc}
+                        helperText={errors.arbitrum_rpc}
+                      />
+                      <IconButton onClick={() => {setRpcDialog(prev => !prev)}} sx={{ ml: 1 }}>
+                        <HelpOutlineIcon />
+                      </IconButton>
+                    </Box>
+                  </>
                 )}
                 <Box sx={{ mb: 2 }}>
                   <div>

@@ -57,6 +57,7 @@ function Onboarding() {
       address: '',
       network: null,
       arbitrum_rpc: '',
+      base_rpc: '',
     },
     exchangeSettings: {
       bybit: { apiKey: '', apiSecret: '', enabled: false },
@@ -190,7 +191,7 @@ function Onboarding() {
           </>
         )}
       </Box>
-    );
+  );
 }
 
 export default Onboarding;
