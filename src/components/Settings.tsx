@@ -62,7 +62,7 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({ open, onClose }) => {
                 <Box sx={{ mt: 2 }}>
                     {tabValue === 0 && <ExchangeSettings />} {/* <ExchangeSettings /> */}
                     {tabValue === 1 && <BotSettings /> } {/* <BotSettings /> */}
-                    {tabValue === 2 && <WalletSettings />} {/* <EnvSettings /> */}
+                    {tabValue === 2 && <WalletSettings  />} {/* <EnvSettings /> */}
                 </Box>
             </DialogContent>
             <DialogActions>
