@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import BotSettings from './Settings/BotSettings';
 import WalletSettings from './Settings/WalletSettings';
+import ExchangeSettings from './Settings/ExchangeSettings';
 /**
  * Navbar button to access settings dialog
  */
@@ -54,12 +55,12 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({ open, onClose }) => {
             <DialogTitle>Settings</DialogTitle>
             <DialogContent>
                 <Tabs value={tabValue} onChange={() => handleTabChange(tabValue)}>
-                    <Tab label="Exchange" />
-                    <Tab label="Bot" />
-                    <Tab label="Env" />
+                    <Tab label="Exchange" onClick={() => setTabValue(0)} />
+                    <Tab label="Bot" onClick={() => setTabValue(1)} />
+                    <Tab label="Env" onClick={() => setTabValue(2)} />
                 </Tabs>
                 <Box sx={{ mt: 2 }}>
-                    {tabValue === 0 && 'Exchange Settings go here'} {/* <ExchangeSettings /> */}
+                    {tabValue === 0 && <ExchangeSettings />} {/* <ExchangeSettings /> */}
                     {tabValue === 1 && <BotSettings /> } {/* <BotSettings /> */}
                     {tabValue === 2 && <WalletSettings />} {/* <EnvSettings /> */}
                 </Box>
