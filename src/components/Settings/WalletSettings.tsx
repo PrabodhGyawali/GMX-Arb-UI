@@ -46,6 +46,7 @@ const WalletSettings: React.FC = () => {
   const [walletConfig, setWalletConfig] = useState<WalletConfig>({
     address: '',
     arbitrum_rpc: '',
+    base_rpc: '',
     network: null,
   });
 
