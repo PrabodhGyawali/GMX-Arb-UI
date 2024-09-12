@@ -8,13 +8,10 @@ function DeploySection() {
 
   // Amount of Bybit and SYN to deploy
   const [byBitAmount, setByBitAmount] = useState('');
-  const [synAmount, setSynAmount] = useState('');
   // Error state for Bybit and SYN amount
   const [byBitError, setByBitError] = useState(false);
-  const [synError, setSynError] = useState(false);
   // Collateral balance for HMX and SYN
   const [byBitBalance, setByBitBalance] = useState('...');
-  const [synBalance, setSynBalance] = useState('...');
 
   const validateAmount = (value: string, setError: React.Dispatch<React.SetStateAction<boolean>>) => {
     const numValue = parseFloat(value);
@@ -31,34 +28,13 @@ function DeploySection() {
     validateAmount(value, setByBitError);
   };
 
-  const handleSynChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setSynAmount(value);
-    validateAmount(value, setSynError);
-  };
+
   const handleDeployByBit = () => {
     // Log data for deploying HMX
     console.log('Deploying ByBit:', byBitAmount);
   };
 
-  const handleDeploySYN = () => {
-    // Log data for deploying SYN
-    console.log('Deploying SYN:', synAmount);
-  };
-
   const fetchData = async () => {
-    try {
-      // Fetch Synthetix balance
-      const response = await fetch(`${backendUrl}/settings/collateral/Synthetix`);
-      if (response.status === 200) {
-        const data = await response.json();
-        setSynBalance(data);
-      } else {
-        setSynBalance('Error');
-      }
-    } catch (error) {
-      setSynBalance('Error');
-    }
     try {
       // Fetch ByBit balance
       const response = await fetch(`${backendUrl}/settings/collateral/ByBit`);
@@ -66,15 +42,14 @@ function DeploySection() {
         const data = await response.json();
         setByBitBalance(data);
       } else {
-        setByBitBalance('Error');
+        setByBitBalance('...');
       }
     } catch (error) {
-      setSynBalance('Error');
+      setByBitError(true);
     }
   };
 
   socket?.on('connect', () => {
-    console.log('Connect event is fetching data');
     fetchData();
   });
 
@@ -115,21 +90,12 @@ function DeploySection() {
           overflow: 'hidden',
         }}>
           <DeployCard
-            args={{ amount: synAmount, tokenAddress: '' }}
-            handleAmountChange={handleSynChange}
-            handleDeploy={handleDeploySYN}
-            handleError={synError}
-            exchange="SYN"
-            exchangeLogo='public\svg\synthetix-snx-logo.svg'
-            collateralBalance={synBalance}
-          />
-          <DeployCard
-            args={{ amount: synAmount, tokenAddress: '' }}
+            args={{ amount: byBitAmount, tokenAddress: '' }}
             handleAmountChange={handleByBitChange}
             handleDeploy={handleDeployByBit}
             handleError={byBitError}
             exchange="Bybit"
-            exchangeLogo='public\svg\bybit-logo.svg'
+            exchangeLogo='svg\bybit-logo.svg'
             collateralBalance={byBitBalance}
           />
         </Box>

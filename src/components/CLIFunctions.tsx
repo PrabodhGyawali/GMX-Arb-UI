@@ -6,7 +6,8 @@ import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 
 const serverDemo = () => {
-    fetch('http://127.0.0.1:5000/demo', {
+    const backendUrl = localStorage.getItem('backendURL');
+    fetch(`${backendUrl}/demo`, {
         method: 'POST',
     })
     .then(response => response.json())
@@ -50,13 +51,41 @@ export const Run = () => {
     const [buttonText, setButtonText] = useState("Run");
 
     useEffect(() => {
-        // Check whether bot is running or not
         if (isRunning) {
             setButtonText("");
         } else {
             setButtonText("Run");
         }
     }, [isRunning]);
+
+    useEffect(() => {
+        let intervalId: NodeJS.Timeout;
+
+        const checkBotStatus = () => {
+            const backendUrl = localStorage.getItem('backendURL');
+            fetch(`${backendUrl}/status`)
+                .then(response => response.json())
+                .then(data => {
+                    setIsRunning(data.status === "running");
+                })
+                .catch(error => {
+                    console.error('Error checking bot status:', error);
+                });
+        };
+
+        if (connected) {
+            // Initial check
+            checkBotStatus();
+            // Set up polling every 5 seconds
+            intervalId = setInterval(checkBotStatus, 5000);
+        }
+
+        return () => {
+            if (intervalId) {
+                clearInterval(intervalId);
+            }
+        };
+    }, [connected]);
 
     const serverStop = () => {
         const backendUrl = localStorage.getItem('backendURL');

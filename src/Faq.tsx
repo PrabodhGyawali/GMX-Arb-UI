@@ -5,10 +5,20 @@ const questions = [
   {
     section: 'Setup',
     question: 'What to do if the python bot is not running?',
-    answer: 'Repeat onboarding or make sure correct API keys are added.'
+    answer: 'Run the script: ...'
   },
   {
-    section: 'Trade Mechanics',
+    section: 'Setup',
+    question: 'How to use my bot from where ever?',
+    answer: 'This can be done by setting up a server in the cloud or your machine with a static IP address and port forwarding. This is not recommended for security reasons as if your ip or dns is compromised anyone can control your bot using the front-end ui. We will fix this in the future by adding a login system with JWT based auth.'
+  },
+  {
+    section: 'Setup',
+    question: 'How to setup up multiple settings configurations for the bot?',
+    answer: 'We recommend using the onboarding process twice. First for test-net configuration where you understand the mechanics and then redo the onboarding for the main-net configurations rather than changing the settings manually.'
+  },
+  {
+    section: 'Trade Mechanics', // TODO: Improve
     question: 'How does the bot make trades?',
     answer: 'By executing trade algorithms based on the strategies configured by the user.'
   },

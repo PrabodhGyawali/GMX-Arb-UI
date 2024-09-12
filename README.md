@@ -14,6 +14,10 @@ TODO: Migrate old settings to dialog boxes
     - set path to `C:\funding-rate-arbitrage`
     - set path to `~/funding-rate-arbitrage`
 
+# Make a notification Section:
+- Software updates - guide etc.
+- allow to use email service for recieving updates
+
 
 # Demo Button
 TODO: Add dialog to open demo opportunities
