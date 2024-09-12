@@ -84,7 +84,7 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
   const validateField = (name: keyof WalletConfig, value: string | NetworkType | null): string => {
     if (value === null || value === '') return 'This field is required';
     
-    if (name === 'address' || name === 'arbitrum_rpc') {
+    if (name === 'address' || name === 'arbitrum_rpc' || name === 'base_rpc') {
         const rule = validationRules[name];
         if (rule && typeof value === 'string') {
             return rule.regex.test(value) ? '' : rule.errorMessage;
@@ -122,7 +122,18 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
   // Alchemy Setup
   const [activeStep, setActiveStep] = useState(0);
   // Helper Images
-  const [rpcDialog, setRpcDialog] = useState(false);
+  const [rpcDialog, setRpcDialog] = useState<{open: boolean, type: "arbitrum" | "base"}>({
+    open: false,
+    type: "arbitrum"
+  });
+
+  const handleOpenRpcDialog = (type: 'arbitrum' | 'base') => {
+    setRpcDialog({ open: true, type });
+  };
+
+  const handleCloseRpcDialog = () => {
+    setRpcDialog({ open: false, type: 'arbitrum' });
+  };
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -140,6 +151,7 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
     const isValid = Object.values(errors).every(error => !error) &&
                     walletConfig.address !== '' &&
                     walletConfig.arbitrum_rpc !== '' &&
+                    walletConfig.base_rpc !== '' &&
                     walletConfig.network !== null;
 
     onValidationChange(isValid);
@@ -308,22 +320,22 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
                         error={!!errors.arbitrum_rpc}
                         helperText={errors.arbitrum_rpc}
                       />
-                      <IconButton onClick={() => {setRpcDialog(prev => !prev)}} sx={{ ml: 1 }}>
+                      <IconButton onClick={() => handleOpenRpcDialog('arbitrum')} sx={{ ml: 1 }}>
                         <HelpOutlineIcon />
                       </IconButton>
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
-                      <TextField
-                        fullWidth
-                        margin="normal"
-                        name="arbitrum_rpc"
-                        label="Arbitrum RPC URL"
-                        value={walletConfig.arbitrum_rpc}
-                        onChange={handleChange}
-                        error={!!errors.arbitrum_rpc}
-                        helperText={errors.arbitrum_rpc}
-                      />
-                      <IconButton onClick={() => {setRpcDialog(prev => !prev)}} sx={{ ml: 1 }}>
+                    <TextField
+                      fullWidth
+                      margin="normal"
+                      name="base_rpc"
+                      label="Base RPC URL"
+                      value={walletConfig.base_rpc}
+                      onChange={handleChange}
+                      error={!!errors.base_rpc}
+                      helperText={errors.base_rpc}
+                    />
+                      <IconButton onClick={() => handleOpenRpcDialog('base')} sx={{ ml: 1 }}>
                         <HelpOutlineIcon />
                       </IconButton>
                     </Box>
@@ -362,12 +374,12 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
         )}
       </Paper>
 
-      <Dialog open={rpcDialog} onClose={() => {setRpcDialog(prev => !prev)}} maxWidth="md" fullWidth>
+      <Dialog open={rpcDialog.open} onClose={handleCloseRpcDialog} maxWidth="md" fullWidth>
         <DialogTitle>
-          How to Find Your Alchemy API Key
+          How to Find Your {rpcDialog.type === 'arbitrum' ? 'Arbitrum': 'Base'} RPC URL
           <IconButton
             aria-label="close"
-            onClick={() => {setRpcDialog(prev => !prev)}}
+            onClick={handleCloseRpcDialog}
             sx={{
               position: 'absolute',
               right: 8,
@@ -379,16 +391,18 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
         </DialogTitle>
         <DialogContent>
           <img 
-            src="/Alchemy1.png" 
-            alt="Alchemy API Key Guide" 
+            src={rpcDialog.type === 'arbitrum' ? "/Alchemy1.png" : "/Alchemy2.png"}
+            alt={`${rpcDialog.type === 'arbitrum' ? 'Arbitrum' : 'Base'} API Key Guide`}
             style={{ width: '100%', height: 'auto' }} 
           />
           <Typography variant="body1" sx={{ mt: 2 }}>
-            Note that if you want to use the test network, you can select Sepolia net.
+            {rpcDialog.type === 'arbitrum' 
+              ? "Note that if you want to use the test network, you can select Sepolia net."
+              : "Follow these steps to set up your Base RPC URL using Alchemy."}
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => {setRpcDialog(prev => !prev)}}>Close</Button>
+          <Button onClick={handleCloseRpcDialog}>Close</Button>
         </DialogActions>
       </Dialog>
 
@@ -401,6 +415,16 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
         onChange={handleChange}
         error={!!errors.arbitrum_rpc}
         helperText={errors.arbitrum_rpc}
+      />
+      <TextField
+        fullWidth
+        margin="normal"
+        name="base_rpc"
+        label="Base RPC URL"
+        value={walletConfig.base_rpc}
+        onChange={handleChange}
+        error={!!errors.base_rpc}
+        helperText={errors.base_rpc}
       />
     </Box>
   );

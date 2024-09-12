@@ -37,8 +37,8 @@ const AlchemySetupSteps = [
     description: 'After creating the app, find and copy your API key.',
   },
   {
-    label: 'Use as RPC URL',
-    description: 'Use the Alchemy API key as your Arbitrum RPC URL in the field below.',
+    label: 'Get Arbitrum and Base RPC URL',
+    description: 'Using Alchemy paste the Arbitrum and Base url below.',
   },
 ];
 
@@ -88,6 +88,10 @@ const WalletSettings: React.FC = () => {
         regex: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/, 
         errorMessage: 'Invalid URL format' 
     },
+    base_rpc: {
+      regex: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/, 
+      errorMessage: 'Invalid URL format'
+    }
   };
 
   const validateField = (name: keyof WalletConfig, value: string | NetworkType | null): string => {
@@ -208,7 +212,8 @@ const WalletSettings: React.FC = () => {
           }}
         />
       </Tooltip>
-
+      
+      {/* Private Key Info */}
       <FormControlLabel
         control={
           <Checkbox
@@ -224,7 +229,7 @@ const WalletSettings: React.FC = () => {
           </Typography>
         }
       />
-
+      {/* Network Selection */}
       <Paper elevation={3} sx={{ p: 3, my: 3, bgcolor: '#f0f8ff' }}>
         <Typography variant="h6" gutterBottom><strong>Select Network</strong></Typography>
         <Box sx={{ display: 'flex', justifyContent: 'space-around', my: 2 }}>
@@ -263,7 +268,7 @@ const WalletSettings: React.FC = () => {
           </Typography>
         )}
       </Paper>
-
+      {/* Alchemy Setup steps */}
       <Paper elevation={3} sx={{ p: 3, my: 3, bgcolor: '#e3f2fd' }}>
         <Typography variant="h6" gutterBottom><strong>Setting up <a href="https://alchemy.com">Alchemy</a> API Key</strong></Typography>
         <Stepper activeStep={activeStep} orientation="vertical">
@@ -273,21 +278,38 @@ const WalletSettings: React.FC = () => {
               <StepContent>
                 <Typography>{step.description}</Typography>
                 {index === AlchemySetupSteps.length - 1 && (
-                  <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
-                    <TextField
-                      fullWidth
-                      margin="normal"
-                      name="arbitrum_rpc"
-                      label="Arbitrum RPC URL"
-                      value={walletConfig.arbitrum_rpc}
-                      onChange={handleChange}
-                      error={!!errors.arbitrum_rpc}
-                      helperText={errors.arbitrum_rpc}
-                    />
-                    <IconButton onClick={() => {setRpcDialog(prev => !prev)}} sx={{ ml: 1 }}>
-                      <HelpOutlineIcon />
-                    </IconButton>
-                  </Box>
+                  <>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+                      <TextField
+                        fullWidth
+                        margin="normal"
+                        name="arbitrum_rpc"
+                        label="Arbitrum RPC URL"
+                        value={walletConfig.arbitrum_rpc}
+                        onChange={handleChange}
+                        error={!!errors.arbitrum_rpc}
+                        helperText={errors.arbitrum_rpc}
+                      />
+                      <IconButton onClick={() => {setRpcDialog(prev => !prev)}} sx={{ ml: 1 }}>
+                        <HelpOutlineIcon />
+                      </IconButton>
+                    </Box>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+                      <TextField
+                        fullWidth
+                        margin="normal"
+                        name="base_rpc"
+                        label="Base RPC URL"
+                        value={walletConfig.base_rpc}
+                        onChange={handleChange}
+                        error={!!errors.base_rpc}
+                        helperText={errors.base_rpc}
+                      />
+                      <IconButton onClick={() => {setRpcDialog(prev => !prev)}} sx={{ ml: 1 }}>
+                        <HelpOutlineIcon />
+                      </IconButton>
+                    </Box>
+                  </>
                 )}
                 <Box sx={{ mb: 2 }}>
                   <div>
@@ -295,7 +317,7 @@ const WalletSettings: React.FC = () => {
                       variant="contained"
                       onClick={handleNext}
                       sx={{ mt: 1, mr: 1 }}
-                      disabled={index === AlchemySetupSteps.length - 1 && !!errors.arbitrum_rpc}
+                      disabled={index === AlchemySetupSteps.length - 1 && !!errors.arbitrum_rpc && !!errors.base_rpc}
                     >
                       {index === AlchemySetupSteps.length - 1 ? 'Finish' : 'Continue'}
                     </Button>
