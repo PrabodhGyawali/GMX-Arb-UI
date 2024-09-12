@@ -31,7 +31,7 @@ const router = createBrowserRouter([
     path: "faq",
     element: <Faq />,
   }
-  ]);
+]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

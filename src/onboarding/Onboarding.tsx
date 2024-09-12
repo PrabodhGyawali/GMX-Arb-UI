@@ -134,7 +134,7 @@ function Onboarding() {
       checkOnboardingStatus();
     } catch (error) {
       console.error('Error completing onboarding:', error);
-      alert('There was an error completing your onboarding. Please try again.');
+      alert(`There was an error { ${error} } when completing your onboarding.`);
     }
   }
 
