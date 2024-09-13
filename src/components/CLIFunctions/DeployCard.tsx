@@ -1,5 +1,4 @@
 import { Box, Button, TextField, InputAdornment, Card, CardContent, Avatar, Typography } from "@mui/material"
-
 const sxInput = {
     width: '200px',
         '& .MuiOutlinedInput-root': {
@@ -16,123 +15,91 @@ const sxInput = {
     margin: '1em 0 0 0',
 };
 
-interface DeployCardProps {
-    args: {
-        amount: string;
-        tokenAddress: string;
-    };
-    handleAmountChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleError: boolean;
-    exchange: string;
-    exchangeLogo: string;
-    collateralBalance: string;
-    handleDeploy: () => void;
+interface ExchangeData {
+  amount: string;
+  tokenAddress: string;
+  error: {
+    amountError: boolean;
+    addressError: boolean;
+  };
+  balance: string;
 }
 
-const DeployCard = ({args, handleAmountChange, handleError, exchange, exchangeLogo, collateralBalance, handleDeploy}: DeployCardProps) => {
+
+interface DeployCardProps {
+  exchange: string;
+  data: ExchangeData;
+  onAmountChange: (value: string) => void;
+  onAddressChange: (value: string) => void;
+  onDeploy: () => void;
+  exchangeLogo: string;
+}
+
+const DeployCard: React.FC<DeployCardProps> = ({ 
+  exchange, 
+  data, 
+  onAmountChange, 
+  onAddressChange, 
+  onDeploy, 
+  exchangeLogo 
+})=> {
+  
   return (
-    <Card className="deploy-HMX" sx={{
+    <Card sx={{
         display: 'flex',
         flexDirection: 'column',
         gap: '1em',
         justifyContent: 'center',
         alignItems: 'center'
       }}>
-        <CardContent>
-          <Box display="flex" alignItems="center" mb={2}>
-            <Avatar src={exchangeLogo} alt="Exchange Logo" sx={{ mr: 1 }} />
-            <Typography variant="h6">{exchange}</Typography>
-          </Box>
+      <CardContent>
+        <Box display="flex" alignItems="center" mb={2}>
+          <Avatar src={exchangeLogo} alt="Exchange Logo" sx={{ mr: 1 }} />
+          <Typography variant="h6">{exchange}</Typography>
+        </Box>
 
-          <Typography 
-          variant="body1" 
-          fontWeight="bold" 
-          mb={2}
-        >
-          Balance: <span style={{ color: '#1976d2' }}>${collateralBalance}</span>
+        <Typography variant="body1" fontWeight="bold" mb={2}>
+          Balance: <span style={{ color: '#1976d2' }}>${data.balance}</span>
         </Typography>
-          <TextField
-            sx={sxInput}
-            type="number"
-            placeholder="Enter Amount"
-            variant="outlined"
-            color="secondary"
-            value={args.amount}
-            onChange={handleAmountChange}
-            error={handleError}
-            helperText={handleError ? "Amount must be 1 or greater" : ""}
-            InputProps={{
-              startAdornment: <InputAdornment position="start">$</InputAdornment>,
-            }}
-          />
-          <TextField
-            sx={sxInput}
-            type="text"
-            placeholder="Token Address"
-            variant="outlined"
-            color="secondary"
-            value={args.tokenAddress}
-            onChange={handleAmountChange}
-            error={handleError}
-            helperText={handleError ? "Amount must be 1 or greater" : ""}
-            InputProps={{
-              startAdornment: <InputAdornment position="start"></InputAdornment>,
-            }}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleDeploy}
-            fullWidth
-            sx={{ mt: 2 }}
-          >
-            Deploy
-          </Button>
-          
-        </CardContent>
-      </Card>
+        <TextField
+          sx={sxInput}
+          type="number"
+          placeholder="Enter Amount"
+          variant="outlined"
+          color="secondary"
+          value={data.amount}
+          onChange={(e) => onAmountChange(e.target.value)}
+          error={data.error.amountError}
+          helperText={data.error.amountError ? "Amount must be 1 or greater" : ""}
+          InputProps={{
+            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+          }}
+        />
+
+        <TextField
+          sx={sxInput}
+          type="text"
+          placeholder="Token Address"
+          variant="outlined"
+          color="secondary"
+          value={data.tokenAddress}
+          onChange={(e) => onAddressChange(e.target.value)}
+          error={data.error.addressError}
+          helperText={data.error.addressError ? "Invalid Token Address" : ""}
+        />
+
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={onDeploy}
+          fullWidth
+          sx={{ mt: 2 }}
+        >
+          Deploy
+        </Button>
+      </CardContent>
+    </Card>
   )
 }
 
 export default DeployCard
-
-{/* <Card>
-<CardContent>
-  <Box display="flex" alignItems="center" mb={2}>
-    <Avatar src={exchangeLogo} alt="Exchange Logo" sx={{ mr: 1 }} />
-    <Typography variant="h6">Deploy Command</Typography>
-  </Box>
-
-  <Typography variant="body2" color="text.secondary" mb={2}>
-    Current Collateral Balance: {collateralBalance}
-  </Typography>
-
-  <TextField
-    fullWidth
-    label="Amount"
-    variant="outlined"
-    value={amount}
-    onChange={(e) => setAmount(e.target.value)}
-    margin="normal"
-  />
-
-  <TextField
-    fullWidth
-    label="Address"
-    variant="outlined"
-    value={address}
-    onChange={(e) => setAddress(e.target.value)}
-    margin="normal"
-  />
-
-  <Button
-    variant="contained"
-    color="primary"
-    onClick={handleDeploy}
-    fullWidth
-    sx={{ mt: 2 }}
-  >
-    Deploy
-  </Button>
-</CardContent>
-</Card> */}

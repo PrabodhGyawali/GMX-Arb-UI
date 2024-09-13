@@ -64,7 +64,7 @@ const ExchangeSettings = () => {
 
     const handleSave = () => {
         const backendUrl = localStorage.getItem('backendURL');
-        fetch(`${backendUrl}/settings/exchnage-settings/set`, {
+        fetch(`${backendUrl}/settings/exchange-settings/set`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -73,6 +73,7 @@ const ExchangeSettings = () => {
         }).then(response => {
             if (response.ok) {
                 setIsDialogOpen(false);
+                alert('Exchange settings saved successfully');
             } else {
                 throw new Error('Error saving exchange settings');
             }
@@ -133,22 +134,6 @@ const ExchangeSettings = () => {
         Object.values(errors.binance).every(error => error === '');
         setIsValid(valid);
 
-        if (connected) {
-            const backendUrl = localStorage.getItem('backendURL');
-            fetch(`${backendUrl}/settings/exchnage-settings/get`)
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    }
-                    throw new Error('Error fetching exchange settings');
-                })
-                .then(data => {
-                    setExchangeConfig(data);
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        }
     }, [exchangeConfig, errors, isValid]);
 
     return (
