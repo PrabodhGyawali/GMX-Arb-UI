@@ -39,7 +39,7 @@ const BotSettings: React.FC = () => {
   const fetchBotSettings = async () => {
     try {
         if (!connected) return;
-        const backendUrl = localStorage.getItem('backendUrl');
+        const backendUrl = localStorage.getItem('backendURL');
         const response = await fetch(`${backendUrl}/settings/bot-settings/get`);
         if (response.ok) {
             const data = await response.json();
@@ -60,11 +60,12 @@ const BotSettings: React.FC = () => {
       ...prevConfig,
       [setting]: newValue as number
     }));
+    console.log(botConfig);
   };
 
   const handleSave = async () => {
     try {
-        const backendUrl = localStorage.getItem('backendUrl');
+        const backendUrl = localStorage.getItem('backendURL');
         const response = await fetch(`${backendUrl}/settings/bot-settings/set`, {
             method: 'POST',
             headers: {
@@ -150,7 +151,7 @@ const BotSettings: React.FC = () => {
             <Box sx={{ px: 2 }}>
             <Slider
               value={botConfig[config.key]}
-              onChange={() => handleSettingChange(config.key)}
+              onChange={(_, newValue) => handleSettingChange(config.key)(newValue as number)}
               aria-labelledby={`${config.key}-slider`}
               valueLabelDisplay="auto"
               min={config.min}

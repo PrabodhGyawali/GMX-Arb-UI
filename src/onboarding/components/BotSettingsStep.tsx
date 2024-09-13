@@ -94,6 +94,7 @@ const BotSettingsStep: React.FC<BotSettingsStepProps> = ({ setUserData }) => {
     <Paper elevation={3} sx={{ p: 3 }}>
       <Grid container spacing={3}>
         {settingConfigs.map((config) => (
+          
           <Grid item xs={12} key={config.key}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Typography gutterBottom>
@@ -108,7 +109,7 @@ const BotSettingsStep: React.FC<BotSettingsStepProps> = ({ setUserData }) => {
             <Box sx={{ px: 2 }}>
               <Slider
                 value={botConfig[config.key]}
-                onChange={() => {handleSettingChange(config.key)}}
+                onChange={(_, newValue) => handleSettingChange(config.key)(newValue as number)}
                 aria-labelledby={`${config.key}-slider`}
                 valueLabelDisplay="auto"
                 min={config.min}
