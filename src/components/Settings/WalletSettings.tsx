@@ -150,7 +150,10 @@ const WalletSettings: React.FC = () => {
         />
       </Tooltip>
 
-      <Button onClick={() => setIsDialogOpen(true)} variant="contained" sx={{ mt: 2 }}>
+      <Button 
+        onClick={() => setIsDialogOpen(true)} variant="contained" sx={{ mt: 2 }}
+        disabled={!isValid || !connected}  
+      >
         Save Configuration
       </Button>
 
