@@ -1,36 +1,29 @@
 # DOING
-- Migrate old settings to new one
 - Make sure settings can only be accessed on bot stopped
-TODO: Completing onboarding means load the position monitor
-    - Add option to change url to connect to bot below `BotStatusIndicator`
 TODO: Allow to turn on and off the bot without stopping the server
 TODO: Migrate old settings to dialog boxes
 
-# Onboarding Experience
-- Have routes to check if certain files are valid: 
-    - eg: `config.yaml` if not send notification warning for bot
-- Add `.env` pair for private key with a lot of explanation
-- Add powershell code to run the bot:
-    - set path to `C:\funding-rate-arbitrage`
-    - set path to `~/funding-rate-arbitrage`
+# Concurrency Handling
+    TODO: Make sure bot is not running when setting is changed
+    TODO: Make sure Running and Demo is not running at the same time
 
 # Make a notification Section:
 - Software updates - guide etc.
 - allow to use email service for recieving updates
 
-
 # Demo Button
 TODO: Add dialog to open demo opportunities
-TODO: Make demo opportunities clear after 1 day / notification of datetime or settings change
-TODO: Allow user to open a demo opportunity
+
+# Onboarding Experience
+- Add `.env` pair for private key with a lot of explanation
+- Add powershell code to run the bot:
+    - set path to `C:\funding-rate-arbitrage`
+    - set path to `~/funding-rate-arbitrage`
 
 # Close Position Pair Button
 TODO: Group Positions into 1
 TODO: Add dialog for close_reason
 
-# Concurrency Handling
-TODO: Make sure bot is not running when setting is changed
-TODO: Make sure Running and Demo is not running at the same time
 
 # Instructions
 - TODO: Add Instructions in Home page if there are no Positions

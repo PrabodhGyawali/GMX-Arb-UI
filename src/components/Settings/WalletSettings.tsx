@@ -58,7 +58,7 @@ const WalletSettings: React.FC = () => {
   const handleSave = () => {
     if (connected && isValid) {
       const backendUrl = localStorage.getItem('backendURL');
-      fetch(`${backendUrl}/wallet-settings/set`, {
+      fetch(`${backendUrl}/settings/wallet-settings/set`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

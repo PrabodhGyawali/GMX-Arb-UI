@@ -64,7 +64,7 @@ const ExchangeSettings = () => {
 
     const handleSave = () => {
         const backendUrl = localStorage.getItem('backendURL');
-        fetch(`${backendUrl}/exchnage-settings/set`, {
+        fetch(`${backendUrl}/settings/exchnage-settings/set`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -135,7 +135,7 @@ const ExchangeSettings = () => {
 
         if (connected) {
             const backendUrl = localStorage.getItem('backendURL');
-            fetch(`${backendUrl}/exchnage-settings/get`)
+            fetch(`${backendUrl}/settings/exchnage-settings/get`)
                 .then(response => {
                     if (response.ok) {
                         return response.json();

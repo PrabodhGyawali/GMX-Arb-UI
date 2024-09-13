@@ -4,7 +4,7 @@ import DeployCard from './DeployCard';
 import { useSocket } from '../../Context/SocketContext';
 
 function DeploySection() {
-  const {socket, backendUrl} = useSocket();
+  const {socket} = useSocket();
 
   // Amount of Bybit and SYN to deploy
   const [byBitAmount, setByBitAmount] = useState('');
@@ -36,7 +36,7 @@ function DeploySection() {
 
   const fetchData = async () => {
     try {
-      // Fetch ByBit balance
+      const backendUrl = localStorage.getItem('backendUrl');
       const response = await fetch(`${backendUrl}/settings/collateral/ByBit`);
       if (response.status === 200) {
         const data = await response.json();

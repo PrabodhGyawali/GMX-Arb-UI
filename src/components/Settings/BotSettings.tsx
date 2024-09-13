@@ -40,7 +40,7 @@ const BotSettings: React.FC = () => {
     try {
         if (!connected) return;
         const backendUrl = localStorage.getItem('backendUrl');
-        const response = await fetch(`${backendUrl}/bot-settings/get`);
+        const response = await fetch(`${backendUrl}/settings/bot-settings/get`);
         if (response.ok) {
             const data = await response.json();
             setBotConfig(data);
@@ -54,7 +54,7 @@ const BotSettings: React.FC = () => {
   };
 
   const handleSettingChange = (setting: keyof BotConfig) => (
-    newValue: number | number[]
+    newValue: number
   ) => {
     setBotConfig(prevConfig => ({
       ...prevConfig,
@@ -65,7 +65,7 @@ const BotSettings: React.FC = () => {
   const handleSave = async () => {
     try {
         const backendUrl = localStorage.getItem('backendUrl');
-        const response = await fetch(`${backendUrl}/bot-settings/set`, {
+        const response = await fetch(`${backendUrl}/settings/bot-settings/set`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
