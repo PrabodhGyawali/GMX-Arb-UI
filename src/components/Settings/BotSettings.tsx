@@ -40,7 +40,7 @@ const BotSettings: React.FC = () => {
     try {
         if (!connected) return;
         const backendUrl = localStorage.getItem('backendUrl');
-        const response = await fetch(`${backendUrl}/bot-settings`);
+        const response = await fetch(`${backendUrl}/bot-settings/get`);
         if (response.ok) {
             const data = await response.json();
             setBotConfig(data);
@@ -55,10 +55,10 @@ const BotSettings: React.FC = () => {
 
   const handleSettingChange = (setting: keyof BotConfig) => (
     newValue: number | number[]
-    ) => {
+  ) => {
     setBotConfig(prevConfig => ({
-    ...prevConfig,
-    [setting]: newValue as number
+      ...prevConfig,
+      [setting]: newValue as number
     }));
   };
 
@@ -127,7 +127,7 @@ const BotSettings: React.FC = () => {
       label: 'Default Trade Size (USD)',
       min: 50,
       max: 1_000_000,
-      step: 10,
+      step: 50,
       tooltip: 'The default size of each trade in USD. Larger trade sizes can lead to higher profits but also increase potential losses.',
     },
   ];
@@ -148,15 +148,15 @@ const BotSettings: React.FC = () => {
               </Tooltip>
             </Box>
             <Box sx={{ px: 2 }}>
-              <Slider
-                value={botConfig[config.key]}
-                onChange={() => handleSettingChange(config.key)}
-                aria-labelledby={`${config.key}-slider`}
-                valueLabelDisplay="auto"
-                min={config.min}
-                max={config.max}
-                step={config.step}
-              />
+            <Slider
+              value={botConfig[config.key]}
+              onChange={() => handleSettingChange(config.key)}
+              aria-labelledby={`${config.key}-slider`}
+              valueLabelDisplay="auto"
+              min={config.min}
+              max={config.max}
+              step={config.step}
+            />
             </Box>
           </Grid>
         ))}

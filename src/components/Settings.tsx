@@ -9,11 +9,15 @@ import {
   Button,
   Tabs,
   Tab,
-  Box
+  Box,
+  Tooltip
 } from "@mui/material";
 import BotSettings from './Settings/BotSettings';
 import WalletSettings from './Settings/WalletSettings';
 import ExchangeSettings from './Settings/ExchangeSettings';
+import BotStatusIndicator from './NavBarSide/BotStatusIndicator';
+import { useSocket } from '../Context/SocketContext';
+import { ConnectToBot } from '../onboarding/components/InstallationSteps';
 /**
  * Navbar button to access settings dialog
  */
@@ -43,16 +47,39 @@ interface SettingsDialogProps {
     onClose: () => void;
 }
 
+
 const SettingsDialog: React.FC<SettingsDialogProps> = ({ open, onClose }) => {
     const [tabValue, setTabValue] = useState<number>(0);
+    const { connected } = useSocket();
+    const [socketDialogMessage, setSocketDialogMessage] = useState(false);
 
     const handleTabChange = ( newValue: number): void => {
         setTabValue(newValue);
     };
 
+    const socketDialog = () => (
+        <Dialog open={socketDialogMessage} onClose={() => setSocketDialogMessage(false)}>
+            <DialogTitle>Bot Status</DialogTitle>
+            <DialogContent>
+                <ConnectToBot />
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={() => setSocketDialogMessage(false)}>Close</Button>
+            </DialogActions>
+        </Dialog>
+    );
+
     return (
         <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-            <DialogTitle>Settings</DialogTitle>
+            <Box sx={{display: 'flex', justifyContent: 'space-between', alignContent: 'center'}}>
+                <DialogTitle>Settings</DialogTitle>
+                <Tooltip title="Make sure that you are connected to bot to get current settings and set the settings">
+                    <IconButton onClick={() => setSocketDialogMessage(prev => !prev)}>
+                        <BotStatusIndicator isConnected={connected} />
+                    </IconButton>
+                </Tooltip>
+            </Box>
+            {socketDialog()}
             <DialogContent>
                 <Tabs value={tabValue} onChange={() => handleTabChange(tabValue)}>
                     <Tab label="Exchange" onClick={() => setTabValue(0)} />
@@ -72,13 +99,5 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({ open, onClose }) => {
     );
 }
 
-const Settings: React.FC = () => {
-    return (
-        <section className="MainSettings">
-            
-        </section>
-    );
-}
 
-
-export { SettingsButton, Settings };
+export { SettingsButton };
