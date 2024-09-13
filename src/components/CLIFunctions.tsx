@@ -29,10 +29,10 @@ export const DeployCollateral = () => {
 const sxButtons = {width: '5em', fontSize: '1.5em'};
 
 const textAnimation = keyframes`
-  0% { content: "Running"; }
-  33% { content: "Running."; }
-  66% { content: "Running.."; }
-  100% { content: "Running..."; }
+  0% { content: ""; }
+  33% { content: "."; }
+  66% { content: ".."; }
+  100% { content: "..."; }
 `;
 
 const AnimatedButton = styled(Button)`
