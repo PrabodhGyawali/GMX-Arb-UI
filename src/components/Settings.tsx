@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SettingsIcon from '@mui/icons-material/Settings';
+import ErrorIcon from '@mui/icons-material/Error';
 import { 
   IconButton, 
   Dialog, 
@@ -10,7 +11,8 @@ import {
   Tabs,
   Tab,
   Box,
-  Tooltip
+  Tooltip,
+  Alert
 } from "@mui/material";
 import BotSettings from './Settings/BotSettings';
 import WalletSettings from './Settings/WalletSettings';
@@ -23,6 +25,24 @@ import { ConnectToBot } from '../onboarding/components/InstallationSteps';
  */
 const SettingsButton: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false);
+    const [hasError, setHasError] = useState<boolean>(false);
+
+    useEffect(() => {
+        const checkForErrors = async () => {
+            try {
+                const backendURL = localStorage.getItem('backendURL');
+                const response = await fetch(`${backendURL}/settings/find`);
+                if (!response.ok) {
+                    throw new Error('Settings error');
+                }
+                setHasError(false);
+            } catch (error) {
+                setHasError(true);
+            }
+        };
+
+        checkForErrors();
+    }, []);
 
     const handleOpen = (): void => {
         setOpen(true);
@@ -34,10 +54,12 @@ const SettingsButton: React.FC = () => {
 
     return (
         <>
-            <IconButton onClick={handleOpen}>
-                <SettingsIcon sx={{ fontSize: 40 }} /> 
-            </IconButton>
-            <SettingsDialog open={open} onClose={handleClose} />
+            <Tooltip title={hasError ? "Settings error detected" : "Settings"}>
+                <IconButton onClick={handleOpen}>
+                    {hasError ? <ErrorIcon sx={{ fontSize: 40, color: 'error.main' }} /> : <SettingsIcon sx={{ fontSize: 40 }} />}
+                </IconButton>
+            </Tooltip>
+            <SettingsDialog open={open} onClose={handleClose} hasError={hasError} />
         </>
     );
 }
@@ -45,10 +67,11 @@ const SettingsButton: React.FC = () => {
 interface SettingsDialogProps {
     open: boolean;
     onClose: () => void;
+    hasError: boolean;
 }
 
 
-const SettingsDialog: React.FC<SettingsDialogProps> = ({ open, onClose }) => {
+const SettingsDialog: React.FC<SettingsDialogProps> = ({ open, onClose, hasError }) => {
     const [tabValue, setTabValue] = useState<number>(0);
     const { connected } = useSocket();
     const [socketDialogMessage, setSocketDialogMessage] = useState(false);
@@ -81,15 +104,20 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({ open, onClose }) => {
             </Box>
             {socketDialog()}
             <DialogContent>
-                <Tabs value={tabValue} onChange={() => handleTabChange(tabValue)}>
-                    <Tab label="Exchange" onClick={() => setTabValue(0)} />
-                    <Tab label="Bot" onClick={() => setTabValue(1)} />
-                    <Tab label="Env" onClick={() => setTabValue(2)} />
+                {hasError && (
+                    <Alert severity="warning" sx={{ mb: 2 }}>
+                        There is an error in the current settings configuration. Please review and update your settings.
+                    </Alert>
+                )}
+                <Tabs value={tabValue} onChange={(_, newValue) => handleTabChange(newValue)}>
+                    <Tab label="Exchange" />
+                    <Tab label="Bot" />
+                    <Tab label="Env" />
                 </Tabs>
                 <Box sx={{ mt: 2 }}>
-                    {tabValue === 0 && <ExchangeSettings />} {/* <ExchangeSettings /> */}
-                    {tabValue === 1 && <BotSettings /> } {/* <BotSettings /> */}
-                    {tabValue === 2 && <WalletSettings  />} {/* <EnvSettings /> */}
+                    {tabValue === 0 && <ExchangeSettings />}
+                    {tabValue === 1 && <BotSettings />}
+                    {tabValue === 2 && <WalletSettings />}
                 </Box>
             </DialogContent>
             <DialogActions>

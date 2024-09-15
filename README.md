@@ -19,6 +19,7 @@ TODO: Add dialog to open demo opportunities
 - Add powershell code to run the bot:
     - set path to `C:\funding-rate-arbitrage`
     - set path to `~/funding-rate-arbitrage`
+- Add warning if `${backendURL}/settings/find` is giving error
 
 # Close Position Pair Button
 TODO: Group Positions into 1
