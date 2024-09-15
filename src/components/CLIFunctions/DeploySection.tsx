@@ -80,7 +80,7 @@ function DeploySection() {
   const fetchData = async (exchange: string) => {
     try {
       const backendUrl = localStorage.getItem('backendUrl');
-      const response = await fetch(`${backendUrl}/settings/collateral/${exchange}`);
+      const response = await fetch(`${backendUrl}/collateral/${exchange}`);
       if (response.status === 200) {
         const data = await response.json();
         setExchanges(prev => ({

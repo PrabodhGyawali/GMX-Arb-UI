@@ -168,7 +168,7 @@ if ! command -v python3 &> /dev/null; then
 fi
 
 # Clone the repository
-git clone https://github.com/50shadesofgwei/funding-rate-arbitrage.git
+git clone -b backend_flask_server https://github.com/50shadesofgwei/funding-rate-arbitrage.git
 cd funding-rate-arbitrage
 
 # Create and activate virtual environment
