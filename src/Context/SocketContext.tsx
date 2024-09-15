@@ -4,17 +4,10 @@ import { io, Socket } from 'socket.io-client';
 type SocketContextType = {
     socket: Socket | null;
     connected: boolean;
-    botStatus: BotStatus;
     backendUrl: string;
     setBackendUrl: (url: string) => void;
 };
 
-enum BotStatus {
-    ON,
-    STOPPING, 
-    PAUSED,
-    OFF
-}
 
 const SocketContext = createContext<SocketContextType | undefined>(undefined);
 
@@ -34,7 +27,6 @@ interface SocketContextProviderProps {
 export const SocketContextProvider: React.FC<SocketContextProviderProps> = ({ children }) => {
     const [socket, setSocket] = useState<Socket | null>(null);
     const [connected, setConnected] = useState(false);
-    const [botStatus, setBotStatus] = useState<BotStatus>(BotStatus.OFF);
     const [backendUrl, setBackendUrl] = useState<string>(() => 
         localStorage.getItem('backendURL') || 'http://localhost:6969'
     );
@@ -50,9 +42,6 @@ export const SocketContextProvider: React.FC<SocketContextProviderProps> = ({ ch
 
         newSocket.on('connect', () => setConnected(true));
         newSocket.on('disconnect', () => setConnected(false));
-        newSocket.on('bot_stopped', () => setBotStatus(BotStatus.OFF));
-        newSocket.on('bot_paused', () => setBotStatus(BotStatus.PAUSED));
-        newSocket.on('bot_running', () => setBotStatus(BotStatus.ON));
 
         return () => {
             newSocket.disconnect();
@@ -60,7 +49,7 @@ export const SocketContextProvider: React.FC<SocketContextProviderProps> = ({ ch
     }, [backendUrl]);
 
     return (
-        <SocketContext.Provider value={{ socket, connected, botStatus, backendUrl, setBackendUrl}}>
+        <SocketContext.Provider value={{ socket, connected, backendUrl, setBackendUrl}}>
             {children}
         </SocketContext.Provider>
     )

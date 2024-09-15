@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useSocket } from "../Context/SocketContext";
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
+import DemoOppDialog from "./CLIFunctions/DemoOpportunityDialog"
 
 const serverDemo = () => {
     const backendUrl = localStorage.getItem('backendURL');
@@ -43,13 +44,72 @@ const AnimatedButton = styled(Button)`
       animation: ${textAnimation} 1.5s infinite;
     }
   }
+  &.demo-running {
+    background-color: #ff9800;
+    &::after {
+      content: "Demo";
+      animation: ${textAnimation} 1.5s infinite;
+    }
+  }
 `;
 
 export const Run = () => {
     const { connected } = useSocket();
     const [isRunning, setIsRunning] = useState(false);
+    const [isDemoRunning, setIsDemoRunning] = useState(false);
     const [buttonText, setButtonText] = useState("Run");
+    const [demoButtonText, setDemoButtonText] = useState("Demo");
+    
 
+    const serverStop = () => {
+        console.log('Stopping bot');
+        const backendUrl = localStorage.getItem('backendURL');
+        fetch(`${backendUrl}/stop`, {
+          method: 'POST',
+        }).then(response => {
+          if (response.ok) {
+            setIsRunning(false);
+          }
+          console.log(response);
+
+        })
+        .catch(error => {
+          console.error('serverStop Error: ', error);
+        });
+    };
+
+    const serverRun = () => {
+        if (isRunning) {
+            serverStop();
+        }
+        else {
+            const backendUrl = localStorage.getItem('backendURL');
+            fetch(`${backendUrl}/run`, {
+                method: 'POST',
+            }).then(response => {
+                if (response.ok) {
+                    setIsRunning(true);
+                }
+                else {
+                    alert('Error starting bot');
+                }
+            })
+            .catch(error => {
+                console.error('serverRun Error: ', error);
+            });
+        }  
+    };
+
+    const runDemo = () => {
+        setIsDemoRunning(true);
+        serverDemo();
+        // Simulate demo running for 5 seconds
+        setTimeout(() => {
+            setIsDemoRunning(false);
+        }, 5000);
+    };
+
+    
     useEffect(() => {
         if (isRunning) {
             setButtonText("");
@@ -57,6 +117,14 @@ export const Run = () => {
             setButtonText("Run");
         }
     }, [isRunning]);
+
+    useEffect(() => {
+        if (isDemoRunning) {
+            setDemoButtonText("");
+        } else {
+            setDemoButtonText("Demo");
+        }
+    }, [isDemoRunning]);
 
     useEffect(() => {
         let intervalId: NodeJS.Timeout;
@@ -87,39 +155,6 @@ export const Run = () => {
         };
     }, [connected]);
 
-    const serverStop = () => {
-        const backendUrl = localStorage.getItem('backendURL');
-        fetch(`${backendUrl}/stop`, {
-          method: 'POST',
-        }).then(response => {
-          if (response.ok) {
-            setIsRunning(false);
-          }
-        })
-        .catch(error => {
-          console.error('serverStop Error: ', error);
-        });
-    };
-
-    const serverRun = () => {
-        if (isRunning) {
-            serverStop();
-        }
-        else {
-            const backendUrl = localStorage.getItem('backendURL');
-            fetch(`${backendUrl}/run`, {
-                method: 'POST',
-            }).then(response => {
-                if (response.ok) {
-                    setIsRunning(true);
-                }
-            })
-            .catch(error => {
-                console.error('serverRun Error: ', error);
-            });
-        }  
-    };
-
     return (
         <Box sx={{display: 'flex', gap: '1em', justifyContent: 'space-around', width: '100%'}}>
             <AnimatedButton 
@@ -127,20 +162,22 @@ export const Run = () => {
                 color="primary" 
                 variant="contained" 
                 onClick={serverRun}
-                disabled={!connected}   
+                disabled={!connected || isDemoRunning}   
                 className={isRunning ? 'running' : ''}
             >
                 {buttonText}
             </AnimatedButton>
-            <Button 
+            <AnimatedButton 
                 sx={sxButtons} 
                 color="secondary" 
                 variant="contained" 
-                onClick={serverDemo}
-                disabled={!connected}
+                onClick={runDemo}
+                disabled={!connected || isRunning}
+                className={isDemoRunning ? 'demo-running' : ''}
             >
-                Demo
-            </Button>
+                {demoButtonText}
+            </AnimatedButton>
+            <DemoOppDialog />
         </Box>
     );
 }

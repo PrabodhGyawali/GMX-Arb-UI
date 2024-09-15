@@ -3,6 +3,7 @@ import { SettingsButton } from './Settings';
 import { useNavigate } from 'react-router-dom';
 import { Box, IconButton, useTheme, useMediaQuery } from '@mui/material';
 import BotStatusIndicator from './NavBarSide/BotStatusIndicator';
+import NotificationButton from '../Notifications/NotificationButton';
 
 function NavBarSide({ isConnected }: { isConnected: boolean }) {
   const navigateHome = useNavigate();
@@ -48,7 +49,10 @@ function NavBarSide({ isConnected }: { isConnected: boolean }) {
             style={{ width: isMobile ? '2em' : '3em', height: isMobile ? '2em' : '3em' }}
           />
         </IconButton>
-        <SettingsButton />
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <NotificationButton />
+          <SettingsButton />
+        </Box>
       </Box>
       <Run />
       <BotStatusIndicator isConnected={isConnected} />
