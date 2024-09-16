@@ -1,5 +1,5 @@
 import React, {createContext, useContext, useEffect, useState, useCallback, useMemo} from 'react'
-import {Position} from '../components/PositionMonitor/Position'
+import {Position} from '../components/Settings/Position'
 import { useSocket } from './SocketContext';
 
 interface PositionContextType {
@@ -32,7 +32,7 @@ const mockPositions: Position[] = [
     id: 2,
     strategy_execution_id: 'strat1',
     exchange: 'Binance',
-    symbol: 'ETH/USDT',
+    symbol: 'BTC/USDT',
     side: 'Short',
     is_hedge: true,
     size_in_asset: 5,
@@ -43,7 +43,7 @@ const mockPositions: Position[] = [
   {
     id: 3,
     strategy_execution_id: 'strat2',
-    exchange: 'Kraken',
+    exchange: 'GMX',
     symbol: 'SOL/USD',
     side: 'Long',
     is_hedge: false,
@@ -55,8 +55,8 @@ const mockPositions: Position[] = [
   {
     id: 4,
     strategy_execution_id: 'strat2',
-    exchange: 'Kraken',
-    symbol: 'ADA/USD',
+    exchange: 'Bybit',
+    symbol: 'SOL/USD',
     side: 'Long',
     is_hedge: false,
     size_in_asset: 1000,
@@ -67,7 +67,7 @@ const mockPositions: Position[] = [
   {
     id: 5,
     strategy_execution_id: 'strat3',
-    exchange: 'Coinbase',
+    exchange: 'Binance',
     symbol: 'XRP/USD',
     side: 'Short',
     is_hedge: true,
@@ -79,8 +79,8 @@ const mockPositions: Position[] = [
   {
     id: 6,
     strategy_execution_id: 'strat3',
-    exchange: 'Coinbase',
-    symbol: 'LINK/USD',
+    exchange: 'Synthetix',
+    symbol: 'XRP/USD',
     side: 'Long',
     is_hedge: false,
     size_in_asset: 200,
@@ -92,8 +92,8 @@ const mockPositions: Position[] = [
   {
     id: 7,
     strategy_execution_id: 'strat4',
-    exchange: 'FTX',
-    symbol: 'DOT/USDT',
+    exchange: 'GMX',
+    symbol: 'AVAX/USDT',
     side: 'Long',
     is_hedge: false,
     size_in_asset: 300,
@@ -108,7 +108,7 @@ const mockPositions: Position[] = [
   {
     id: 8,
     strategy_execution_id: 'strat4',
-    exchange: 'FTX',
+    exchange: 'Bybit',
     symbol: 'AVAX/USDT',
     side: 'Short',
     is_hedge: true,
@@ -124,8 +124,8 @@ const mockPositions: Position[] = [
   {
     id: 9,
     strategy_execution_id: 'strat5',
-    exchange: 'Bitfinex',
-    symbol: 'UNI/USD',
+    exchange: 'Binance',
+    symbol: 'MATIC/USD',
     side: 'Long',
     is_hedge: false,
     size_in_asset: 1000,
@@ -140,7 +140,7 @@ const mockPositions: Position[] = [
   {
     id: 10,
     strategy_execution_id: 'strat5',
-    exchange: 'Bitfinex',
+    exchange: 'Synthetix',
     symbol: 'MATIC/USD',
     side: 'Short',
     is_hedge: true,
