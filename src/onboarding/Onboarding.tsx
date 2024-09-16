@@ -151,7 +151,7 @@ function Onboarding() {
 
 
   return (
-    <Box className="onboarding" sx={{ maxWidth: 600, margin: 'auto', p: 3 }}>
+    <Box className="onboarding" >
       {showRestartDialog ? (
         <RestartBotDialog 
           open={showRestartDialog} 
@@ -202,7 +202,7 @@ function Onboarding() {
           </Typography>
           {steps[step].component}
           <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between' }}>
-            <Button onClick={handleBack} disabled={step === 0}>
+            <Button onClick={handleBack} disabled={step === 0} variant='contained' color='secondary' sx={{color: 'white'}}>
               Back
             </Button>
             <Button onClick={handleNext} variant="contained" disabled={!steps[step].valid}>

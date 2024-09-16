@@ -108,7 +108,7 @@ const TradingPositionsTable: React.FC = () => {
               <StyledTableCell>Liq Price</StyledTableCell>
               {tabValue === 0 && <>
                 <StyledTableCell>Open Time</StyledTableCell>
-                <StyledTableCell>Actions</StyledTableCell>
+                {/* <StyledTableCell>Actions</StyledTableCell> */}
               </>}
               {tabValue === 1 && (
                 <>
@@ -138,7 +138,6 @@ const TradingPositionsTable: React.FC = () => {
                         <StyledTableCell>{position.side}</StyledTableCell>
                         <StyledTableCell>{position.size_in_asset}</StyledTableCell>
                         <StyledTableCell>{position.liquidation_price}</StyledTableCell>
-                        <StyledTableCell>{position.open_time.toLocaleString()}</StyledTableCell>
                         {tabValue === 0 && (
                             <>
                                 <StyledTableCell>{position.open_time.toLocaleString()}</StyledTableCell>
