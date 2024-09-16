@@ -27,7 +27,7 @@ const TermsAndServices = () => (
 
     <Divider sx={{ backgroundColor: "#444", marginBottom: "2em" }} />
 
-    <Box sx={{ backgroundColor: "#1C274C", padding: "1em" }}>
+    <Box sx={{ outline: '1px solid #808080', backgroundColor: "#1C274C", padding: "1em" }}>
       <Typography variant="h5" sx={{ backgroundColor: "#1C274C", fontWeight: "bold", marginBottom: "1em" }}>
         1. Financial Risk
       </Typography>
@@ -136,7 +136,7 @@ export const WelcomeStep: React.FC<TermsAndServicesProps> = ({ onValidationChang
           maxWidth: "800px", // Restrict width for readability
         }}
       >
-        <Typography variant="h4" sx={{ backgroundColor: "#1C274C", padding: "1em", marginBottom: "1em", fontWeight: "bold" }}>
+        <Typography variant="h4" sx={{ outline: '1px solid #808080', backgroundColor: "#1E2B50", padding: "1em", marginBottom: "1em", fontWeight: "bold" }}>
           Welcome to the GMX Funding Rate Arbitrage Interface
         </Typography>
         
@@ -171,9 +171,9 @@ export const WelcomeStep: React.FC<TermsAndServicesProps> = ({ onValidationChang
             onChange={handleCheckboxChange}
             sx={{
               '&.Mui-checked': {
-                color: "#5ea0ee", // Customize checked color
+                color: "#00ff00", // Customize checked color
               },
-              color: "#fff", // Customize unchecked color
+              color: "#FFFFFF", // Customize unchecked color
             }}
           />
           <Typography sx={{ backgroundColor: "#1C274C", paddingLeft: "0.5em", fontSize: "1rem", color: "#fff" }}>
