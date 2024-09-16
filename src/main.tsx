@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import ErrorPage from './ErrorPage.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { SocketContextProvider } from './Context/SocketContext.tsx'
+import { PositionProvider } from './Context/PositionContext.tsx'
 import About from './About.tsx'
 import PrivacyPolicy from './Privacy.tsx'
 import Onboarding from './onboarding/Onboarding.tsx'
@@ -36,9 +37,12 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <SocketContextProvider>
-      <NotificationProvider>
-        <RouterProvider router={router} />
-      </ NotificationProvider>
+      <PositionProvider>
+      
+        <NotificationProvider>
+          <RouterProvider router={router} />
+        </ NotificationProvider>
+      </ PositionProvider>
     </SocketContextProvider>
   </React.StrictMode>
 )

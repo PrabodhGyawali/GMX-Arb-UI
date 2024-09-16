@@ -1,71 +1,134 @@
-import React, {useState} from 'react'
-import { Trade } from './Trade';
-import PositionCard from './PositionCard'
-import { Box, TextField, Button, Typography, Container, Grid} from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Tabs,
+  Tab,
+  Typography,
+  styled,
+  CircularProgress,
+  Button
+} from '@mui/material';
+import { usePosition } from '../../Context/PositionContext';
 
-interface PositionListProps {
-    trades: Trade[];
-}
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  color: theme.palette.common.white,
+  borderBottom: `1px solid ${theme.palette.grey[800]}`,
+}));
 
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:hover': {
+    backgroundColor: theme.palette.grey[800],
+  },
+}));
 
-const PositionList: React.FC<PositionListProps> = ({ trades }: PositionListProps) => {
-    const [searchTerm, setSearchTerm] = useState<string>('');
-    const [showHistory, setShowHistory] = useState<boolean>(false);
-    
+const TradingPositionsTable: React.FC = () => {
+    const { positions, openPositions, closedPositions, loading, error, closePosition, fetchPositions } = usePosition();
+    const [tabValue, setTabValue] = useState(0);
 
-    const filteredTrades = trades.filter((trade) => 
-        trade.symbol.toLowerCase()
-                    .includes(searchTerm.toLowerCase()) && (showHistory || trade.open_close === 'Open'));
+    useEffect(() => {
+        fetchPositions();
+    }, [fetchPositions]);
+
+    const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+        setTabValue(newValue);
+    };
+
+    const filteredPositions = tabValue === 0 ? openPositions : closedPositions;
+
+    if (loading) {
+        return (
+            <Paper sx={{ width: '100%', backgroundColor: '#1e222d', display: 'flex', justifyContent: 'center', padding: '20px' }}>
+                <CircularProgress />
+            </Paper>
+        );
+    }
+
+    if (error) {
+        return (
+            <Paper sx={{ width: '100%', backgroundColor: '#1e222d', padding: '20px' }}>
+                <Typography color="error">{error}</Typography>
+            </Paper>
+        );
+    }
+
     return (
-        // Container centers content and provides consistent padding
-        <Container maxWidth="lg">
-            <Box my={4}>
-                <Typography variant="h4" component="h1" gutterBottom>
-                    Position Monitor
-                </Typography>
-                <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                    <TextField
-                        sx={{width: '20%'}}
-                        variant='outlined'
-                        label='Search by Symbol'
-                        value={searchTerm}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
-                        margin='normal'
-                    />
-                    <Button
-                        variant='contained'
-                        color='primary'
-                        onClick={() => setShowHistory(!showHistory)}
-                    >{showHistory ? 'Hide History' : 'Show History'}</Button>
-                </Box>
-                
-                <Box sx={{
-                    maxHeight: '100vh',
-                    overflow: 'auto',
-                }}>
-                    {filteredTrades.length === 0 ? (
-                        <Typography variant="h6" component="p" align="center">
-                            No open positions found.
-                        </Typography>
-                    ) : (
-                        <Grid container spacing={3} sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'stretch',
-                        }}>
-                            {filteredTrades.map((trade) => (
-                                <Grid item xs={12} sm={6} md={4} key={trade.id}>
-                                    <PositionCard {...trade} />
-                                </Grid>
-                            ))}
-                        </Grid>
-                    )}
-                </Box>
-            </Box>
-        </Container>
-    )
-}
+        <Paper sx={{ width: '100%', backgroundColor: '#1e222d' }}>
+            <Tabs
+                value={tabValue}
+                onChange={handleTabChange}
+                textColor="primary"
+                indicatorColor="primary"
+                sx={{
+                    '& .MuiTab-root': {
+                        color: 'white',  // This sets all tabs to white
+                        opacity: 0.7,    // Slightly dim inactive tabs
+                        '&.Mui-selected': {
+                            color: 'white',  // Keep selected tab white
+                            opacity: 1,      // Full opacity for active tab
+                    },
+                },
+        }}
+            >
+                <Tab label={`Open (${openPositions.length})`} />
+                <Tab label={`Closed (${closedPositions.length})`} />
+            </Tabs>
+            <TableContainer>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <StyledTableCell>Symbol</StyledTableCell>
+                            <StyledTableCell>Side</StyledTableCell>
+                            <StyledTableCell>Size</StyledTableCell>
+                            <StyledTableCell>Liq Price</StyledTableCell>
+                            <StyledTableCell>Open Time</StyledTableCell>
+                            <StyledTableCell>PNL</StyledTableCell>
+                            <StyledTableCell>Funding</StyledTableCell>
+                            <StyledTableCell>Actions</StyledTableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {filteredPositions.length === 0 ? (
+                            <StyledTableRow>
+                                <StyledTableCell colSpan={8} align="center">
+                                    <Typography>You have no {tabValue === 0 ? 'open' : 'closed'} positions</Typography>
+                                </StyledTableCell>
+                            </StyledTableRow>
+                        ) : (
+                            filteredPositions.map((position) => (
+                                <StyledTableRow key={position.id}>
+                                    <StyledTableCell>{position.symbol}</StyledTableCell>
+                                    <StyledTableCell>{position.side}</StyledTableCell>
+                                    <StyledTableCell>{position.size_in_asset}</StyledTableCell>
+                                    <StyledTableCell>{position.liquidation_price}</StyledTableCell>
+                                    <StyledTableCell>{new Date(position.open_time).toLocaleString()}</StyledTableCell>
+                                    <StyledTableCell>{position.pnl}</StyledTableCell>
+                                    <StyledTableCell>{position.accrued_funding}</StyledTableCell>
+                                    <StyledTableCell>
+                                        {tabValue === 0 && (
+                                            <Button 
+                                                variant="contained" 
+                                                color="secondary" 
+                                                size="small"
+                                                onClick={() => closePosition(position.id)}
+                                            >
+                                                Close
+                                            </Button>
+                                        )}
+                                    </StyledTableCell>
+                                </StyledTableRow>
+                            ))
+                        )}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Paper>
+    );
+};
 
-export default PositionList
-
-    
+export default TradingPositionsTable;

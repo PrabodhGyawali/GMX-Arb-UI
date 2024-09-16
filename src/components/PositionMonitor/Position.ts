@@ -1,4 +1,4 @@
-export interface Trade {
+export interface Position {
     id: number;
     strategy_execution_id: string;
     exchange: string;
