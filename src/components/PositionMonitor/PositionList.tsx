@@ -1,21 +1,19 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Paper,
   Tabs,
   Tab,
   Typography,
   styled,
   CircularProgress,
-  Button
+  Button, 
+  Dialog, DialogTitle, DialogContent, DialogActions
 } from '@mui/material';
 import { usePosition } from '../../Context/PositionContext';
 import { Position } from '../Settings/Position';
+import PositionCard from './PositionCard';
+import ClosePositionDialog from './ClosePositionDialog';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   color: theme.palette.common.white,
@@ -30,8 +28,10 @@ const StyledTableRow = styled(TableRow)<{ isEvenGroup: boolean }>(({ theme, isEv
 }));
 
 const TradingPositionsTable: React.FC = () => {
-  const { positions, loading, error, closePosition, fetchPositions } = usePosition();
+  const { positions, loading, error, closePosition, closePositionPair, fetchPositions } = usePosition();
   const [tabValue, setTabValue] = useState(0);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedPosition, setSelectedPosition] = useState<Position | null>(null);
 
   useEffect(() => {
     fetchPositions();
@@ -76,6 +76,28 @@ const TradingPositionsTable: React.FC = () => {
     );
   }
 
+  const handleCloseButtonClick = (position: Position) => {
+    setSelectedPosition(position);
+    setDialogOpen(true);
+  }
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+    setSelectedPosition(null);
+  }
+
+  const handleClosePosition = (closeEntirePair: boolean) => {
+    if (selectedPosition) {
+      if (closeEntirePair) {
+        // TODO: Check whether best to use symbol or strategy_execution_id
+        closePositionPair(selectedPosition.symbol);
+      } else {
+        closePosition(selectedPosition.id);
+      }
+    }
+    handleDialogClose();
+  };
+
   return (
     <Paper sx={{ width: '100%', backgroundColor: '#1e222d' }}>
       <Tabs
@@ -108,7 +130,7 @@ const TradingPositionsTable: React.FC = () => {
               <StyledTableCell>Liq Price</StyledTableCell>
               {tabValue === 0 && <>
                 <StyledTableCell>Open Time</StyledTableCell>
-                {/* <StyledTableCell>Actions</StyledTableCell> */}
+                <StyledTableCell>Actions</StyledTableCell>
               </>}
               {tabValue === 1 && (
                 <>
@@ -142,10 +164,9 @@ const TradingPositionsTable: React.FC = () => {
                             <>
                                 <StyledTableCell>{position.open_time.toLocaleString()}</StyledTableCell>
                                 <StyledTableCell>
-                                    <Button onClick={() => closePosition(position.id)}>Close</Button>
+                                    <Button onClick={() => handleCloseButtonClick(position)}>Close</Button>
                                 </StyledTableCell>
                             </>
-                          
                         )}
                         {tabValue === 1 && (
                           <>
@@ -162,6 +183,12 @@ const TradingPositionsTable: React.FC = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <ClosePositionDialog 
+        open={dialogOpen} 
+        position={selectedPosition} 
+        onClose={handleDialogClose} 
+        onClosePosition={handleClosePosition}
+      />
     </Paper>
   );
 };

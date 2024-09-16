@@ -9,6 +9,7 @@ interface PositionContextType {
   loading: boolean;
   error: string | null;
   closePosition: (id: number) => Promise<void>;
+  closePositionPair: (symbol: string) => Promise<void>;
   fetchPositions: () => Promise<void>;
 }
 
@@ -226,6 +227,26 @@ export const PositionProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   }, []);
 
+  const closePositionPair = useCallback(async (symbol: string) => {
+    try {
+      const backendURL = localStorage.getItem('backendURL');
+      const response = await fetch(`${backendURL}/close-pair/${symbol}`, {
+        method: 'POST',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to close position pair');
+      }
+      // Update the local state instead of fetching all positions again
+      setPositions(prevPositions => 
+        prevPositions.map(pos => 
+          pos.symbol === symbol ? { ...pos, open_close: 'close' } : pos
+        )
+      );
+    } catch (error) {
+      
+    }
+  }, []);
+
   const openPositions = useMemo(() => positions.filter(p => p.open_close === 'open'), [positions]);
   const closedPositions = useMemo(() => positions.filter(p => p.open_close === 'close'), [positions]);
 
@@ -238,6 +259,7 @@ export const PositionProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         loading, 
         error, 
         closePosition, 
+        closePositionPair,
         fetchPositions 
       }}
     >
