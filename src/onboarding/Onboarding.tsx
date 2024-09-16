@@ -81,7 +81,7 @@ function Onboarding() {
   const navigate = useNavigate();
 
   const steps = [
-    { title: 'Welcome to GMX Funding Rate Arbitrage', 
+    { title: '', 
       component: <WelcomeStep onValidationChange={setIsWelcomeStepValid} />, 
       valid: isWelcomeStepValid },
     { title: 'Download the Bot from Github',
@@ -151,47 +151,69 @@ function Onboarding() {
 
 
   return (
-      <Box className="onboarding" sx={{ maxWidth: 600, margin: 'auto', p: 3 }}>
-        {showRestartDialog ? (
-          <RestartBotDialog 
-            open={showRestartDialog} 
-            onClose={() => setShowRestartDialog(false)} 
-            onGoHome={handleGoHome}
-          />
-        ) : localStorage.getItem('onboarding') === 'completed' ? (
-          <Box sx={{ mt: 3, display: 'flex', flexDirection:'column', justifyContent: 'space-between' }}>
-            <Typography variant='h1' gutterBottom>Onboarding Complete</Typography>
-            <BotStatusIndicator isConnected={connected} />
-            <Box sx={{mt: 3, display: 'flex', justifyContent: 'space-between'}}>
-              <Button variant='contained' onClick={() => {
-                localStorage.removeItem('onboarding');
-                setStep(0);
-                navigate('/onboarding');
-              }}>
-                Repeat Onboarding
-              </Button>
-              <Button variant='contained' onClick={() => navigate('/faq')}>
-                FAQ
-              </Button>
-            </Box>
+    <Box className="onboarding" sx={{ maxWidth: 600, margin: 'auto', p: 3 }}>
+      {showRestartDialog ? (
+        <RestartBotDialog 
+          open={showRestartDialog} 
+          onClose={() => setShowRestartDialog(false)} 
+          onGoHome={handleGoHome}
+        />
+      ) : localStorage.getItem('onboarding') === 'completed' ? (
+        <Box sx={{ mt: 3, display: 'flex', flexDirection:'column', justifyContent: 'space-between' }}>
+          <Typography 
+            variant="h4" 
+            gutterBottom 
+            sx={{ 
+              fontWeight: "bold", 
+              fontStyle: "italic", 
+              letterSpacing: "0.5px", 
+              lineHeight: "1.4" 
+            }}
+          >
+            Onboarding Complete
+          </Typography>
+          <BotStatusIndicator isConnected={connected} />
+          <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between' }}>
+            <Button variant="contained" onClick={() => {
+              localStorage.removeItem('onboarding');
+              setStep(0);
+              navigate('/onboarding');
+            }}>
+              Repeat Onboarding
+            </Button>
+            <Button variant="contained" onClick={() => navigate('/faq')}>
+              FAQ
+            </Button>
           </Box>
-          
-        ) : (
-          <>
-            <Typography variant="h4" gutterBottom>{steps[step].title}</Typography>
-            {steps[step].component}
-            <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between' }}>
-              <Button onClick={handleBack} disabled={step === 0}>
-                Back
-              </Button>
-              <Button onClick={handleNext} variant="contained" disabled={!steps[step].valid}>
-                {step === steps.length - 1 ? 'Finish' : 'Next'}
-              </Button>
-            </Box>
-          </>
-        )}
-      </Box>
+        </Box>
+      ) : (
+        <>
+          <Typography 
+            variant="h6"  // Updated to make the header smaller
+            gutterBottom 
+            sx={{
+              fontStyle: "italic",  // Slightly italic text
+              fontWeight: "500",  // Slightly bolder for sharpness
+              letterSpacing: "0.5px", 
+              lineHeight: "1.4"
+            }}
+          >
+            {steps[step].title}
+          </Typography>
+          {steps[step].component}
+          <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between' }}>
+            <Button onClick={handleBack} disabled={step === 0}>
+              Back
+            </Button>
+            <Button onClick={handleNext} variant="contained" disabled={!steps[step].valid}>
+              {step === steps.length - 1 ? 'Finish' : 'Next'}
+            </Button>
+          </Box>
+        </>
+      )}
+    </Box>
   );
-}
+  }
+  
 
 export default Onboarding;
