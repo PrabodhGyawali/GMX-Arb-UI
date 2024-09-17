@@ -1,3 +1,6 @@
+# MUI Theme:
+- https://www.youtube.com/watch?v=mu8-u7V7Z8s
+
 # Concurrency Handling
     TODO: Make sure bot is not running when setting is changed
 

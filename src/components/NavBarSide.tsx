@@ -56,6 +56,7 @@ function NavBarSide({ isConnected }: { isConnected: boolean }) {
       </Box>
       <Run />
       <BotStatusIndicator isConnected={isConnected} />
+
       {/* <DeployCollateral /> */}
     </Box>
   );

@@ -1,12 +1,13 @@
 import { Box, Typography, CircularProgress } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import TextA from '../../styledComponent/Text/TextA';
 
 const BotStatusIndicator = ({ isConnected }: { isConnected: boolean }) => {
   return (
       <Box display="flex" alignItems="center" gap={2}>
-        <Typography variant="body1" fontWeight="bold" minWidth="80px">
+        <TextA variant="body1" fontWeight="bold" minWidth="80px">
           Bot Status:
-        </Typography>
+        </TextA>
         <Box
           display="flex"
           alignItems="center"
