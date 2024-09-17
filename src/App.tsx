@@ -1,7 +1,7 @@
 import PositionMonitor from './components/PositionMonitor';
 import NavBarSide from './components/NavBarSide';
 import {DevDialog} from './DevComponent';
-import { Box } from '@mui/material';
+import BoxA from './styledComponent/Divs/BoxA';
 import { useSocket } from './Context/SocketContext';
 import { useEffect } from 'react';
 
@@ -16,7 +16,7 @@ function App() {
   });
   
   return (
-      <Box className="app" sx={{
+      <BoxA className="app" sx={{
           display: 'flex', height:'100vh', width: '100vw',
           justifyContent: 'flex-start', alignItems: 'stretch',
           overflowX: 'hidden',
@@ -24,14 +24,14 @@ function App() {
         }}>
 
         <NavBarSide isConnected={connected} />
-        <Box className="app-main" sx={{
+        <BoxA className="app-main" sx={{
           display:'flex', flexDirection:'column', justifyContent: 'space-between',
           height: '100vh', width: '100vw', padding: '0', margin: '0em',
         }}>
           <PositionMonitor />
           <DevDialog />
-        </Box>
-      </Box>    
+        </BoxA>
+      </BoxA>    
   )
 }
 

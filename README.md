@@ -1,18 +1,16 @@
-# DOING
-- Make sure settings can only be accessed on bot stopped
-TODO: Allow to turn on and off the bot without stopping the server
-TODO: Migrate old settings to dialog boxes
-
 # Concurrency Handling
     TODO: Make sure bot is not running when setting is changed
-    TODO: Make sure Running and Demo is not running at the same time
+
+# Dashboard
+- TODO: Trade information: total profits, total positions, 
+
 
 # Make a notification Section:
 - Software updates - guide etc.
-- allow to use email service for recieving updates
+- allow to recieve email service if trade executed or closed
 
 # Demo Button
-TODO: Add dialog to open demo opportunities
+TODO: Change card ui of demo opp
 
 # Onboarding Experience
 - Add `.env` pair for private key with a lot of explanation
@@ -56,14 +54,4 @@ TODO: Add settings for different sizes
 ### Add to backend or Migrate to backend
 - TODO: Make backend send Log objects to front-end rather than `string[]` - look into the Log class and write changes to the code
 - TODO: Enum usage for representing exchanges, rather than `strings`
-- TODO: Trade information: total profits, total positions, 
-
-
-# Hosting on server
-- CODE: git clone
-- `npm run dev` - deployable instead
-    - localhost:port
-
-# Running the bot
-- `pip install -e . && project-run-ui && npm run dev`
 

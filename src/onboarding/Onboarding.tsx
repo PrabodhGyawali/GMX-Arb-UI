@@ -10,19 +10,18 @@ import { useSocket } from '../Context/SocketContext';
 import { UserData } from '../onboarding/types'
 import BotStatusIndicator from '../components/NavBarSide/BotStatusIndicator';
 
+export const restartBot = async () => {
+  const backendUrl = localStorage.getItem('backendURL');
+  await fetch(`${backendUrl}/settings/restart-bot`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).catch(() => {});
+}
 
 const RestartBotDialog:React.FC<{open: boolean, onClose: () => void, onGoHome: () => void}> = ({open, onClose, onGoHome}) => {
   const {connected} = useSocket();
-
-  const restartBot = async () => {
-    const backendUrl = localStorage.getItem('backendURL');
-    await fetch(`${backendUrl}/settings/restart-bot`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }).catch(() => {});
-  } 
 
   return (
     <Dialog open={open} onClose={onClose}>

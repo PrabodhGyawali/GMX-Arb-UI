@@ -1,5 +1,5 @@
 import { Box, Button } from "@mui/material";
-import DeploySection from "./CLIFunctions/DeploySection";
+// import DeploySection from "./CLIFunctions/DeploySection";
 import { useState, useEffect } from "react";
 import { useSocket } from "../Context/SocketContext";
 import { keyframes } from "@emotion/react";
@@ -20,11 +20,11 @@ const serverDemo = () => {
     });
 };
 
-export const DeployCollateral = () => {
-    return (
-        <DeploySection />
-    );
-};
+// export const DeployCollateral = () => {
+//     return (
+//         <DeploySection />
+//     );
+// };
 
 // Styles
 const sxButtons = {width: '5em', fontSize: '1.5em'};

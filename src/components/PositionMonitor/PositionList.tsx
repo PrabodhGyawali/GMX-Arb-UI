@@ -8,16 +8,14 @@ import {
   styled,
   CircularProgress,
   Button, 
-  Dialog, DialogTitle, DialogContent, DialogActions
 } from '@mui/material';
 import { usePosition } from '../../Context/PositionContext';
 import { Position } from '../Settings/Position';
-import PositionCard from './PositionCard';
 import ClosePositionDialog from './ClosePositionDialog';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   color: theme.palette.common.white,
-  borderBottom: `1px solid ${theme.palette.grey[800]}`,
+  borderBottom: `1px solid ${theme.palette.grey[700]}`,
 }));
 
 const StyledTableRow = styled(TableRow)<{ isEvenGroup: boolean }>(({ theme, isEvenGroup }) => ({
@@ -153,7 +151,7 @@ const TradingPositionsTable: React.FC = () => {
                 <React.Fragment key={strategyId}>
                   {group
                     .filter((position) => tabValue === 0 ? position.open_close === 'open' : position.open_close === 'close')
-                    .map((position, index) => (
+                    .map((position) => (
                       <StyledTableRow key={position.id} isEvenGroup={groupIndex % 2 === 0}>
                         <StyledTableCell>{position.symbol}</StyledTableCell>
                         <StyledTableCell>{position.strategy_execution_id}</StyledTableCell>
@@ -164,7 +162,7 @@ const TradingPositionsTable: React.FC = () => {
                             <>
                                 <StyledTableCell>{position.open_time.toLocaleString()}</StyledTableCell>
                                 <StyledTableCell>
-                                    <Button onClick={() => handleCloseButtonClick(position)}>Close</Button>
+                                    <Button sx={{fontWeight:800}} onClick={() => handleCloseButtonClick(position)}>Close</Button>
                                 </StyledTableCell>
                             </>
                         )}

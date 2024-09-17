@@ -1,4 +1,4 @@
-import { DeployCollateral, Run } from '../components/CLIFunctions';
+import { Run } from '../components/CLIFunctions';
 import { SettingsButton } from './Settings';
 import { useNavigate } from 'react-router-dom';
 import { Box, IconButton, useTheme, useMediaQuery } from '@mui/material';
@@ -18,8 +18,8 @@ function NavBarSide({ isConnected }: { isConnected: boolean }) {
         flexDirection: isMobile ? 'row' : 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
-        height: isMobile ? 'auto' : '100vh',
-        width: isMobile ? '100%' : '20vw',
+        height: isMobile ? 'auto' : '50vh',
+        width: isMobile ? '100%' : 'auto',
         minWidth: isMobile ? 'auto' : '200px',
         maxWidth: isMobile ? 'none' : '300px',
         padding: isMobile ? '1em' : '2em 1em',
@@ -56,7 +56,7 @@ function NavBarSide({ isConnected }: { isConnected: boolean }) {
       </Box>
       <Run />
       <BotStatusIndicator isConnected={isConnected} />
-      <DeployCollateral />
+      {/* <DeployCollateral /> */}
     </Box>
   );
 }
