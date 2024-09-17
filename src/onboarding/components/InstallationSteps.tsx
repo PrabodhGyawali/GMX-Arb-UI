@@ -48,7 +48,7 @@ export const ConnectToBot: React.FC = () => {
                     value={url}
                     onChange={handleUrlChange}
                     fullWidth
-                    sx={{ mr: 2 }}
+                    sx={{ color: '#fff', mr: 2 }}
                     error={!!error}
                     helperText={error}
                 />
@@ -57,8 +57,9 @@ export const ConnectToBot: React.FC = () => {
                 </Button>
             </Box>
 
-            <Typography variant='h6' mt={3}>Check Bot Connection</Typography>
-            <Typography>
+            <Typography sx={{color: '#fff'}} variant='h6' mt={3}>Check Bot Connection</Typography>
+            <Typography
+            sx={{color: '#fff'}}>
                 Look for the green below showing if the bot is connected.
             </Typography>
             <BotStatusIndicator isConnected={connected} />
@@ -232,32 +233,60 @@ Write-Host "Copy that URL and use it to connect to the bot's web interface."`}
     }
 
     return (
-        <Box>
-            <Typography variant='h4' gutterBottom>Installation Steps</Typography>
-            
+        <Box
+        sx={{
+            maxWidth: '600px',
+            backgroundColor: "#0E1A37", // Dark background for the entire page
+            p: 3,
+            alignItems: "center",
+            boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.3)",
+            outline: '1px solid #808080',
+            justifyContent: 'center'
+          }}>
+            <Typography sx={{
+                color: '#fff',
+                alignItems: "center", 
+                backgroundColor: "#1C274C", 
+                textAlign: "center",
+                outline: '1px solid #808080',
+                padding: "0.5em",
+                margin: "1em",
+                }} 
+                variant='h4' gutterBottom>Installation Steps</Typography>
+
             <Box mb={2}>
-                <Typography variant='body1' gutterBottom>Select your operating system:</Typography>
+                <Typography sx={{
+                    color: '#fff', 
+                    backgroundColor: "#1C274C", 
+                    alignItems: "center", 
+                    outline: '1px solid #808080',
+                    textAlign: "center",
+                    width: "fit-content",
+                    p: 3,
+                    margin: "1em"
+                    }} variant='body1' gutterBottom>Select your operating system:</Typography>
                 <ToggleButtonGroup
+                    sx={{textAlign: "center", alignItems: 'center'}}
                     value={os}
                     exclusive
                     onChange={() => handleOsChange()}
                     aria-label="operating system"
                 >
-                    <ToggleButton value="windows" aria-label="windows">
+                    <ToggleButton sx={{color: '#fff', alignItems: "center", textAlign: "center" }} value="windows" aria-label="windows">
                         Windows
                     </ToggleButton>
-                    <ToggleButton value="mac" aria-label="mac">
+                    <ToggleButton sx={{color: '#fff'}} value="mac" aria-label="mac">
                         Mac
                     </ToggleButton>
                 </ToggleButtonGroup>
             </Box>
 
             <Box mb={2}>
-                <Typography variant='body1' gutterBottom>Choose installation method:</Typography>
+                <Typography sx={{color: '#fff'}} variant='body1' gutterBottom>Choose installation method:</Typography>
                 <Button
                     variant={installMethod === 'manual' ? 'contained' : 'outlined'}
                     onClick={() => handleInstallMethodChange('manual')}
-                    sx={{ mr: 1 }}
+                    sx={{ color: '#fff', mr: 1 }}
                 >
                     Manual Installation
                 </Button>
@@ -271,17 +300,19 @@ Write-Host "Copy that URL and use it to connect to the bot's web interface."`}
 
             {installMethod === 'manual' ? (
                 <>
-                    <Typography variant='h5' mt={4}>Install Git</Typography>
+                    <Typography sx={{
+                                color: '#fff'}}
+                                variant='h5' mt={4}>Install Git</Typography>
                     {os === 'windows' ? (
-                        <Typography>
+                        <Typography sx={{color: '#fff'}} >
                             Download Git from <a href="https://git-scm.com/download/win" target="_blank" rel="noopener noreferrer">git-scm.com/download/win</a>.
                         </Typography>
                     ) : (
                         <>
-                            <Typography>
+                            <Typography sx={{color: '#fff'}} >
                                 Follow the steps in <a href="https://support.apple.com/en-gb/guide/terminal/apd5265185d-f365-44cb-8b09-71a064a42125/mac" target="_blank" rel="noopener noreferrer">support.apple.com/...</a> to open your terminal.
                             </Typography>
-                            <Typography>
+                            <Typography sx={{color: '#fff'}} >
                                 Download Git through the terminal by following the steps in <a href="https://git-scm.com/download/mac" target="_blank" rel="noopener noreferrer">git-scm.com/download/mac</a>.
                             </Typography>
                         </>
@@ -289,8 +320,10 @@ Write-Host "Copy that URL and use it to connect to the bot's web interface."`}
 
                     {os === 'windows' ? (
                         <>
-                            <Typography variant='h5' mt={3}>Open a Powershell Terminal</Typography>
-                            <Typography>
+                            <Typography sx={{
+                                color: '#fff'}}
+                                variant='h5' mt={3}>Open a Powershell Terminal</Typography>
+                            <Typography sx={{color: '#fff'}}>
                                 Press <strong>Win + X</strong> and select <strong>Terminal</strong>
                             </Typography>
                         </>
@@ -308,7 +341,9 @@ Write-Host "Copy that URL and use it to connect to the bot's web interface."`}
                         </TerminalBox>
                     )}
 
-                    <Typography variant='h5' mt={3}>Clone the Repository</Typography>
+                    <Typography sx={{
+                                color: '#fff'}}
+                                variant='h5' mt={3}>Clone the Repository</Typography>
                     <TerminalBox>
                         git clone https://github.com/50shadesofgwei/SynthetixFundingRateArbitrage.git
                     </TerminalBox>
@@ -316,23 +351,23 @@ Write-Host "Copy that URL and use it to connect to the bot's web interface."`}
                     <Typography variant='h5' mt={3}>Navigate to the Project Directory</Typography>
                     <TerminalBox>cd SynthetixFundingRateArbitrage</TerminalBox>
 
-                    <Typography variant='h5' mt={3}>Install Python</Typography>
+                    <Typography sx={{color: '#fff'}} variant='h5' mt={3}>Install Python</Typography>
                     {os === 'windows' ? (
-                        <Typography>
+                        <Typography sx={{color: '#fff'}}>
                             Install Python from the <a href="https://www.python.org/downloads/windows/" target="_blank" rel="noopener noreferrer">Python website</a> or through the Microsoft Store.
                         </Typography>
                     ) : (
-                        <Typography>
+                        <Typography sx={{color: '#fff'}}>
                             Install Python from <a href="https://www.python.org/downloads/macos/" target="_blank" rel="noopener noreferrer">python.org/downloads/macos/</a>
                         </Typography>
                     )}
 
-                    <Typography variant='h5' mt={3}>Create a Virtual Environment</Typography>
+                    <Typography sx={{color: '#fff'}} variant='h5' mt={3}>Create a Virtual Environment</Typography>
                     <TerminalBox>python -m venv venv</TerminalBox>
 
-                    <Typography variant='h5' mt={3}>Activate the Virtual Environment<span><Tooltip
+                    <Typography sx={{color: '#fff'}} variant='h5' mt={3}>Activate the Virtual Environment<span><Tooltip
                         title={
-                            <Typography>
+                            <Typography sx={{color: '#fff'}}>
                                 You must always activate your terminal or else the <strong>project-run-ui</strong> command won't work.
                             </Typography>
                         }
@@ -347,16 +382,16 @@ Write-Host "Copy that URL and use it to connect to the bot's web interface."`}
                         <TerminalBox>source venv/bin/activate</TerminalBox>
                     )}
 
-                    <Typography variant='h5' mt={3}>Install Dependencies</Typography>
+                    <Typography sx={{color: '#fff'}} variant='h5' mt={3}>Install Dependencies</Typography>
                     <TerminalBox>pip install -e .</TerminalBox>
 
-                    <Typography variant='h5' mt={3}>Run the Project UI</Typography>
+                    <Typography sx={{color: '#fff'}} variant='h5' mt={3}>Run the Project UI</Typography>
                     <TerminalBox>project-run-ui</TerminalBox>
 
-                    <Typography>
+                    <Typography sx={{color: '#fff'}}>
                         Run the code below to rename the <strong>example.env</strong> file to <strong>.env<Tooltip
                         title={
-                            <Typography>
+                            <Typography sx={{color: '#fff'}} >
                                 The .env file is where your settings are going to be stored on your local computer. It will contains your API keys, private key and bot settings. It is important to keep this file secure.
                             </Typography>
                         }
@@ -377,16 +412,16 @@ Write-Host "Copy that URL and use it to connect to the bot's web interface."`}
                     )}
             
 
-                    <Typography variant='h5' mt={3}>Find the URL</Typography>
-                    <Typography>
+                    <Typography sx={{color: '#fff'}} variant='h5' mt={3}>Find the URL</Typography>
+                    <Typography sx={{color: '#fff'}}>
                         Check the terminal console output for a url like <strong>http://127.0.0.1:5000</strong>.
                         Copy that url as it is the address of the bot's web interface.
                     </Typography>
                 </>
             ) : (
                 <Box>
-                    <Typography variant='h5' mt={3}>Automated Installation Script</Typography>
-                    <Typography>
+                    <Typography sx={{color: '#fff'}} variant='h5' mt={3}>Automated Installation Script</Typography>
+                    <Typography sx={{color: '#fff'}} >
                         Copy and run the following script in your terminal to automate the installation process:
                     </Typography>
                     {renderAutomatedScript()}

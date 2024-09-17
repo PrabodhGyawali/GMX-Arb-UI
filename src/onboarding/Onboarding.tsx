@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, Typography, Dialog} from '@mui/material';
+import BoxB from '../styledComponent/Divs/BoxB';
+import PaperA from '../styledComponent/Divs/PaperA';
 import InstallationSteps from './components/InstallationSteps';
 import WalletSettingsStep from './components/WalletSettingsStep';
 import ExchangeSettingsStep from './components/ExchangeSettingsStep';
@@ -158,7 +160,7 @@ function Onboarding() {
           onGoHome={handleGoHome}
         />
       ) : localStorage.getItem('onboarding') === 'completed' ? (
-        <Box sx={{ mt: 3, display: 'flex', flexDirection:'column', justifyContent: 'space-between' }}>
+        <Box sx={{ mt: 0, display: 'flex', flexDirection:'column', justifyContent: 'space-between' }}>
           <Typography 
             variant="h4" 
             gutterBottom 
@@ -186,7 +188,7 @@ function Onboarding() {
           </Box>
         </Box>
       ) : (
-        <>
+        <BoxB>
           <Typography 
             variant="h6"  // Updated to make the header smaller
             gutterBottom 
@@ -200,7 +202,7 @@ function Onboarding() {
             {steps[step].title}
           </Typography>
           {steps[step].component}
-          <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between' }}>
+          <Box sx={{ mt: 0, display: 'flex', justifyContent: 'space-between', backgroundColor: "#0E1A37", width: '600px'}}>
             <Button onClick={handleBack} disabled={step === 0} variant='contained' color='secondary' sx={{color: 'white'}}>
               Back
             </Button>
@@ -208,7 +210,7 @@ function Onboarding() {
               {step === steps.length - 1 ? 'Finish' : 'Next'}
             </Button>
           </Box>
-        </>
+        </BoxB>
       )}
     </Box>
   );

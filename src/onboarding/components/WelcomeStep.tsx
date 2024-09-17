@@ -119,7 +119,7 @@ export const WelcomeStep: React.FC<TermsAndServicesProps> = ({ onValidationChang
       sx={{
         backgroundColor: "#0E1A37", // Dark background for the entire page
         padding: "2em",
-        minHeight: "100vh", // Ensure the background fills the entire viewport
+        minHeight: "200vh", // Ensure the background fills the entire viewport
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
