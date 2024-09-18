@@ -3,14 +3,14 @@
 
 # Dashboard
 - TODO: Trade information: total profits, total positions, 
-
+- TODO: Trading view integration
 
 # Make a notification Section:
 - Software updates - guide etc.
 - allow to recieve email service if trade executed or closed
 
 # Demo Button
-TODO: Change card ui of demo opp
+TODO: Info on whether demo works or not
 
 # Onboarding Experience
 - Add `.env` pair for private key with a lot of explanation

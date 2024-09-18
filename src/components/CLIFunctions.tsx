@@ -5,6 +5,7 @@ import { useSocket } from "../Context/SocketContext";
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import DemoOppDialog from "./CLIFunctions/DemoOpportunityDialog"
+import TradeIcon from '@mui/icons-material/ShowChart';
 
 const serverDemo = () => {
     const backendUrl = localStorage.getItem('backendURL');
@@ -27,7 +28,7 @@ const serverDemo = () => {
 // };
 
 // Styles
-const sxButtons = {width: '5em', fontSize: '1.5em'};
+const sxButtons = {width: '5em', fontSize: '1.5em', position: 'relative'};
 
 const textAnimation = keyframes`
   0% { content: ""; }
@@ -57,6 +58,7 @@ export const Run = () => {
     const { connected } = useSocket();
     const [isRunning, setIsRunning] = useState(false);
     const [isDemoRunning, setIsDemoRunning] = useState(false);
+    const [isTradeExecuting, setIsTradeExecuting] = useState(false);
     const [buttonText, setButtonText] = useState("Run");
     const [demoButtonText, setDemoButtonText] = useState("Demo");
     
@@ -134,7 +136,9 @@ export const Run = () => {
             fetch(`${backendUrl}/status`)
                 .then(response => response.json())
                 .then(data => {
-                    setIsRunning(data.status === "running");
+                    setIsRunning(data.is_running);
+                    setIsDemoRunning(data.demo_running);
+                    setIsTradeExecuting(data.is_executing_trade);
                 })
                 .catch(error => {
                     console.error('Error checking bot status:', error);
@@ -162,17 +166,28 @@ export const Run = () => {
                 color="primary" 
                 variant="contained" 
                 onClick={serverRun}
-                disabled={!connected || isDemoRunning}   
+                disabled={!connected}   
                 className={isRunning ? 'running' : ''}
             >
                 {buttonText}
+                {isTradeExecuting && (
+                    <TradeIcon 
+                        sx={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            zIndex: 1,
+                        }}
+                    />
+                )}
             </AnimatedButton>
             <AnimatedButton 
                 sx={sxButtons} 
                 color="secondary" 
                 variant="contained" 
                 onClick={runDemo}
-                disabled={!connected || isRunning}
+                disabled={!connected}
                 className={isDemoRunning ? 'demo-running' : ''}
             >
                 {demoButtonText}

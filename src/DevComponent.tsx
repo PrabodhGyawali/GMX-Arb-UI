@@ -7,7 +7,7 @@ import Logs from './components/Logs';
 const StyledDevButton = styled(Button)(() => ({
   position: 'fixed',
   bottom: '20px',
-  right: '20px',
+  left: '20px',
   zIndex: 1000,
 }));
 
