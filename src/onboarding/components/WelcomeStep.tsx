@@ -140,7 +140,7 @@ export const WelcomeStep: React.FC<TermsAndServicesProps> = ({ onValidationChang
         }}
       >
         <Box sx={{...centerText}}>
-            <Typography variant="h1" sx={{ textShadow: "1px 1px 15px #7CF5FF" }}>
+            <Typography variant="h1">
               Welcome to
             </Typography>
           <Typography variant="h2" sx={{ marginBottom: "0.5em"}}>

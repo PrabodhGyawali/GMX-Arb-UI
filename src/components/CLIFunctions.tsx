@@ -91,7 +91,7 @@ export const Run = () => {
                     setIsRunning(true);
                 }
                 else {
-                    alert('Error starting bot');
+                    alert(`Error starting bot: ${response.statusText}`);
                 }
             })
             .catch(error => {

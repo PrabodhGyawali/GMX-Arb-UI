@@ -240,8 +240,8 @@ Write-Host "Copy that URL and use it to connect to the bot's web interface."`}
     }
 
     return (
-        <Box sx={{display: 'flex', flexDirection: 'column', margin:'1em'}}>
-            <Typography variant='h4' gutterBottom mt={'1em'}>Installation Steps</Typography>
+        <Paper sx={{display: 'flex', flexDirection: 'column', margin:'2em', padding: '1em', alignContent: 'center', justifyContent: 'center'}}>
+            <Typography variant='h4' gutterBottom>Installation Steps</Typography>
             
             <Box mb={2}>
                 <Typography variant='body1' gutterBottom>Select your operating system:</Typography>
@@ -383,13 +383,6 @@ Write-Host "Copy that URL and use it to connect to the bot's web interface."`}
                             mv "example.env" ".env"
                         </TerminalBox>
                     )}
-            
-
-                    <Typography variant='h5' mt={3}>Find the URL</Typography>
-                    <Typography>
-                        Check the terminal console output for a url like <strong>http://127.0.0.1:5000</strong>.
-                        Copy that url as it is the address of the bot's web interface.
-                    </Typography>
                 </>
             ) : (
                 <Box>
@@ -402,7 +395,7 @@ Write-Host "Copy that URL and use it to connect to the bot's web interface."`}
             )}
 
             <ConnectToBot />
-        </Box>
+        </Paper>
     )
 }
 

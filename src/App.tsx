@@ -4,7 +4,7 @@ import {DevDialog} from './DevComponent';
 import { useSocket } from './Context/SocketContext';
 import { useEffect } from 'react';
 import { Box } from '@mui/material';
-
+import {TokenPriceChart} from './Charts/TokenPriceChart.tsx';
 function App() {
   const { connected } = useSocket();
 
@@ -25,10 +25,12 @@ function App() {
 
         <NavBarSide isConnected={connected} />
         <Box className="app-main" sx={{
-          display:'flex', flexDirection:'column', justifyContent: 'space-between',
+          display:'flex', flexDirection:'column-reverse', justifyContent: 'space-between',
           height: '100vh', width: '100vw', padding: '0', margin: '0em',
         }}>
+          
           <PositionMonitor />
+          <TokenPriceChart />
           <DevDialog />
         </Box>
       </Box>    
