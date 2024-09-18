@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Typography, Paper } from '@mui/material';
+import { Box, IconButton, Typography, Paper } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
@@ -25,7 +25,7 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
 
   return (
     <Box sx={{ position: 'relative', width: '100%', maxWidth: 600, margin: 'auto' }}>
-      <Paper elevation={3} sx={{ position: 'relative', overflow: 'hidden' }}>
+      <Paper elevation={3} sx={{ overflow: 'hidden' }}>
         <Box
           component="img"
           src={items[currentIndex].image}
@@ -38,46 +38,55 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
             objectFit: 'contain',
           }}
         />
-        <Typography
-          variant="caption"
-          sx={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            padding: 1,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            color: 'white',
-            textAlign: 'center',
-          }}
-        >
-          {items[currentIndex].caption}
-        </Typography>
       </Paper>
-      <Button
+      <Typography
+        variant="caption"
+        sx={{
+          display: 'block',
+          padding: 1,
+          backgroundColor: '#f5f5f5',
+          color: 'black',
+          textAlign: 'center',
+        }}
+      >
+        {items[currentIndex].caption}
+      </Typography>
+      <IconButton
         onClick={handlePrevious}
         sx={{
           position: 'absolute',
           left: 10,
           top: '50%',
           transform: 'translateY(-50%)',
-          minWidth: 'auto',
+          backgroundColor: 'primary.main',
+          color: 'white',
+          '&:hover': {
+            backgroundColor: 'primary.dark',
+          },
+          width: 40,
+          height: 40,
         }}
       >
-        <ArrowBackIosNewIcon />
-      </Button>
-      <Button
+        <ArrowBackIosNewIcon fontSize="small" />
+      </IconButton>
+      <IconButton
         onClick={handleNext}
         sx={{
           position: 'absolute',
           right: 10,
           top: '50%',
           transform: 'translateY(-50%)',
-          minWidth: 'auto',
+          backgroundColor: 'primary.main',
+          color: 'white',
+          '&:hover': {
+            backgroundColor: 'primary.dark',
+          },
+          width: 40,
+          height: 40,
         }}
       >
-        <ArrowForwardIosIcon />
-      </Button>
+        <ArrowForwardIosIcon fontSize="small" />
+      </IconButton>
     </Box>
   );
 };

@@ -1,11 +1,26 @@
 // src/theme.ts
 import { createTheme } from '@mui/material/styles';
 
+declare module '@mui/material/styles' {
+  interface Palette {
+    url: {
+      main: string;
+      hover: string;
+    };
+  }
+  interface PaletteOptions {
+    url?: {
+      main?: string;
+      hover?: string;
+    };
+  }
+}
+
 const theme = createTheme({
   palette: {
     mode: 'dark',
     background: {
-      default: '##0E1A37', // Dark blue background
+      default: '#0E1A37', // Dark blue background
       paper: '#1C274C',   // Slightly lighter blue for paper elements
     },
     primary: {
@@ -21,6 +36,10 @@ const theme = createTheme({
     success: {
       main: '#00FF00',    // Green for success elements
       light: '#0B6623',   // Light green for success elements
+    },
+    url: {
+      main: '#4DA3FF', // Light blue color for URLs
+      hover: '#66B2FF', // Slightly lighter blue for hover state
     },
   },
   typography: {

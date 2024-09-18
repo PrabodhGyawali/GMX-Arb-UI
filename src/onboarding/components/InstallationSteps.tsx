@@ -4,6 +4,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import BotStatusIndicator from '../../components/NavBarSide/BotStatusIndicator'
 import { useSocket } from '../../Context/SocketContext'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { Link } from 'react-router-dom'
 
 export const ConnectToBot: React.FC = () => {
     const {connected, setBackendUrl} = useSocket();
@@ -41,14 +42,18 @@ export const ConnectToBot: React.FC = () => {
 
     return (
         <>
+            <Typography variant='h5' mt={3}>Find the URL</Typography>
+            <Typography>
+                Check the terminal console output for a url like <strong>http://127.0.0.1:6969</strong>.
+                Copy that url as it is the address of the bot's web interface.
+            </Typography>
             <Box mt={2} display="flex" alignItems="center">
                 <TextField
                     label="Paste URL here"
                     variant="outlined"
                     value={url}
                     onChange={handleUrlChange}
-                    fullWidth
-                    sx={{ mr: 2 }}
+                    sx={{ mr: 2, width: '50%' }}
                     error={!!error}
                     helperText={error}
                 />
@@ -92,6 +97,9 @@ export const TerminalBox: React.FC<{children: React.ReactNode}> = ({ children })
                 p: 2, 
                 my: 2, 
                 position: 'relative',
+                minWidth: '300px',
+                maxWidth: '800px',
+                overflowX: 'hidden',
                 '&::-webkit-scrollbar': {
                     height: '8px',
                 },
@@ -138,7 +146,7 @@ export const TerminalBox: React.FC<{children: React.ReactNode}> = ({ children })
 
 const InstallationSteps = () => {
     const [os, setOs] = useState<'mac' | 'windows'>('windows')
-    const [installMethod, setInstallMethod] = useState<'manual' | 'automated'>('manual')
+    const [installMethod, setInstallMethod] = useState<'manual' | 'automated'>('automated')
 
     const handleOsChange = () => {
         const newOs = os === "windows" ? "mac" : "windows"
@@ -232,8 +240,8 @@ Write-Host "Copy that URL and use it to connect to the bot's web interface."`}
     }
 
     return (
-        <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-            <Typography variant='h4' gutterBottom>Installation Steps</Typography>
+        <Box sx={{display: 'flex', flexDirection: 'column', margin:'1em'}}>
+            <Typography variant='h4' gutterBottom mt={'1em'}>Installation Steps</Typography>
             
             <Box mb={2}>
                 <Typography variant='body1' gutterBottom>Select your operating system:</Typography>
@@ -274,7 +282,7 @@ Write-Host "Copy that URL and use it to connect to the bot's web interface."`}
                     <Typography variant='h5' mt={4}>Install Git</Typography>
                     {os === 'windows' ? (
                         <Typography>
-                            Download Git from <a href="https://git-scm.com/download/win" target="_blank" rel="noopener noreferrer">git-scm.com/download/win</a>.
+                            Download Git from <Typography component={Link} to="https://git-scm.com/download/win" sx={{color: '#5ea0ee'}}>git-scm.com/download/win</Typography>.
                         </Typography>
                     ) : (
                         <>
@@ -319,7 +327,7 @@ Write-Host "Copy that URL and use it to connect to the bot's web interface."`}
                     <Typography variant='h5' mt={3}>Install Python</Typography>
                     {os === 'windows' ? (
                         <Typography>
-                            Install Python from the <a href="https://www.python.org/downloads/windows/" target="_blank" rel="noopener noreferrer">Python website</a> or through the Microsoft Store.
+                            Install Python from the <Typography component={Link} to="https://www.python.org/downloads/windows/" sx={{color: '#5ea0ee'}}>Python website</Typography> or through the Microsoft Store.
                         </Typography>
                     ) : (
                         <Typography>

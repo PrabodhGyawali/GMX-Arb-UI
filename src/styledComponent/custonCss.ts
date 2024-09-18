@@ -18,7 +18,7 @@ export const flexStart = {
 
 export const flexAround = {
     display: 'flex',
-    justifyContent: 'flex-around',
+    justifyContent: 'space-around',
     alignItems: 'center',
 };
 

@@ -5,6 +5,7 @@ import { flexCenter, centerText, boldText } from "../../styledComponent/custonCs
 
 interface TermsAndServicesProps {
   onValidationChange: (isValid: boolean) => void;
+  isValid: boolean;
 }
 
 const TermsAndServices = () => (
@@ -22,7 +23,7 @@ const TermsAndServices = () => (
     Legal Disclaimer - Please Read
   </Typography>
   <Typography variant="subtitle1" sx={{ backgroundColor: "#1C274C", color: "#aaa" }}>
-    Last Modified: <strong style={{ backgroundColor: "transparent" }}>September 16, 2024</strong>
+    Last Modified: <strong>September 16, 2024</strong>
   </Typography>
 </Box>
 
@@ -96,9 +97,13 @@ const TermsAndServices = () => (
       <Typography variant="body1">
         <strong>4.1.2</strong>: I understand that the front-end interface requires the address and port of my locally hosted backend server.
       </Typography>
+      <Typography variant="body1">
+        <strong>4.1.3</strong>: I understand that the front-end is isolated when url is not loaded onto a browser which tries to establish a Websocket connection to the trading bot backend.
+      </Typography>
 
       <Box sx={{ ...centerText, marginTop: "2em" }}>
-        <Typography variant="body2">
+        <Typography sx={{color: '#5ea0ee'}}
+          component={Link} to={'https://github.com/50shadesofgwei/funding-rate-arbitrage'}  variant="body2">
           This repository is under active development and has not yet been ran extensively in production.
         </Typography>
       </Box>
@@ -106,13 +111,12 @@ const TermsAndServices = () => (
   </Paper>
 );
 
-export const WelcomeStep: React.FC<TermsAndServicesProps> = ({ onValidationChange }) => {
+export const WelcomeStep: React.FC<TermsAndServicesProps> = ({ onValidationChange}) => {
   const [isAccepted, setIsAccepted] = useState(false);
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = event.target.checked;
-    setIsAccepted(newValue);
-    onValidationChange(newValue);
+    setIsAccepted(event.target.checked);
+    onValidationChange(!isAccepted);
   };
 
   return (
@@ -143,18 +147,14 @@ export const WelcomeStep: React.FC<TermsAndServicesProps> = ({ onValidationChang
             GMX Funding Rate Arbitrage
           </Typography>
         </Box>
-        <Typography variant="body1" sx={{ backgroundColor: "#1C274C", padding: "1em", borderRadius: "8px", lineHeight: "1.6", marginBottom: "0.5em" }}>
-          Before you begin, please make sure that you have read the terms and services. 
-          If any part of the terms and services is unclear or presents cause for concern, please{" "}
-          <Typography
-            component={Link}
-            to="/contact"
-            sx={{ backgroundColor: "#1C274C", padding: "0", color: "#5ea0ee", textDecoration: "underline", display: "inline" }}
-          >
-            contact
-          </Typography>{" "}
-          us directly.
-        </Typography>
+        <Typography variant="body1" sx={{ padding: "1em" }}>
+  Before you begin, please make sure that you have read the terms and services. 
+  If any part of the terms and services is unclear or presents cause for concern, please{" "}
+  <Typography sx={{color: '#5ea0ee'}} component={Link} to={'/contact'} variant="body2">
+    contact
+  </Typography>{" "}
+  us directly.
+</Typography>
 
         {/* Including Terms and Services Component */}
         <TermsAndServices />

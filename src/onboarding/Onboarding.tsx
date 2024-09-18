@@ -9,7 +9,7 @@ import {WelcomeStep} from './components/WelcomeStep';
 import { useSocket } from '../Context/SocketContext';
 import { UserData } from '../onboarding/types'
 import BotStatusIndicator from '../components/NavBarSide/BotStatusIndicator';
-import { flexCenter, flexColumn } from '../styledComponent/custonCss';
+import { flexAround, flexColumn } from '../styledComponent/custonCss';
 
 export const restartBot = async () => {
   const backendUrl = localStorage.getItem('backendURL');
@@ -82,7 +82,7 @@ function Onboarding() {
 
   const steps = [
     { 
-      component: <WelcomeStep onValidationChange={setIsWelcomeStepValid} />, 
+      component: <WelcomeStep onValidationChange={setIsWelcomeStepValid} isValid={isWelcomeStepValid} />, 
       valid: isWelcomeStepValid },
     { 
       component: <InstallationSteps />,
@@ -103,6 +103,7 @@ function Onboarding() {
   const handleNext = () => {
     if (step < steps.length - 1) {
       setStep(step + 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       finishOnboarding();
     }
@@ -111,6 +112,7 @@ function Onboarding() {
   const handleBack = () => {
     if (step > 0) {
       setStep(step - 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -189,7 +191,7 @@ function Onboarding() {
       ) : (
         <>
           {steps[step].component}
-          <Box sx={{ ...flexCenter }}>
+          <Box sx={{ ...flexAround, width:'50vw'}}>
             <Button onClick={handleBack} disabled={step === 0} variant='contained' color='secondary' sx={{color: 'white'}}>
               Back
             </Button>

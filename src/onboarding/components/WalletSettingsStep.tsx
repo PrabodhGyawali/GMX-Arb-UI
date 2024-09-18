@@ -11,7 +11,7 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import PrivateKeyInstructions from './PrivateKeyInstructions';
-
+import theme from '../../styledComponent/customTheme';
 
 
 interface WalletSettingsStepProps {
@@ -135,7 +135,7 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
     setRpcDialog({ open: false, type: 'arbitrum' });
   };
 
-  const handleNext = () => {
+  const handleContinue = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -164,7 +164,7 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
 
   return (
     <Box>      
-      <Paper elevation={3} sx={{ p: 3, my: 3, bgcolor: '#fff3e0' }}>
+      <Paper elevation={3} sx={{ p: 3, my: 3}}>
         <Typography variant="h6" gutterBottom><strong>IMPORTANT: Security Considerations</strong></Typography>
         <List>
           <ListItem>
@@ -194,16 +194,17 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
           After reviewing the open-source backend code, open your filesystem: 
           <Box component="span" sx={{ 
             fontFamily: 'monospace', 
-            bgcolor: '#e0e0e0', 
+            bgcolor: theme.palette.background.paper,
+            color: theme.palette.text.primary,
             p: 0.5, 
             borderRadius: 1,
             mx: 1
           }}>
             C:\funding-rate-arbitrage\.env
           </Box> 
-          <PrivateKeyInstructions />
-          and paste your private key in the <span style={{ color: 'blue' }}>PRIVATE_KEY</span> field.
+          and paste your private key in the <Typography component="span" color="url.main">PRIVATE_KEY</Typography> field.
         </Typography>
+        <PrivateKeyInstructions />
       </Paper>
 
       <Tooltip
@@ -242,7 +243,29 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
       <Box sx={{ mt: 2, mb: 2, display: 'flex', alignItems: 'center' }}>
         <WarningIcon color="warning" sx={{ mr: 1 }} />
         <Typography variant="body2" color="warning.main">
-          Important: Add your private key to the file <code>C:\funding-rate-arbitrage\.env</code> in the <code>PRIVATE_KEY</code> field.
+          Important: Add your private key to the file 
+          <Box component="span" sx={{ 
+            fontFamily: 'monospace', 
+            bgcolor: theme.palette.background.paper,
+            color: theme.palette.text.primary,
+            p: 0.5, 
+            borderRadius: 1,
+            mx: 1
+          }}>
+            C:\funding-rate-arbitrage\.env
+          </Box> 
+          in the 
+          <Box component="span" sx={{ 
+            fontFamily: 'monospace', 
+            bgcolor: theme.palette.background.paper,
+            color: theme.palette.text.primary,
+            p: 0.5, 
+            borderRadius: 1,
+            mx: 1
+          }}>
+            PRIVATE_KEY
+          </Box> 
+          field.
         </Typography>
       </Box>
       <FormControlLabel
@@ -260,7 +283,7 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
           </Typography>
         }
       />
-      <Paper elevation={3} sx={{ p: 3, my: 3, bgcolor: '#f0f8ff' }}>
+      <Paper elevation={3} sx={{ p: 3, my: 3}}>
         <Typography variant="h6" gutterBottom><strong>Select Network</strong></Typography>
         <Box sx={{ display: 'flex', justifyContent: 'space-around', my: 2 }}>
           {networks.map((network) => (
@@ -299,7 +322,7 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
         )}
       </Paper>
 
-      <Paper elevation={3} sx={{ p: 3, my: 3, bgcolor: '#e3f2fd' }}>
+      <Paper elevation={3} sx={{ p: 3, my: 3 }}>
         <Typography variant="h6" gutterBottom><strong>Setting up <a href="https://alchemy.com">Alchemy</a> API Key</strong></Typography>
         <Stepper activeStep={activeStep} orientation="vertical">
           {AlchemySetupSteps.map((step, index) => (
@@ -345,7 +368,7 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
                   <div>
                     <Button
                       variant="contained"
-                      onClick={handleNext}
+                      onClick={handleContinue}
                       sx={{ mt: 1, mr: 1 }}
                       disabled={index === AlchemySetupSteps.length - 1 && !!errors.arbitrum_rpc}
                     >
