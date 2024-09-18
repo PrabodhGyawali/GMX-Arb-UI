@@ -9,6 +9,7 @@ import {WelcomeStep} from './components/WelcomeStep';
 import { useSocket } from '../Context/SocketContext';
 import { UserData } from '../onboarding/types'
 import BotStatusIndicator from '../components/NavBarSide/BotStatusIndicator';
+import { flexCenter, flexColumn } from '../styledComponent/custonCss';
 
 export const restartBot = async () => {
   const backendUrl = localStorage.getItem('backendURL');
@@ -80,20 +81,20 @@ function Onboarding() {
   const navigate = useNavigate();
 
   const steps = [
-    { title: '', 
+    { 
       component: <WelcomeStep onValidationChange={setIsWelcomeStepValid} />, 
       valid: isWelcomeStepValid },
-    { title: 'Download the Bot from Github',
+    { 
       component: <InstallationSteps />,
       valid: connected
     },
-    { title: 'Wallet Settings', 
+    { 
       component: <WalletSettingsStep setUserData={setUserData} onValidationChange={setIsWalletSettingsValid} />, 
       valid: isWalletSettingsValid },
-    { title: 'Exchange Settings', 
+    { 
       component: <ExchangeSettingsStep setUserData={setUserData} onValidationChange={setIsExchangeSettingsValid} />, 
       valid: isExchangeSettingsValid },
-    { title: 'Bot Settings', 
+    { 
       component: <BotSettingsStep setUserData={setUserData} />, 
       valid: true 
     },
@@ -150,7 +151,7 @@ function Onboarding() {
 
 
   return (
-    <Box className="onboarding" >
+    <Box className="onboarding" sx={{...flexColumn}} >
       {showRestartDialog ? (
         <RestartBotDialog 
           open={showRestartDialog} 
@@ -187,20 +188,8 @@ function Onboarding() {
         </Box>
       ) : (
         <>
-          <Typography 
-            variant="h6"  // Updated to make the header smaller
-            gutterBottom 
-            sx={{
-              fontStyle: "italic",  // Slightly italic text
-              fontWeight: "500",  // Slightly bolder for sharpness
-              letterSpacing: "0.5px", 
-              lineHeight: "1.4"
-            }}
-          >
-            {steps[step].title}
-          </Typography>
           {steps[step].component}
-          <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between' }}>
+          <Box sx={{ ...flexCenter }}>
             <Button onClick={handleBack} disabled={step === 0} variant='contained' color='secondary' sx={{color: 'white'}}>
               Back
             </Button>
@@ -212,7 +201,7 @@ function Onboarding() {
       )}
     </Box>
   );
-  }
+}
   
 
 export default Onboarding;

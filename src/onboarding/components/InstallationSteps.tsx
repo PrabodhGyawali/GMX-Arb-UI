@@ -232,7 +232,7 @@ Write-Host "Copy that URL and use it to connect to the bot's web interface."`}
     }
 
     return (
-        <Box>
+        <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
             <Typography variant='h4' gutterBottom>Installation Steps</Typography>
             
             <Box mb={2}>

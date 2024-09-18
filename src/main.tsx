@@ -10,6 +10,10 @@ import Onboarding from './onboarding/Onboarding.tsx'
 import App from './App.tsx'
 import Faq from './Faq.tsx'
 import {NotificationProvider} from './Context/NotificationContext.tsx'
+import { ThemeProvider } from '@mui/material/styles'
+import CssBaseline from '@mui/material/CssBaseline'
+import theme from './styledComponent/customTheme'
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -36,13 +40,15 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <SocketContextProvider>
-      <PositionProvider>
-      
-        <NotificationProvider>
-          <RouterProvider router={router} />
-        </ NotificationProvider>
-      </ PositionProvider>
-    </SocketContextProvider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <SocketContextProvider>
+        <PositionProvider>
+          <NotificationProvider>
+            <RouterProvider router={router} />
+          </ NotificationProvider>
+        </ PositionProvider>
+      </SocketContextProvider>
+    </ThemeProvider>
   </React.StrictMode>
 )
