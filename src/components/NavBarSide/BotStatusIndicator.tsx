@@ -11,7 +11,7 @@ const BotStatusIndicator = ({ isConnected }: { isConnected: boolean }) => {
           display="flex"
           alignItems="center"
           gap={1}
-          bgcolor={isConnected ? 'success.light' : 'warning.light'}
+          bgcolor={isConnected ? 'success.light' : 'error.dark'}
           px={2}
           py={1}
           borderRadius="16px"
