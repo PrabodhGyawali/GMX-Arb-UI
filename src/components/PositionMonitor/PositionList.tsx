@@ -35,7 +35,7 @@ const TradingPositionsTable: React.FC = () => {
     fetchPositions();
   }, [fetchPositions]);
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (newValue: number) => {
     setTabValue(newValue);
   };
 
@@ -100,7 +100,7 @@ const TradingPositionsTable: React.FC = () => {
     <Paper sx={{ width: '100%', backgroundColor: '#1e222d' }}>
       <Tabs
         value={tabValue}
-        onChange={handleTabChange}
+        onChange={(_, newValue) => handleTabChange(newValue)}
         textColor="primary"
         indicatorColor="primary"
         sx={{

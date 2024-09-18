@@ -1,6 +1,3 @@
-# MUI Theme:
-- https://www.youtube.com/watch?v=mu8-u7V7Z8s
-
 # Concurrency Handling
     TODO: Make sure bot is not running when setting is changed
 
@@ -20,10 +17,6 @@ TODO: Change card ui of demo opp
 - Add powershell code to run the bot:
     - set path to `C:\funding-rate-arbitrage`
     - set path to `~/funding-rate-arbitrage`
-
-# Close Position Pair Button
-TODO: Group Positions into 1
-TODO: Add dialog for close_reason
 
 
 # Instructions
