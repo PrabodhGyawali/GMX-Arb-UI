@@ -7,11 +7,25 @@ declare module '@mui/material/styles' {
       main: string;
       hover: string;
     };
+    chart: {
+      bg: string;
+      line: string;
+      text: string;
+      areaTop: string;
+      areaBottom: string;
+    };
   }
   interface PaletteOptions {
     url?: {
       main?: string;
       hover?: string;
+    };
+    chart?: {
+      bg?: string;
+      line?: string;
+      text?: string;
+      areaTop?: string;
+      areaBottom?: string;
     };
   }
 }
@@ -41,6 +55,13 @@ const theme = createTheme({
       main: '#4DA3FF', // Light blue color for URLs
       hover: '#66B2FF', // Slightly lighter blue for hover state
     },
+    chart: {
+      bg: '#0E1A37',
+      line: '#3399FF',
+      text: '#FFFFFF',
+      areaTop: '#3399FF',
+      areaBottom: 'rgba(51, 153, 255, 0.28)',
+    }
   },
   typography: {
     fontFamily: "'Roboto', 'Arial', sans-serif",

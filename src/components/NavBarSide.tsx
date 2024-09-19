@@ -1,9 +1,10 @@
 import { Run } from '../components/CLIFunctions';
 import { SettingsButton } from './Settings';
 import { useNavigate } from 'react-router-dom';
-import { Box, IconButton, useTheme, useMediaQuery } from '@mui/material';
+import { Box, IconButton, useTheme, useMediaQuery, Button } from '@mui/material';
 import BotStatusIndicator from './NavBarSide/BotStatusIndicator';
 import NotificationButton from '../Notifications/NotificationButton';
+import { restartBot } from 'onboarding/Onboarding';
 
 function NavBarSide({ isConnected }: { isConnected: boolean }) {
   const navigateHome = useNavigate();
@@ -56,7 +57,9 @@ function NavBarSide({ isConnected }: { isConnected: boolean }) {
       </Box>
       <Run />
       <BotStatusIndicator isConnected={isConnected} />
-
+      <Button variant='contained' onClick={restartBot}>
+          Restart Bot
+        </Button>
       {/* <DeployCollateral /> */}
     </Box>
   );
