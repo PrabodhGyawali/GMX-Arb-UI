@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, IconButton, useTheme, useMediaQuery, Button } from '@mui/material';
 import BotStatusIndicator from './NavBarSide/BotStatusIndicator';
 import NotificationButton from '../Notifications/NotificationButton';
-import { restartBot } from 'onboarding/Onboarding';
+import { restartBot } from '../onboarding/Onboarding';
 
 function NavBarSide({ isConnected }: { isConnected: boolean }) {
   const navigateHome = useNavigate();
