@@ -4,6 +4,7 @@ import ErrorPage from './ErrorPage.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { SocketContextProvider } from './Context/SocketContext.tsx'
 import { PositionProvider } from './Context/PositionContext.tsx'
+import { BotProvider } from './Context/BotContext.tsx'
 import About from './About.tsx'
 import PrivacyPolicy from './Privacy.tsx'
 import Onboarding from './onboarding/Onboarding.tsx'
@@ -44,9 +45,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <CssBaseline />
       <SocketContextProvider>
         <PositionProvider>
-          <NotificationProvider>
-            <RouterProvider router={router} />
-          </ NotificationProvider>
+          <BotProvider>
+            <NotificationProvider>
+              <RouterProvider router={router} />
+            </ NotificationProvider>
+          </BotProvider>
         </ PositionProvider>
       </SocketContextProvider>
     </ThemeProvider>
