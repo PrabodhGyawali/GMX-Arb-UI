@@ -5,6 +5,10 @@ import BotStatusIndicator from '../../components/NavBarSide/BotStatusIndicator'
 import { useSocket } from '../../Context/SocketContext'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { Link } from 'react-router-dom'
+import { saveAs } from 'file-saver';
+import DownloadIcon from '@mui/icons-material/Download';
+
+
 
 export const ConnectToBot: React.FC = () => {
     const {connected, setBackendUrl} = useSocket();
@@ -157,87 +161,108 @@ const InstallationSteps = () => {
         setInstallMethod(method);
     };
 
+    const downloadScript = (os: 'windows' | 'mac') => {
+        const scriptPath = os === 'windows' ? '/scripts/install.ps1' : '/scripts/install.sh';
+        const fileName = os === 'windows' ? 'install.ps1' : 'install.sh';
+      
+        fetch(scriptPath)
+          .then(response => response.blob())
+          .then(blob => {
+            saveAs(blob, fileName);
+          })
+          .catch(error => console.error('Error downloading the script:', error));
+      };
+
     const renderAutomatedScript = () => {
-        if (os === 'mac') {
-            return (
-                <TerminalBox>
-                    {`echo '#!/bin/bash
-
-# Check if Git is installed
-if ! command -v git &> /dev/null; then
-    echo "Git is not installed. Please install Git by following the instructions at https://git-scm.com/download/mac and run this script again."
-    exit 1
-fi
-
-# Check if Python is installed
-if ! command -v python3 &> /dev/null; then
-    echo "Python is not installed. Please install Python from https://www.python.org/downloads/macos/ and run this script again."
-    exit 1
-fi
-
-# Clone the repository
-git clone -b backend_flask_server https://github.com/50shadesofgwei/funding-rate-arbitrage.git
-cd funding-rate-arbitrage
-
-# Create and activate virtual environment
-python3 -m venv venv
-source venv/bin/activate
-
-# Install dependencies
-pip install -e .
-
-# Rename example.env to .env
-mv "example.env" ".env" 2>/dev/null
-
-# Run the project UI
-echo "Installation complete. Running the project UI..."
-project-run-ui
-
-# Instructions for connecting to the bot
-echo "Look for a URL like http://127.0.0.1:5000 in the console output above."
-echo "Copy that URL and use it to connect to the bot'"'"'s web interface."' > install.sh && chmod +x install.sh && ./install.sh`}
-                </TerminalBox>
-            )
-        } else {
-            return (
-                <TerminalBox>
-                    {`# Check if Git is installed
-if (!(Get-Command git -ErrorAction SilentlyContinue)) {
-    Write-Host "Git is not installed. Please install Git from https://git-scm.com/download/win and run this script again."
-    exit
-}
-
-# Check if Python is installed
-if (!(Get-Command python -ErrorAction SilentlyContinue)) {
-    Write-Host "Python is not installed. Please install Python from https://www.python.org/downloads/windows/ and run this script again."
-    exit
-}
-
-# Clone the repository
-git clone -b backend_flask_server https://github.com/50shadesofgwei/funding-rate-arbitrage.git
-Set-Location funding-rate-arbitrage
-
-# Create and activate virtual environment
-python -m venv venv
-.\venv\Scripts\Activate.ps1
-
-# Install dependencies
-pip install -e .
-
-# Rename example.env to .env
-Rename-Item -Path "example.env" -NewName ".env" -ErrorAction SilentlyContinue
-
-# Run the project UI
-Write-Host "Installation complete. Running the project UI..."
-project-run-ui
-
-# Instructions for connecting to the bot
-Write-Host "Look for a URL like http://127.0.0.1:5000 in the console output above."
-Write-Host "Copy that URL and use it to connect to the bot's web interface."`}
-                </TerminalBox>
-            )
-        }
+        const scriptContent = os === 'mac' ? (
+            `echo '#!/bin/bash
+    
+    # Check if Git is installed
+    if ! command -v git &> /dev/null; then
+        echo "Git is not installed. Please install Git by following the instructions at https://git-scm.com/download/mac and run this script again."
+        exit 1
+    fi
+    
+    # Check if Python is installed
+    if ! command -v python3 &> /dev/null; then
+        echo "Python is not installed. Please install Python from https://www.python.org/downloads/macos/ and run this script again."
+        exit 1
+    fi
+    
+    # Clone the repository
+    git clone -b backend_flask_server https://github.com/50shadesofgwei/funding-rate-arbitrage.git
+    cd funding-rate-arbitrage
+    
+    # Create and activate virtual environment
+    python3 -m venv venv
+    source venv/bin/activate
+    
+    # Install dependencies
+    pip install -e .
+    
+    # Rename example.env to .env
+    mv "example.env" ".env" 2>/dev/null
+    
+    # Run the project UI
+    echo "Installation complete. Running the project UI..."
+    project-run-ui
+    
+    # Instructions for connecting to the bot
+    echo "Look for a URL like http://127.0.0.1:5000 in the console output above."
+    echo "Copy that URL and use it to connect to the bot'"'"'s web interface."' > install.sh && chmod +x install.sh && ./install.sh`
+        ) : (
+            `# Check if Git is installed
+    if (!(Get-Command git -ErrorAction SilentlyContinue)) {
+        Write-Host "Git is not installed. Please install Git from https://git-scm.com/download/win and run this script again."
+        exit
     }
+    
+    # Check if Python is installed
+    if (!(Get-Command python -ErrorAction SilentlyContinue)) {
+        Write-Host "Python is not installed. Please install Python from https://www.python.org/downloads/windows/ and run this script again."
+        exit
+    }
+    
+    # Clone the repository
+    git clone -b backend_flask_server https://github.com/50shadesofgwei/funding-rate-arbitrage.git
+    Set-Location funding-rate-arbitrage
+    
+    # Create and activate virtual environment
+    python -m venv venv
+    .\venv\Scripts\Activate.ps1
+    
+    # Install dependencies
+    pip install -e .
+    
+    # Rename example.env to .env
+    Rename-Item -Path "example.env" -NewName ".env" -ErrorAction SilentlyContinue
+    
+    # Run the project UI
+    Write-Host "Installation complete. Running the project UI..."
+    project-run-ui
+    
+    # Instructions for connecting to the bot
+    Write-Host "Look for a URL like http://127.0.0.1:5000 in the console output above."
+    Write-Host "Copy that URL and use it to connect to the bot's web interface."`
+        );
+    
+        return (
+            <>
+                <TerminalBox>
+                    {scriptContent}
+                </TerminalBox>
+                <Button
+                    variant="contained"
+                    startIcon={<DownloadIcon />}
+                    onClick={() => downloadScript(os)}
+                    sx={{ mt: 2 }}
+                >
+                    Download {os === 'windows' ? 'PowerShell' : 'Bash'} Script
+                </Button>
+            </>
+        );
+    };
+
 
     return (
         <Paper sx={{display: 'flex', flexDirection: 'column', margin:'2em', padding: '1em', alignContent: 'center', justifyContent: 'center'}}>

@@ -1,3 +1,6 @@
+# Context Migrations
+- migrate almost all fetch to Contexts
+
 # Concurrency Handling
     TODO: Make sure bot is not running when setting is changed
 
@@ -17,6 +20,7 @@ TODO: Info on whether demo works or not
 - Add powershell code to run the bot:
     - set path to `C:\funding-rate-arbitrage`
     - set path to `~/funding-rate-arbitrage`
+
 
 
 # Instructions
@@ -50,3 +54,5 @@ TODO: Add settings for different sizes
 - TODO: Make backend send Log objects to front-end rather than `string[]` - look into the Log class and write changes to the code
 - TODO: Enum usage for representing exchanges, rather than `strings`
 
+### Integrate Web3
+- Eg: fetch positions from ByBit and GMX rather than trades.db

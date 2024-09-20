@@ -5,12 +5,13 @@ import { Box, IconButton, useTheme, useMediaQuery, Button } from '@mui/material'
 import BotStatusIndicator from './NavBarSide/BotStatusIndicator';
 import NotificationButton from '../Notifications/NotificationButton';
 import { restartBot } from '../onboarding/Onboarding';
+import { useSocket } from '../Context/SocketContext';
 
 function NavBarSide({ isConnected }: { isConnected: boolean }) {
   const navigateHome = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
+  const {connected} = useSocket();
   return (
     <Box
       className="nav"
@@ -57,7 +58,7 @@ function NavBarSide({ isConnected }: { isConnected: boolean }) {
       </Box>
       <Run />
       <BotStatusIndicator isConnected={isConnected} />
-      <Button variant='contained' onClick={restartBot}>
+      <Button variant='contained' onClick={restartBot} disabled={!connected}>
           Restart Bot
         </Button>
       {/* <DeployCollateral /> */}
