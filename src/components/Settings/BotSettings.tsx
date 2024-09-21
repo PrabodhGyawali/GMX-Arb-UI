@@ -25,7 +25,7 @@ const BotSettings: React.FC = () => {
     max_allowable_percentage_away_from_liquidation_price: 15,
     trade_leverage: 5,
     percentage_capital_per_trade: 10,
-    default_trade_duration_hours: 12,
+    default_trade_duration_hours: 16,
     default_trade_size_usd: 1000,
   });
 
@@ -118,8 +118,8 @@ const BotSettings: React.FC = () => {
     {
       key: 'default_trade_duration_hours',
       label: 'Default Trade Duration (Hours)',
-      min: 6,
-      max: 24,
+      min: 12,
+      max: 168,
       step: 1,
       tooltip: 'The default duration for each trade in hours. Longer durations allow for more price movement but may increase exposure to market volatility.',
     },

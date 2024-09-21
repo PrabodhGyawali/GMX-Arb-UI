@@ -16,146 +16,6 @@ interface PositionContextType {
 
 const PositionContext = createContext<PositionContextType | undefined>(undefined);
 
-const mockPositions: Position[] = [
-  // Open positions
-  {
-    id: 1,
-    strategy_execution_id: 'strat1',
-    exchange: 'Binance',
-    symbol: 'BTC/USDT',
-    side: 'Long',
-    is_hedge: false,
-    size_in_asset: 0.5,
-    liquidation_price: 25000,
-    open_close: 'open',
-    open_time: new Date('2024-09-15T10:00:00Z'),
-  },
-  {
-    id: 2,
-    strategy_execution_id: 'strat1',
-    exchange: 'Binance',
-    symbol: 'BTC/USDT',
-    side: 'Short',
-    is_hedge: true,
-    size_in_asset: 5,
-    liquidation_price: 3000,
-    open_close: 'open',
-    open_time: new Date('2024-09-15T11:00:00Z'),
-  },
-  {
-    id: 3,
-    strategy_execution_id: 'strat2',
-    exchange: 'GMX',
-    symbol: 'SOL/USD',
-    side: 'Long',
-    is_hedge: false,
-    size_in_asset: 100,
-    liquidation_price: 50,
-    open_close: 'open',
-    open_time: new Date('2024-09-16T09:00:00Z'),
-  },
-  {
-    id: 4,
-    strategy_execution_id: 'strat2',
-    exchange: 'Bybit',
-    symbol: 'SOL/USD',
-    side: 'Long',
-    is_hedge: false,
-    size_in_asset: 1000,
-    liquidation_price: 0.4,
-    open_close: 'open',
-    open_time: new Date('2024-09-16T10:00:00Z'),
-  },
-  {
-    id: 5,
-    strategy_execution_id: 'strat3',
-    exchange: 'Binance',
-    symbol: 'XRP/USD',
-    side: 'Short',
-    is_hedge: true,
-    size_in_asset: 5000,
-    liquidation_price: 0.7,
-    open_close: 'open',
-    open_time: new Date('2024-09-17T14:00:00Z'),
-  },
-  {
-    id: 6,
-    strategy_execution_id: 'strat3',
-    exchange: 'Synthetix',
-    symbol: 'XRP/USD',
-    side: 'Long',
-    is_hedge: false,
-    size_in_asset: 200,
-    liquidation_price: 10,
-    open_close: 'open',
-    open_time: new Date('2024-09-17T15:00:00Z'),
-  },
-  // Closed positions
-  {
-    id: 7,
-    strategy_execution_id: 'strat4',
-    exchange: 'GMX',
-    symbol: 'AVAX/USDT',
-    side: 'Long',
-    is_hedge: false,
-    size_in_asset: 300,
-    liquidation_price: 5,
-    open_close: 'close',
-    open_time: new Date('2024-09-10T08:00:00Z'),
-    close_time: new Date('2024-09-14T16:00:00Z'),
-    pnl: 450.75,
-    accrued_funding: -2.5,
-    close_reason: 'Take Profit',
-  },
-  {
-    id: 8,
-    strategy_execution_id: 'strat4',
-    exchange: 'Bybit',
-    symbol: 'AVAX/USDT',
-    side: 'Short',
-    is_hedge: true,
-    size_in_asset: 50,
-    liquidation_price: 30,
-    open_close: 'close',
-    open_time: new Date('2024-09-11T09:00:00Z'),
-    close_time: new Date('2024-09-14T17:00:00Z'),
-    pnl: -120.30,
-    accrued_funding: 1.8,
-    close_reason: 'Stop Loss',
-  },
-  {
-    id: 9,
-    strategy_execution_id: 'strat5',
-    exchange: 'Binance',
-    symbol: 'MATIC/USD',
-    side: 'Long',
-    is_hedge: false,
-    size_in_asset: 1000,
-    liquidation_price: 4,
-    open_close: 'close',
-    open_time: new Date('2024-09-12T10:00:00Z'),
-    close_time: new Date('2024-09-15T11:00:00Z'),
-    pnl: 780.50,
-    accrued_funding: -5.2,
-    close_reason: 'Strategy End',
-  },
-  {
-    id: 10,
-    strategy_execution_id: 'strat5',
-    exchange: 'Synthetix',
-    symbol: 'MATIC/USD',
-    side: 'Short',
-    is_hedge: true,
-    size_in_asset: 2000,
-    liquidation_price: 1.2,
-    open_close: 'close',
-    open_time: new Date('2024-09-13T11:00:00Z'),
-    close_time: new Date('2024-09-15T12:00:00Z'),
-    pnl: -250.80,
-    accrued_funding: 3.7,
-    close_reason: 'Manual Close',
-  },
-];
 
 export const PositionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [positions, setPositions] = useState<Position[]>([]);
@@ -180,15 +40,12 @@ export const PositionProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     } finally {
       setLoading(false);
     }
-    setPositions(mockPositions); // TODO: Remove this line
-
   }, []);
 
 
 
   useEffect(() => {
-    // fetchPositions(); 
-    setPositions(mockPositions); // TODO: Remove this line
+    fetchPositions(); 
     // Set up socket listener for 'trade_logged' event
     if (socket) {
       socket.on('trade_logged', () => {
