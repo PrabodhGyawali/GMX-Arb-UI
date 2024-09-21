@@ -48,7 +48,7 @@ function DemoOppDialog(): JSX.Element {
     const { socket, connected } = useSocket();
 
     const profitableTrades = useMemo(() => {
-        return trades.filter(trade => trade);// .total_profit_usd > 0); // TODO: Change to filter for profitable trades
+        return trades.filter(trade => trade.total_profit_usd > 0); 
     }, [trades]);
 
     useEffect(() => {
@@ -104,7 +104,7 @@ function DemoOppDialog(): JSX.Element {
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth>
-      <DialogTitle sx={{ backgroundColor: 'primary.main', color: 'common.white' }}>
+      <DialogTitle sx={{ backgroundColor: 'primary.main', color: 'common.white' }} gutterBottom>
         Profitable Trading Opportunities
       </DialogTitle>
       <DialogContent sx={{ padding: 2 }}>
@@ -140,7 +140,7 @@ function DemoOppDialog(): JSX.Element {
                       </StyledTableCell>
                       <StyledTableCell>{formatNumber(trade.long_exchange_skew_usd)}</StyledTableCell>
                       <StyledTableCell>{formatNumber(trade.short_exchange_skew_usd)}</StyledTableCell>
-                      <StyledTableCell className="positive">
+                      <StyledTableCell className={trade.total_profit_usd >= 0 ? 'positive' : 'negative'}>
                         {formatNumber(trade.total_profit_usd)}
                       </StyledTableCell>
                       <StyledTableCell className={trade.long_exchange_profit_usd >= 0 ? 'positive' : 'negative'}>

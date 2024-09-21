@@ -75,8 +75,8 @@ const BotSettingsStep: React.FC<BotSettingsStepProps> = ({ setUserData }) => {
     {
       key: 'default_trade_duration_hours',
       label: 'Default Trade Duration (Hours)',
-      min: 6,
-      max: 24,
+      min: 12,
+      max: 168,
       step: 1,
       tooltip: 'The default duration for each trade in hours. Longer durations allow for more price movement but may increase exposure to market volatility.',
     },
@@ -92,6 +92,9 @@ const BotSettingsStep: React.FC<BotSettingsStepProps> = ({ setUserData }) => {
 
   return (
     <Paper elevation={3} sx={{ p: 3 }}>
+      <Typography variant="h5" gutterBottom mt={2}>
+        Bot Settings
+      </Typography>
       <Grid container spacing={3}>
         {settingConfigs.map((config) => (
           

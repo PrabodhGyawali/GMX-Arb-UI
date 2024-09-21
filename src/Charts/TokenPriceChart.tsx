@@ -64,7 +64,7 @@ function TradingViewWidget() {
             <MenuItem key={key} value={value}>{key}</MenuItem>
           ))}
         </Select>
-      <div className="tradingview-widget-container" ref={container} style={{ height: "600px", width: "100%" }}>
+      <div className="tradingview-widget-container" ref={container} style={{ height: "900px", width: "100%" }}>
         <div className="tradingview-widget-container__widget" style={{ height: "calc(100% - 32px)", width: "100%" }}></div>
         <div className="tradingview-widget-copyright">
           <a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank">
