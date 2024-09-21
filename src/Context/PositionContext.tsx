@@ -180,6 +180,8 @@ export const PositionProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     } finally {
       setLoading(false);
     }
+    setPositions(mockPositions); // TODO: Remove this line
+
   }, []);
 
 

@@ -60,7 +60,7 @@ export const AccountProvider: React.FC<{ children: React.ReactNode }> = ({ child
                 ...prev,
                 balance: {
                     ...prev.balance,
-                    [exchange]: data.balance
+                    [exchange]: data
                 },
             }));
         });
