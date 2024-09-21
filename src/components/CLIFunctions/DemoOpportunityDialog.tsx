@@ -48,7 +48,7 @@ function DemoOppDialog(): JSX.Element {
     const { socket, connected } = useSocket();
 
     const profitableTrades = useMemo(() => {
-        return trades.filter(trade => trade.total_profit_usd > 0);
+        return trades.filter(trade => trade.total_profit_usd < 0); // TODO: Change to filter for profitable trades
     }, [trades]);
 
     useEffect(() => {

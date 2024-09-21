@@ -72,7 +72,7 @@ function NavBarSide({ isConnected }: { isConnected: boolean }) {
             <Paper sx={{backgroundColor: theme.palette.background.default, padding: 2}}>
 
             <Typography variant="h3" sx={{ mt: 2 }}>Collateral:</Typography>
-            <Typography variant="body2" sx={{ mt: 2 }}>GMX {account.balance.GMX}</Typography>
+            <Typography variant="body2" sx={{ mt: 2 }}>GMX: {account.balance.GMX}</Typography>
             <Typography variant="body2" sx={{ mt: 2 }}>ByBit: {account.balance.ByBit}</Typography>
             </Paper>
 
