@@ -26,8 +26,8 @@ function App() {
         <NavBarSide isConnected={connected} />
         <Box className="app-main" sx={{
           display:'flex', flexDirection:'column-reverse', justifyContent: 'space-between',
-          height: '100vh', width: '100vw', padding: '0', margin: '0em',
-        }}>
+          height: '100vh', width: '100vw', margin: '0em',
+        }} paddingTop={2} paddingRight={2}>
           
           <PositionMonitor />
           <TradingViewWidget />
@@ -38,4 +38,3 @@ function App() {
 }
 
 export default App
-

@@ -14,7 +14,7 @@ import {NotificationProvider} from './Context/NotificationContext.tsx'
 import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import theme from './styledComponent/customTheme'
-import { AccountProvider } from 'Context/AccountContext.tsx'
+import { AccountProvider } from './Context/AccountContext.tsx'
 
 const router = createBrowserRouter([
   {
