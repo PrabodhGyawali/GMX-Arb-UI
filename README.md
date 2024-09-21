@@ -21,7 +21,8 @@ TODO: Info on whether demo works or not
     - set path to `C:\funding-rate-arbitrage`
     - set path to `~/funding-rate-arbitrage`
 
-
+# Graph API
+- Make sure that graph shows price of different crypto-tokens
 
 # Instructions
 - TODO: Add Instructions in Home page if there are no Positions

@@ -4,7 +4,7 @@ import {DevDialog} from './DevComponent';
 import { useSocket } from './Context/SocketContext';
 import { useEffect } from 'react';
 import { Box } from '@mui/material';
-import {TokenPriceChart} from './Charts/TokenPriceChart.tsx';
+import TradingViewWidget from './Charts/TokenPriceChart.tsx';
 function App() {
   const { connected } = useSocket();
 
@@ -30,7 +30,7 @@ function App() {
         }}>
           
           <PositionMonitor />
-          <TokenPriceChart />
+          <TradingViewWidget />
           <DevDialog />
         </Box>
       </Box>    

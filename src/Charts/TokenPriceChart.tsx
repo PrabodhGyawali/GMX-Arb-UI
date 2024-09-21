@@ -1,77 +1,79 @@
-import { createChart, ColorType, IChartApi, ISeriesApi } from 'lightweight-charts';
-import React, { useEffect, useRef } from 'react';
-import theme from '../styledComponent/customTheme';
-interface ChartComponentProps {
-    data: { time: string; value: number }[];
-    colors?: {
-        backgroundColor?: string;
-        lineColor?: string;
-        textColor?: string;
-        areaTopColor?: string;
-        areaBottomColor?: string;
-    };
+import { useEffect, useRef, useState, memo } from 'react';
+import { Select, MenuItem, SelectChangeEvent } from '@mui/material';
+
+
+enum Token {
+    BTC = "BINANCE:BTCUSD",
+    ETH = "BINANCE:ETHUSD",
+    SOL = "BINANCE:SOLUSD",
+    ARB = "BINANCE:ARBUSD",
+    DOGE = "BINANCE:DOGEUSD",
+    AVAX = "BINANCE:AVAXUSD",
+    NEAR = "BINANCE:NEARUSD",
+    AAVE = "BINANCE:AAVEUSD",
+    ATOM = "BINANCE:ATOMUSD",
+    LINK = "BINANCE:LINKUSD",
+    UNI = "BINANCE:UNIUSD",
+    LTC = "BINANCE:LTCUSD",
+    OP = "BINANCE:OPUSD",
+    GMX = "BINANCE:GMXUSD"
 }
 
-export const ChartComponent: React.FC<ChartComponentProps> = (props) => {
-    const {
-        data,
-        colors: {
-            backgroundColor = theme.palette.chart.bg,
-            lineColor = theme.palette.chart.line,
-            textColor = theme.palette.chart.text,
-            areaTopColor = theme.palette.chart.areaTop,
-            areaBottomColor = theme.palette.chart.areaBottom,
-        } = {},
-    } = props;
+function TradingViewWidget() {
+  const container = useRef<HTMLDivElement>(null);
+  const [token, setToken] = useState<Token>(Token.ETH);
 
-    const chartContainerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (container.current) {
+      container.current.innerHTML = '';
+      const script = document.createElement("script");
+      script.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
+      script.type = "text/javascript";
+      script.async = true;
+      script.innerHTML = `
+        {
+          "autosize": true,
+          "symbol": "${token}",
+          "interval": "D",
+          "timezone": "Etc/UTC",
+          "theme": "dark",
+          "style": "1",
+          "locale": "en",
+          "allow_symbol_change": false,
+          "calendar": false,
+          "support_host": "https://www.tradingview.com"
+        }`;
+      container.current.appendChild(script);
+    }
+  }, [token]);
 
-    useEffect(() => {
-        if (chartContainerRef.current) {
-            const handleResize = () => {
-                chart.applyOptions({ width: chartContainerRef.current!.clientWidth });
-            };
+  const handleTokenChange = (event: SelectChangeEvent) => {
+    setToken(event.target.value as Token);
+  };
 
-            const chart: IChartApi = createChart(chartContainerRef.current, {
-                layout: {
-                    background: { type: ColorType.Solid, color: backgroundColor },
-                    textColor,
-                },
-                width: chartContainerRef.current.clientWidth,
-                height: 300,
-            });
-            chart.timeScale().fitContent();
-
-            const newSeries: ISeriesApi<"Area"> = chart.addAreaSeries({ lineColor, topColor: areaTopColor, bottomColor: areaBottomColor });
-            newSeries.setData(data);
-
-            window.addEventListener('resize', handleResize);
-
-            return () => {
-                window.removeEventListener('resize', handleResize);
-                chart.remove();
-            };
-        }
-    }, [data, backgroundColor, lineColor, textColor, areaTopColor, areaBottomColor]);
-
-    return <div ref={chartContainerRef} />;
-};
-
-const initialData = [
-    { time: '2018-12-22', value: 32.51 },
-    { time: '2018-12-23', value: 31.11 },
-    { time: '2018-12-24', value: 27.02 },
-    { time: '2018-12-25', value: 27.32 },
-    { time: '2018-12-26', value: 25.17 },
-    { time: '2018-12-27', value: 28.89 },
-    { time: '2018-12-28', value: 25.46 },
-    { time: '2018-12-29', value: 23.92 },
-    { time: '2018-12-30', value: 22.68 },
-    { time: '2018-12-31', value: 22.67 },
-];
-
-// interface AppProps extends ChartComponentProps {}
-
-export function TokenPriceChart() {
-    return <ChartComponent data={initialData} />;
+  return (
+    <div>
+        <Select
+          labelId="token-select-label"
+          id="token-select"
+          value={token}
+          onChange={handleTokenChange}
+          label="Token"
+        >
+          {Object.entries(Token).map(([key, value]) => (
+            <MenuItem key={key} value={value}>{key}</MenuItem>
+          ))}
+        </Select>
+      <div className="tradingview-widget-container" ref={container} style={{ height: "600px", width: "100%" }}>
+        <div className="tradingview-widget-container__widget" style={{ height: "calc(100% - 32px)", width: "100%" }}></div>
+        <div className="tradingview-widget-copyright">
+          <a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank">
+            <span className="blue-text">Track all markets on TradingView</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  );
 }
+
+export default memo(TradingViewWidget);
