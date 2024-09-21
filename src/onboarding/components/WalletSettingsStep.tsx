@@ -418,7 +418,7 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
             alt={`${rpcDialog.type === 'arbitrum' ? 'Arbitrum' : 'Base'} API Key Guide`}
             style={{ width: '100%', height: 'auto' }} 
           />
-          <Typography variant="body1" sx={{ mt: 2 }}>
+          <Typography variant="body1" mb={0.75} sx={{ mt: 2 }}>
             {rpcDialog.type === 'arbitrum' 
               ? "Note that if you want to use the test network, you can select Sepolia net."
               : "Follow these steps to set up your Base RPC URL using Alchemy."}

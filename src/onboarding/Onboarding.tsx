@@ -28,7 +28,7 @@ const RestartBotDialog:React.FC<{open: boolean, onClose: () => void, onGoHome: (
     <Dialog open={open} onClose={onClose}>
       <Box sx={{ p: 3, maxWidth: 400 }}>
         <Typography variant="h5" gutterBottom>Bot Settings Updated Successfully</Typography>
-        <Typography variant="body1" gutterBottom>
+        <Typography variant="body1" mb={0.75} gutterBottom>
           You have completed the onboarding process. To apply the new settings and register the environment variables, you need to restart the bot.
         </Typography>
         <Button variant='contained' onClick={restartBot}>

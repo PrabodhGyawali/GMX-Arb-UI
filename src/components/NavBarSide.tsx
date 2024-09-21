@@ -1,17 +1,19 @@
 import { Run } from '../components/CLIFunctions';
 import { SettingsButton } from './Settings';
 import { useNavigate } from 'react-router-dom';
-import { Box, IconButton, useTheme, useMediaQuery, Button } from '@mui/material';
+import { Box, IconButton, useTheme, useMediaQuery, Button, Typography } from '@mui/material';
 import BotStatusIndicator from './NavBarSide/BotStatusIndicator';
 import NotificationButton from '../Notifications/NotificationButton';
 import { restartBot } from '../onboarding/Onboarding';
 import { useSocket } from '../Context/SocketContext';
+import { useAccount } from '../Context/AccountContext';
 
 function NavBarSide({ isConnected }: { isConnected: boolean }) {
   const navigateHome = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const {connected} = useSocket();
+  const {account} = useAccount();
   return (
     <Box
       className="nav"
@@ -61,7 +63,8 @@ function NavBarSide({ isConnected }: { isConnected: boolean }) {
       <Button variant='contained' onClick={restartBot} disabled={!connected}>
           Restart Bot
         </Button>
-      {/* <DeployCollateral /> */}
+      <Typography variant="body2" sx={{ mt: 2 }}>Profit: {account.realized_pnl}</Typography>
+      <Typography variant="body2" sx={{ mt: 2 }}>Total value through bot {"(USD)"}: {account.total}</Typography>
     </Box>
   );
 }

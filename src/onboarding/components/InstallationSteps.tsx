@@ -269,7 +269,7 @@ const InstallationSteps = () => {
             <Typography variant='h4' gutterBottom>Installation Steps</Typography>
             
             <Box mb={2}>
-                <Typography variant='body1' gutterBottom>Select your operating system:</Typography>
+                <Typography variant='body1' mb={0.75} gutterBottom>Select your operating system:</Typography>
                 <ToggleButtonGroup
                     value={os}
                     exclusive
@@ -286,7 +286,7 @@ const InstallationSteps = () => {
             </Box>
 
             <Box mb={2}>
-                <Typography variant='body1' gutterBottom>Choose installation method:</Typography>
+                <Typography variant='body1' mb={0.75} gutterBottom>Choose installation method:</Typography>
                 <Button
                     variant={installMethod === 'manual' ? 'contained' : 'outlined'}
                     onClick={() => handleInstallMethodChange('manual')}

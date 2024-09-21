@@ -54,7 +54,7 @@ const About: React.FC = () => {
         </Stack>
       </Card>
 
-      <Typography variant="body1" paragraph>
+      <Typography variant="body1" sx={{marginBottom: '0.75'}} paragraph>
         This project provides a template for developers and traders to leverage delta-neutral arbitrage opportunities between various perpetual futures platforms. The current version focuses on GMX vs HMX pairs, detecting and executing arbitrage opportunities.
       </Typography>
 
@@ -161,7 +161,7 @@ const About: React.FC = () => {
       </Typography>
 
       <Card sx={{ p: 2, mt: 2, mb: 2 }}>
-        <Typography variant="body1">
+        <Typography variant="body1" sx={{marginBottom: '0.75'}}>
           This is an open-source project, and contributions are welcome. To get involved, join the Telegram chat.
         </Typography>
         <Button

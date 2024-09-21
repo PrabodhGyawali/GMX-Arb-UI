@@ -14,6 +14,7 @@ import {NotificationProvider} from './Context/NotificationContext.tsx'
 import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import theme from './styledComponent/customTheme'
+import { AccountProvider } from 'Context/AccountContext.tsx'
 
 const router = createBrowserRouter([
   {
@@ -45,11 +46,13 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <CssBaseline />
       <SocketContextProvider>
         <PositionProvider>
-          <BotProvider>
-            <NotificationProvider>
-              <RouterProvider router={router} />
-            </ NotificationProvider>
-          </BotProvider>
+          <AccountProvider>
+            <BotProvider>
+              <NotificationProvider>
+                <RouterProvider router={router} />
+              </ NotificationProvider>
+            </BotProvider>
+          </AccountProvider>
         </ PositionProvider>
       </SocketContextProvider>
     </ThemeProvider>
