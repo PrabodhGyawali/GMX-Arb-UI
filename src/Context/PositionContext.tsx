@@ -14,6 +14,7 @@ interface PositionContextType {
   fetchPositions: () => Promise<void>;
 }
 
+
 const PositionContext = createContext<PositionContextType | undefined>(undefined);
 
 
@@ -22,6 +23,28 @@ export const PositionProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { socket } = useSocket();
+
+  
+  const createPosition = (data: any[]): Position => {
+    const position: Position = {
+      id: Number(data[0]),
+      strategy_execution_id: String(data[1]),
+      exchange: String(data[2]),
+      symbol: String(data[3]),
+      side: String(data[4]),
+      is_hedge: data[5] === "True" ? true : false,
+      size_in_asset: Number(data[6]),
+      liquidation_price: Number(data[7]),
+      open_close: data[8] === "Open" ? 'open' : 'close',
+      open_time: new Date(data[9]),
+      close_time: data[10] ? new Date(data[10]) : undefined,
+      pnl: data[11] === null ? undefined : Number(data[11]),
+      accrued_funding: data[12] === null ? undefined : Number(data[12]),
+      close_reason: data[13] === null ? undefined : String(data[13]),
+    };
+    return position;
+  };
+
 
   const fetchPositions = useCallback(async () => {
     setLoading(true);
@@ -32,7 +55,8 @@ export const PositionProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         throw new Error('Failed to fetch positions');
       }
       const data = await response.json();
-      setPositions(data);
+      const positionObjects: Position[] = data.map(createPosition);
+      setPositions(positionObjects);
       setError(null);
     } catch (err) {
       setError('Failed to fetch positions');
