@@ -7,6 +7,7 @@ import NotificationButton from '../Notifications/NotificationButton';
 import { restartBot } from '../onboarding/Onboarding';
 import { useSocket } from '../Context/SocketContext';
 import { useAccount } from '../Context/AccountContext';
+import { useBotContext } from '../Context/BotContext';
 
 function NavBarSide({ isConnected }: { isConnected: boolean }) {
   const navigateHome = useNavigate();
@@ -14,6 +15,7 @@ function NavBarSide({ isConnected }: { isConnected: boolean }) {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const {connected} = useSocket();
   const {account} = useAccount();
+  const {isRunning} = useBotContext();
   return (
     <>
       <Box
@@ -61,7 +63,7 @@ function NavBarSide({ isConnected }: { isConnected: boolean }) {
         </Box>
         <Run />
         <BotStatusIndicator isConnected={isConnected} />
-        <Button variant='contained' onClick={restartBot} disabled={!connected}>
+        <Button variant='contained' onClick={restartBot} disabled={!connected||isRunning}>
             Restart Bot
           </Button>
           <Paper sx={{alignSelf: "flex-end", padding: 2}}>

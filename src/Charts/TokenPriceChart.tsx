@@ -52,7 +52,7 @@ function TradingViewWidget() {
   };
 
   return (
-    <div>
+    <div style={{height: '50%'}}>
         <Select
           labelId="token-select-label"
           id="token-select"

@@ -10,6 +10,7 @@ import { useSocket } from '../Context/SocketContext';
 import { UserData } from '../onboarding/types'
 import BotStatusIndicator from '../components/NavBarSide/BotStatusIndicator';
 import { flexAround, flexColumn } from '../styledComponent/custonCss';
+import { useBotContext } from '../Context/BotContext';
 
 export const restartBot = async () => {
   const backendUrl = localStorage.getItem('backendURL');
@@ -23,6 +24,7 @@ export const restartBot = async () => {
 
 const RestartBotDialog:React.FC<{open: boolean, onClose: () => void, onGoHome: () => void}> = ({open, onClose, onGoHome}) => {
   const {connected} = useSocket();
+  const {isRunning} = useBotContext();
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -31,7 +33,7 @@ const RestartBotDialog:React.FC<{open: boolean, onClose: () => void, onGoHome: (
         <Typography variant="body1" mb={0.75} gutterBottom>
           You have completed the onboarding process. To apply the new settings and register the environment variables, you need to restart the bot.
         </Typography>
-        <Button variant='contained' onClick={restartBot}>
+        <Button variant='contained' onClick={restartBot} disabled={!connected||isRunning}>
           Restart Bot
         </Button>
         <BotStatusIndicator isConnected={connected} />
