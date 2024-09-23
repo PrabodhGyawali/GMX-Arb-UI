@@ -1,7 +1,8 @@
-// https://mui.com/material-ui/react-table/
 import Box from '@mui/material/Box';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { Log } from 'components/Logs';
+import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid';
+import { Log, Level } from '../../components/Logs';
+
+
 
 interface LogTableProps {
     logs: Log[];
@@ -58,12 +59,23 @@ const LogTable: React.FC<LogTableProps> = ({
             headerName: 'Message',
             width: 400,
         },
-    ];
+  ];
+  const getRowClassName = (params: GridRowParams) => {
+    if (params.row.level === Level.ERROR) {
+      return 'error-row';
+    }
+    if (params.row.level === Level.WARNING) {
+      return 'warning-row';
+    }
+    return '';
+  };
+
   return (
     <Box sx={{ height: 400, width: 'inherit' }}>
       <DataGrid
         rows={formattedLogs}
         columns={columns}
+        getRowClassName={getRowClassName}
         initialState={{
           pagination: {
             paginationModel: {

@@ -15,6 +15,7 @@ import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import theme from './styledComponent/customTheme'
 import { AccountProvider } from './Context/AccountContext.tsx'
+import { OsProvider } from './Context/DownloaderContext.tsx'
 
 const router = createBrowserRouter([
   {
@@ -49,7 +50,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <AccountProvider>
             <BotProvider>
               <NotificationProvider>
+                <OsProvider>
                 <RouterProvider router={router} />
+                </OsProvider>
               </ NotificationProvider>
             </BotProvider>
           </AccountProvider>

@@ -17,6 +17,7 @@ const StyledModal = styled(Modal)(() => ({
   justifyContent: 'center',
 }));
 
+
 const ModalContent = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   boxShadow: theme.shadows[24],

@@ -40,7 +40,7 @@ export const BotProvider: React.FC<BotProviderProps> = ({ children }) => {
         console.log('Response:', data);
       })
       .catch(error => {
-        console.error('Error:', error);
+        alert(`Error: ${error}`);
       });
   };
 
@@ -56,7 +56,7 @@ export const BotProvider: React.FC<BotProviderProps> = ({ children }) => {
       console.log(response);
     })
       .catch(error => {
-        console.error('serverStop Error: ', error);
+        alert(`serverStop Error: ', ${error}`);
       });
   };
 
@@ -75,7 +75,7 @@ export const BotProvider: React.FC<BotProviderProps> = ({ children }) => {
         }
       })
         .catch(error => {
-          console.error('serverRun Error: ', error);
+          alert(`serverRun Error: ', ${error}`);
         });
     }
   };

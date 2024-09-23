@@ -3,7 +3,7 @@ import { Box} from '@mui/material';
 import LogTable from './LogsTable/LogTable';
 import { useSocket } from '../Context/SocketContext';
 
-enum Level {
+export enum Level {
     NOTSET = "NOTSET",
     DEBUG = "DEBUG",
     INFO = "INFO",
