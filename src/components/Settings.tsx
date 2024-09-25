@@ -26,23 +26,28 @@ import { ConnectToBot } from '../onboarding/components/InstallationSteps';
 const SettingsButton: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false);
     const [hasError, setHasError] = useState<boolean>(false);
+    const { connected } = useSocket();
+
+    const checkForErrors = async () => {
+        try {
+            const backendURL = localStorage.getItem('backendURL');
+            const response = await fetch(`${backendURL}/settings/find`);
+            if (!response.ok) {
+                throw new Error('Settings error');
+            }
+            setHasError(false);
+        } catch (error) {
+            setHasError(true);
+        }
+    };
 
     useEffect(() => {
-        const checkForErrors = async () => {
-            try {
-                const backendURL = localStorage.getItem('backendURL');
-                const response = await fetch(`${backendURL}/settings/find`);
-                if (!response.ok) {
-                    throw new Error('Settings error');
-                }
-                setHasError(false);
-            } catch (error) {
-                setHasError(true);
-            }
-        };
-
-        checkForErrors();
-    }, []);
+        if (connected) {
+            checkForErrors();
+        } else {
+            setHasError(true);
+        }
+    }, [connected]);
 
     const handleOpen = (): void => {
         setOpen(true);

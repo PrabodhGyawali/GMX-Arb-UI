@@ -96,6 +96,13 @@ const TradingPositionsTable: React.FC = () => {
     handleDialogClose();
   };
 
+  const getOtherPosition = async (strategyExecutionId: string): Promise<Position | null> => {
+    const otherPosition = positions.find(
+      p => p.strategy_execution_id === strategyExecutionId && p.id !== selectedPosition?.id
+    );
+    return otherPosition || null;
+  };
+
   return (
     <Paper sx={{ width: '100%', backgroundColor: '#1e222d' }}>
       <Tabs
@@ -186,6 +193,7 @@ const TradingPositionsTable: React.FC = () => {
         position={selectedPosition} 
         onClose={handleDialogClose} 
         onClosePosition={handleClosePosition}
+        getOtherPosition={getOtherPosition}
       />
     </Paper>
   );

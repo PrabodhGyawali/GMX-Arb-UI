@@ -86,6 +86,14 @@ const LogTable: React.FC<LogTableProps> = ({
         pageSizeOptions={[5]}
         checkboxSelection
         disableRowSelectionOnClick
+        sx={{
+          '& .error-row': {
+            backgroundColor: '#330000',
+          },
+          '& .warning-row': {
+            backgroundColor: '#e75b1e',
+          },
+        }}
       />
     </Box>
   )
