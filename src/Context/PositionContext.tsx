@@ -10,7 +10,7 @@ interface PositionContextType {
   loading: boolean;
   error: string | null;
   closePosition: (id: number) => Promise<void>;
-  closePositionPair: (symbol: string) => Promise<void>;
+  closePositionPair: (symbol: string, strategy_execution_id: string) => Promise<void>;
   fetchPositions: () => Promise<void>;
 }
 
@@ -109,13 +109,16 @@ export const PositionProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   }, []);
 
-  const closePositionPair = useCallback(async (symbol: string) => {
+  const closePositionPair = useCallback(async (symbol: string, strategy_execution_id: string) => {
     try {
       const backendURL = localStorage.getItem('backendURL');
-      const response = await fetch(`${backendURL}/close-pair/${symbol}`, {
+      const response = await fetch(`${backendURL}/close-position-pair`, {
         method: 'POST',
+        body: JSON.stringify({ symbol, strategy_execution_id, reason: 'Manual close' }),
+        
       });
       if (!response.ok) {
+        console.log(response.status);
         throw new Error('Failed to close position pair');
       }
       // Update the local state instead of fetching all positions again
@@ -125,7 +128,8 @@ export const PositionProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         )
       );
     } catch (error) {
-      
+      setError(error instanceof Error ? error.message : 'An unknown error occurred');
+      console.error('Error closing position pair:', error);
     }
   }, []);
 

@@ -88,7 +88,7 @@ const TradingPositionsTable: React.FC = () => {
     if (selectedPosition) {
       if (closeEntirePair) {
         // TODO: Check whether best to use symbol or strategy_execution_id
-        closePositionPair(selectedPosition.symbol);
+        closePositionPair(selectedPosition.symbol, selectedPosition.strategy_execution_id);
       } else {
         closePosition(selectedPosition.id);
       }

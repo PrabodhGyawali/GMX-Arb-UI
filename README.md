@@ -1,12 +1,8 @@
-# Context Migrations
-- migrate almost all fetch to Contexts
+# FAQ
+- Add 
 
-# Concurrency Handling
-    TODO: Make sure bot is not running when setting is changed
-
-# Dashboard
+# Dashboard Fix
 - TODO: Trade information: total profits, total positions, 
-- TODO: Trading view integration
 
 # Make a notification Section:
 - Software updates - guide etc.
@@ -15,14 +11,12 @@
 # Demo Button
 TODO: Info on whether demo works or not
 
+
 # Onboarding Experience
 - Add `.env` pair for private key with a lot of explanation
 - Add powershell code to run the bot:
     - set path to `C:\funding-rate-arbitrage`
     - set path to `~/funding-rate-arbitrage`
-
-# Graph API
-- Make sure that graph shows price of different crypto-tokens
 
 # Instructions
 - TODO: Add Instructions in Home page if there are no Positions
@@ -30,6 +24,7 @@ TODO: Info on whether demo works or not
 # Logs Clear
 - Clear Log by sending backend request
 
+# 
 
 # Future related work
 - TODO: Allow user to use testnet: from changing settings
