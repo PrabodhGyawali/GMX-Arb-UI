@@ -348,7 +348,8 @@ const InstallationSteps = () => {
 
                     <Typography variant='h5' mt={3}>Navigate to the Project Directory</Typography>
                     <TerminalBox>cd SynthetixFundingRateArbitrage</TerminalBox>
-
+                    <TerminalBox>git checkout -d backend_flask_server</TerminalBox>
+                    <TerminalBox>git pull origin backend_flask_server</TerminalBox>
                     <Typography variant='h5' mt={3}>Install Python</Typography>
                     {os === 'windows' ? (
                         <Typography>
