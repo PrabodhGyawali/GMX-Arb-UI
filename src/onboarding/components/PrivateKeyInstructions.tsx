@@ -1,6 +1,8 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import Carousel from '../../components/Carousel';
+import BotStatusIndicator from '../../components/NavBarSide/BotStatusIndicator'
+import { useSocket } from '../../Context/SocketContext';
 
 const PrivateKeyInstructions: React.FC = () => {
   const carouselItems = [
@@ -14,8 +16,11 @@ const PrivateKeyInstructions: React.FC = () => {
     }
   ];
 
+  const { connected } = useSocket();
+
   return (
     <Box sx={{ mt: 2, mb: 2 }}>
+      <BotStatusIndicator isConnected={connected}/>
       <Carousel items={carouselItems} />
     </Box>
   );

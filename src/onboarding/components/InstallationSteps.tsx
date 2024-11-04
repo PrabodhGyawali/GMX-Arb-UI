@@ -162,7 +162,7 @@ const InstallationSteps = () => {
     };
 
     const downloadScript = (os: 'windows' | 'mac') => {
-        const scriptPath = os === 'windows' ? '/scripts/install.ps1' : '/scripts/install.sh';
+        const scriptPath = os === 'windows' ? '/terminal_scripts/install.ps1' : '/terminal_scripts/install.sh';
         const fileName = os === 'windows' ? 'install.ps1' : 'install.sh';
       
         fetch(scriptPath)
@@ -223,6 +223,9 @@ const InstallationSteps = () => {
         exit
     }
     
+    # Move to user directory
+    cd ~
+    
     # Clone the repository
     git clone -b backend_flask_server https://github.com/50shadesofgwei/funding-rate-arbitrage.git
     Set-Location funding-rate-arbitrage
@@ -242,7 +245,7 @@ const InstallationSteps = () => {
     project-run-ui
     
     # Instructions for connecting to the bot
-    Write-Host "Look for a URL like http://127.0.0.1:5000 in the console output above."
+    Write-Host "Look for a URL like http://127.0.0.1:6969 in the console output above."
     Write-Host "Copy that URL and use it to connect to the bot's web interface."`
         );
     
@@ -333,7 +336,7 @@ const InstallationSteps = () => {
                     
                     {os === 'windows' ? (
                         <TerminalBox>
-                            cd C:\
+                            cd ~
                         </TerminalBox>
                     ) : (
                         <TerminalBox>

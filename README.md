@@ -1,8 +1,5 @@
-# FAQ
-- Add 
-
 # Dashboard Fix
-- TODO: Trade information: total profits, total positions, 
+- TODO: Fix total profits, total positions, 
 
 # Make a notification Section:
 - Software updates - guide etc.
@@ -14,17 +11,12 @@ TODO: Info on whether demo works or not
 
 # Onboarding Experience
 - Add `.env` pair for private key with a lot of explanation
-- Add powershell code to run the bot:
-    - set path to `C:\funding-rate-arbitrage`
-    - set path to `~/funding-rate-arbitrage`
 
 # Instructions
 - TODO: Add Instructions in Home page if there are no Positions
 
 # Logs Clear
 - Clear Log by sending backend request
-
-# 
 
 # Future related work
 - TODO: Allow user to use testnet: from changing settings
@@ -36,7 +28,7 @@ TODO: Info on whether demo works or not
 - TODO: use DB to retrieve logs from backend
 - TODO: Log File counter: error different types of error etc...
 
-### # UI-related
+### UI-related
 - TODO: Exchange images etc.
 - TODO: Add timer for interactivity
 - TODO: Improve page loading speed: [Improve-Speed](https://mui.com/material-ui/guides/

@@ -12,7 +12,8 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import PrivateKeyInstructions from './PrivateKeyInstructions';
 import theme from '../../styledComponent/customTheme';
-
+import BotStatusIndicator from '../../components/NavBarSide/BotStatusIndicator'
+import { useSocket } from '../../Context/SocketContext';
 
 interface WalletSettingsStepProps {
   setUserData: React.Dispatch<React.SetStateAction<UserData>>;
@@ -52,6 +53,8 @@ const AlchemySetupSteps = [
 
 
 const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, onValidationChange }) => {
+  const {connected} = useSocket();
+
   const [walletConfig, setWalletConfig] = useState<WalletConfig>({
     address: '',
     arbitrum_rpc: '',
@@ -164,6 +167,7 @@ const WalletSettingsStep: React.FC<WalletSettingsStepProps> = ({ setUserData, on
 
   return (
     <Box>      
+      <BotStatusIndicator isConnected={connected}/>
       <Paper elevation={3} sx={{ p: 3, my: 3}}>
         <Typography variant="h6" gutterBottom><strong>IMPORTANT: Security Considerations</strong></Typography>
         <List>
