@@ -10,6 +10,7 @@ import PrivacyPolicy from './Privacy.tsx'
 import Onboarding from './onboarding/Onboarding.tsx'
 import App from './App.tsx'
 import Faq from './Faq.tsx'
+import Landing from './Landing/Landing.tsx'
 import {NotificationProvider} from './Context/NotificationContext.tsx'
 import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -20,6 +21,11 @@ import { OsProvider } from './Context/DownloaderContext.tsx'
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <Landing />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/home",
     element: <App />,
     errorElement: <ErrorPage />,
   },
