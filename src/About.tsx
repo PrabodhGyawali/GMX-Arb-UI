@@ -30,7 +30,7 @@ const About: React.FC = () => {
   return (
     <div>
       <Typography variant="h4" gutterBottom>
-        GMX Funding Rate Arbitrage
+        Contact Us
       </Typography>
 
       <Card elevation={3} sx={{ p: 2, mb: 2 }}>

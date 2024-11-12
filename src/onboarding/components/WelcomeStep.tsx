@@ -150,7 +150,7 @@ export const WelcomeStep: React.FC<TermsAndServicesProps> = ({ onValidationChang
         <Typography variant="body1" mb={0.75} sx={{ padding: "1em" }}>
   Before you begin, please make sure that you have read the terms and services. 
   If any part of the terms and services is unclear or presents cause for concern, please{" "}
-  <Typography sx={{color: '#5ea0ee'}} component={Link} to={'/contact'} variant="body2">
+  <Typography sx={{color: '#5ea0ee'}} component={Link} to={'/about'} variant="body2">
     contact
   </Typography>{" "}
   us directly.
