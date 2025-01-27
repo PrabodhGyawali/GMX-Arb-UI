@@ -20,7 +20,6 @@ import {
   CurrencyBitcoin as CurrencyBitcoinIcon,
 } from '@mui/icons-material';
 
-// A custom component for developer profiles that maintains consistent styling
 const DeveloperCard: React.FC<{
   username: string;
   githubUrl: string;
@@ -50,7 +49,6 @@ const DeveloperCard: React.FC<{
   </Card>
 );
 
-// A custom component for ethereum address display with copy functionality
 const EthereumAddress: React.FC<{ address: string }> = ({ address }) => {
   const [copied, setCopied] = useState(false);
 
@@ -60,7 +58,6 @@ const EthereumAddress: React.FC<{ address: string }> = ({ address }) => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // Format address to show first 6 and last 4 characters
   const formatAddress = (addr: string) => {
     return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
   };
@@ -107,7 +104,7 @@ const About: React.FC = () => {
             username="PrabodhGyawali"
             githubUrl="https://github.com/PrabodhGyawali"
             avatarUrl="https://github.com/PrabodhGyawali.png"
-            role="Lead Developer"
+            role="Core Developer"
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -115,7 +112,7 @@ const About: React.FC = () => {
             username="50shadesofgwei"
             githubUrl="https://github.com/50shadesofgwei"
             avatarUrl="https://github.com/50shadesofgwei.png"
-            role="Core Developer"
+            role="Lead Developer"
           />
         </Grid>
       </Grid>
@@ -137,17 +134,11 @@ const About: React.FC = () => {
             <Typography variant="h6" gutterBottom>
               Support Prabodh
             </Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<CoffeeIcon />}
-              href="https://www.buymeacoffee.com/prabodhgyawali"
-              target="_blank"
-              sx={{ mt: 2 }}
-            >
-              Buy Me a Coffee
-            </Button>
-          </Card>
+			<a href="https://www.buymeacoffee.com/prabodh" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style={{
+				height: "60px",
+				width: "217px"
+			}} /></a>
+			</Card>
         </Grid>
 
         {/* 50shadesofgwei's Support Card */}
