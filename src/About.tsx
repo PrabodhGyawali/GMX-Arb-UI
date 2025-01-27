@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   Card,
   Typography,
-  Stack,
   Button,
   Box,
   Avatar,
@@ -10,11 +9,9 @@ import {
   Divider,
   Tooltip,
   IconButton,
-  Snackbar,
 } from '@mui/material';
 import {
   GitHub as GitHubIcon,
-  Coffee as CoffeeIcon,
   ContentCopy as ContentCopyIcon,
   Check as CheckIcon,
   CurrencyBitcoin as CurrencyBitcoinIcon,
@@ -25,7 +22,7 @@ const DeveloperCard: React.FC<{
   githubUrl: string;
   avatarUrl: string;
   role: string;
-}> = ({ username, githubUrl, avatarUrl, role }) => (
+}> = ({ username, githubUrl, role }) => (
   <Card sx={{ p: 2, mb: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
     <Avatar
       src={`https://github.com/${username}.png`}
