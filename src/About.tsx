@@ -28,7 +28,7 @@ import {
 
 const About: React.FC = () => {
   return (
-    <div>
+    <Box sx={{padding: "5px"}}>
       <Typography variant="h4" gutterBottom>
         Contact Us
       </Typography>
@@ -173,7 +173,7 @@ const About: React.FC = () => {
           Join Telegram Chat
         </Button>
       </Card>
-    </div>
+    </Box>
   );
 };
 
