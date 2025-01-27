@@ -1,177 +1,193 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Card,
   Typography,
   Stack,
-  Chip,
   Button,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Stepper,
-  Step,
-  StepLabel,
-  StepContent,
   Box,
-  Alert,
-  AlertTitle,
+  Avatar,
+  Grid,
+  Divider,
+  Tooltip,
+  IconButton,
+  Snackbar,
 } from '@mui/material';
 import {
-  Telegram as TelegramIcon,
-  Gavel as GavelIcon,
   GitHub as GitHubIcon,
-  Search as SearchIcon,
-  Autorenew as AutorenewIcon,
-  AccountBalanceWallet as AccountBalanceWalletIcon,
+  Coffee as CoffeeIcon,
+  ContentCopy as ContentCopyIcon,
+  Check as CheckIcon,
+  CurrencyBitcoin as CurrencyBitcoinIcon,
 } from '@mui/icons-material';
+
+// A custom component for developer profiles that maintains consistent styling
+const DeveloperCard: React.FC<{
+  username: string;
+  githubUrl: string;
+  avatarUrl: string;
+  role: string;
+}> = ({ username, githubUrl, avatarUrl, role }) => (
+  <Card sx={{ p: 2, mb: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+    <Avatar
+      src={`https://github.com/${username}.png`}
+      alt={username}
+      sx={{ width: 60, height: 60 }}
+    />
+    <Box>
+      <Typography variant="h6">{username}</Typography>
+      <Typography variant="body2" color="text.secondary">{role}</Typography>
+      <Button
+        variant="outlined"
+        size="small"
+        startIcon={<GitHubIcon />}
+        href={githubUrl}
+        target="_blank"
+        sx={{ mt: 1 }}
+      >
+        GitHub Profile
+      </Button>
+    </Box>
+  </Card>
+);
+
+// A custom component for ethereum address display with copy functionality
+const EthereumAddress: React.FC<{ address: string }> = ({ address }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(address);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  // Format address to show first 6 and last 4 characters
+  const formatAddress = (addr: string) => {
+    return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
+  };
+
+  return (
+    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
+      <Typography variant="body1" component="code" sx={{ 
+        bgcolor: 'rgba(0, 0, 0, 0.04)', 
+        p: 1, 
+        borderRadius: 1,
+        fontFamily: 'monospace' 
+      }}>
+        {formatAddress(address)}
+      </Typography>
+      <Tooltip title={copied ? "Copied!" : "Copy address"}>
+        <IconButton onClick={handleCopy} size="small">
+          {copied ? <CheckIcon color="success" /> : <ContentCopyIcon />}
+        </IconButton>
+      </Tooltip>
+    </Box>
+  );
+};
 
 const About: React.FC = () => {
   return (
-    <Box sx={{padding: "5px"}}>
+    <Box sx={{ maxWidth: 800, margin: 'auto', padding: 3 }}>
+      {/* Project Title and Description */}
       <Typography variant="h4" gutterBottom>
-        Contact Us
+        GMX Funding Rate Arbitrage Bot
       </Typography>
+      <Typography variant="body1" paragraph>
+        An advanced trading bot that leverages delta-neutral arbitrage opportunities between GMX and HMX perpetual futures platforms, helping you capitalize on funding rate discrepancies.
+      </Typography>
+      
+      <Divider sx={{ my: 4 }} />
 
-      <Card elevation={3} sx={{ p: 2, mb: 2 }}>
-        <Typography variant="h5" gutterBottom>
-          Version 0.3.0
-        </Typography>
-        <Stack direction="row" spacing={1}>
-          <Chip
-            icon={<TelegramIcon />}
-            label="Telegram"
-            color="primary"
-            component="a"
-            href="https://t.me/+ualID7ueKuJjMWJk"
-            clickable
+      {/* Developer Section */}
+      <Typography variant="h5" gutterBottom>
+        Meet the Developers
+      </Typography>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={6}>
+          <DeveloperCard
+            username="PrabodhGyawali"
+            githubUrl="https://github.com/PrabodhGyawali"
+            avatarUrl="https://github.com/PrabodhGyawali.png"
+            role="Lead Developer"
           />
-          <Chip
-            icon={<GavelIcon />}
-            label="MIT License"
-            color="success"
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <DeveloperCard
+            username="50shadesofgwei"
+            githubUrl="https://github.com/50shadesofgwei"
+            avatarUrl="https://github.com/50shadesofgwei.png"
+            role="Core Developer"
           />
-        </Stack>
-      </Card>
+        </Grid>
+      </Grid>
 
-      <Typography variant="body1" sx={{marginBottom: '0.75'}} paragraph>
-        This project provides a template for developers and traders to leverage delta-neutral arbitrage opportunities between various perpetual futures platforms. The current version focuses on GMX vs HMX pairs, detecting and executing arbitrage opportunities.
+      <Divider sx={{ my: 4 }} />
+
+      {/* Support Section */}
+      <Typography variant="h5" gutterBottom align="center">
+        Support the Development
+      </Typography>
+      <Typography variant="body1" paragraph align="center">
+        If you find this project useful, consider supporting the developers. Your support helps us maintain and improve the bot.
       </Typography>
 
-      <Button
-        variant="contained"
-        startIcon={<GitHubIcon />}
-        href="https://github.com/50shadesofgwei/GMXFundingRateArbitrage"
-        sx={{ mt: 2, mb: 2 }}
-      >
-        View on GitHub
-      </Button>
-
-      <Typography variant="h5" gutterBottom>
-        Key Features
-      </Typography>
-
-      <List>
-        <ListItem>
-          <ListItemIcon><SearchIcon /></ListItemIcon>
-          <ListItemText primary="Detects funding rate discrepancies" />
-        </ListItem>
-        <ListItem>
-          <ListItemIcon><AutorenewIcon /></ListItemIcon>
-          <ListItemText primary="Executes delta-neutral arbitrage trades" />
-        </ListItem>
-        <ListItem>
-          <ListItemIcon><AccountBalanceWalletIcon /></ListItemIcon>
-          <ListItemText primary="Supports Arbitrum (GMX and HMX)" />
-        </ListItem>
-      </List>
-
-      <Typography variant="h5" gutterBottom>
-        Getting Started
-      </Typography>
-
-      <Stepper orientation="vertical">
-        <Step active>
-          <StepLabel>Clone the repository</StepLabel>
-          <StepContent>
-            <Typography>
-              Use SSH: <code>git clone git@github.com:50shadesofgwei/GMXFundingRateArbitrage.git</code>
-              <br />
-              Or HTTPS: <code>git clone https://github.com/50shadesofgwei/GMXFundingRateArbitrage.git</code>
+      <Grid container spacing={3}>
+        {/* Prabodh's Support Card */}
+        <Grid item xs={12} md={6}>
+          <Card sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Typography variant="h6" gutterBottom>
+              Support Prabodh
             </Typography>
-          </StepContent>
-        </Step>
-        <Step active>
-          <StepLabel>Install dependencies</StepLabel>
-          <StepContent>
-            <Typography>
-              Run: <code>pip install -r requirements.txt</code>
-              <br />
-              Then: <code>pip install -e .</code>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<CoffeeIcon />}
+              href="https://www.buymeacoffee.com/prabodhgyawali"
+              target="_blank"
+              sx={{ mt: 2 }}
+            >
+              Buy Me a Coffee
+            </Button>
+          </Card>
+        </Grid>
+
+        {/* 50shadesofgwei's Support Card */}
+        <Grid item xs={12} md={6}>
+          <Card sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Typography variant="h6" gutterBottom>
+              Support 50shadesofgwei
             </Typography>
-          </StepContent>
-        </Step>
-        <Step active>
-          <StepLabel>Configure environment variables</StepLabel>
-          <StepContent>
-            <Typography>
-              Set up API keys, wallet addresses, and other parameters in the .env file
+            <Typography variant="body2" color="text.secondary" gutterBottom>
+              Send ETH to:
             </Typography>
-          </StepContent>
-        </Step>
-      </Stepper>
+            <EthereumAddress address="0x7D8127Da2E23c5b371Ee436303BDCCe1c252afb1" />
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<CurrencyBitcoinIcon />}
+              href={`https://etherscan.io/address/0x7D8127Da2E23c5b371Ee436303BDCCe1c252afb1`}
+              target="_blank"
+              sx={{ mt: 2 }}
+            >
+              View on Etherscan
+            </Button>
+          </Card>
+        </Grid>
+      </Grid>
 
-      <Typography variant="h5" gutterBottom sx={{ mt: 2 }}>
-        Usage
-      </Typography>
-
-      <Box sx={{ mt: 2, mb: 2 }}>
-        <Typography variant="h6" gutterBottom>
-          Available CLI Commands:
-        </Typography>
-        <List>
-          <ListItem>
-            <Chip label="is-position-open" color="primary" />
-          </ListItem>
-          <ListItem>
-            <Chip label="deploy-collateral-gmx [amount]" color="primary" />
-          </ListItem>
-          <ListItem>
-            <Chip label="deploy-collateral-hmx [token_address] [amount]" color="primary" />
-          </ListItem>
-          <ListItem>
-            <Chip label="project-run" color="primary" />
-          </ListItem>
-          <ListItem>
-            <Chip label="project-run-demo" color="primary" />
-          </ListItem>
-          <ListItem>
-            <Chip label="close-position-pair [symbol]" color="primary" />
-          </ListItem>
-        </List>
-      </Box>
-
-      <Alert severity="warning" sx={{ mt: 2, mb: 2 }}>
-        <AlertTitle>Important Note</AlertTitle>
-        This project requires some beginner/intermediate programming knowledge to set up and run effectively.
-      </Alert>
-
-      <Typography variant="h5" gutterBottom>
-        Contributions
-      </Typography>
-
-      <Card sx={{ p: 2, mt: 2, mb: 2 }}>
-        <Typography variant="body1" sx={{marginBottom: '0.75'}}>
-          This is an open-source project, and contributions are welcome. To get involved, join the Telegram chat.
-        </Typography>
+      {/* Project Links */}
+      <Card sx={{ p: 3, textAlign: 'center', mt: 4 }}>
         <Button
-          variant="outlined"
-          startIcon={<TelegramIcon />}
-          href="https://t.me/+ualID7ueKuJjMWJk"
-          sx={{ mt: 2 }}
+          variant="contained"
+          startIcon={<GitHubIcon />}
+          href="https://github.com/50shadesofgwei/GMXFundingRateArbitrage"
+          target="_blank"
+          sx={{ mx: 1 }}
         >
-          Join Telegram Chat
+          View on GitHub
         </Button>
+        <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+          Version 0.3.0 | MIT License
+        </Typography>
       </Card>
     </Box>
   );
